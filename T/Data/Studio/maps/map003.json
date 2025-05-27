@@ -1,0 +1,19 @@
+{
+  "klass": "Map",
+  "id": 3,
+  "dbSymbol": "map003",
+  "stepsAverage": 30,
+  "bgm": {
+    "name": "Battle Frontier Calm.ogg",
+    "pitch": 100,
+    "volume": 100
+  },
+  "bgs": {
+    "name": "",
+    "pitch": 100,
+    "volume": 100
+  },
+  "mtime": 1,
+  "sha1": "",
+  "tiledFilename": ""
+}

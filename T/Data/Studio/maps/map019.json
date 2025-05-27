@@ -1,0 +1,19 @@
+{
+  "klass": "Map",
+  "id": 19,
+  "dbSymbol": "map019",
+  "stepsAverage": 30,
+  "bgm": {
+    "name": "Wi-Fi Plaza.ogg",
+    "pitch": 100,
+    "volume": 100
+  },
+  "bgs": {
+    "name": "",
+    "pitch": 100,
+    "volume": 100
+  },
+  "mtime": 1,
+  "sha1": "",
+  "tiledFilename": ""
+}

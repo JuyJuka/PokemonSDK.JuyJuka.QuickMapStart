@@ -1,0 +1,13 @@
+{
+  "klass": "Group",
+  "id": 0,
+  "dbSymbol": "group_0",
+  "encounters": [],
+  "isDoubleBattle": false,
+  "systemTag": "TallGrass",
+  "terrainTag": 0,
+  "customConditions": [],
+  "tool": null,
+  "isHordeBattle": false,
+  "stepsAverage": 30
+}
