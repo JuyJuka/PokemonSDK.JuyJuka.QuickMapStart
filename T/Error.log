@@ -1,36 +1,33 @@
 ================================Erreur de script================================
 Message :
-undefined method `isUseBattleCamera3d=' for #<Configs::Project::Settings:0x129771c0>
+undefined method `effects' for nil:NilClass
 
 Type : NoMethodError
-Script : 000_a_root.rb (PSDK)
-Ligne : 341
-Date : 27/05/2025 11:38:06
+Script : 3_Studio.rb (PSDK)
+Ligne : 2147
+Date : 29/05/2025 22:29:46
 Game Version : 256
-Logiciel : PSDK 26.40
+Logiciel : PSDK 26.42
 ===================================Backtraces===================================
-[32] : 000_a_root.rb (PSDK) | ligne 341 load_config_data
-[31] : 000_a_root.rb (PSDK) | ligne 339 each
-[30] : 000_a_root.rb (PSDK) | ligne 339 load_config_data
-[29] : 000_a_root.rb (PSDK) | ligne 314 load_file_data
-[28] : 000_a_root.rb (PSDK) | ligne 296 register
-[27] : 4_Systems_000_General_3_GameState.rb (PSDK) | ligne 167 <class:GameState>
-[26] : 4_Systems_000_General_3_GameState.rb (PSDK) | ligne 189 instance_exec
-[25] : 4_Systems_000_General_3_GameState.rb (PSDK) | ligne 189 game_state_initialize
-[24] : 4_Systems_000_General_3_GameState.rb (PSDK) | ligne 188 each_value
-[23] : 4_Systems_000_General_3_GameState.rb (PSDK) | ligne 188 game_state_initialize
-[22] : 4_Systems_000_General_3_GameState.rb (PSDK) | ligne 182 initialize
-[21] : 4_Systems_001_Title.rb (PSDK) | ligne 189 new
-[20] : 4_Systems_001_Title.rb (PSDK) | ligne 189 start_intro_movie
-[19] : 4_Systems_001_Title.rb (PSDK) | ligne 247 create_title_animation
-[18] : 4_Systems_001_Title.rb (PSDK) | ligne 223 next_splash_initialize
-[17] : 4_Systems_005_Animation.rb (PSDK) | ligne 734 update_internal
-[16] : 4_Systems_005_Animation.rb (PSDK) | ligne 587 update
-[15] : 4_Systems_005_Animation.rb (PSDK) | ligne 154 update
-[14] : 4_Systems_005_Animation.rb (PSDK) | ligne 154 update
-[13] : 4_Systems_005_Animation.rb (PSDK) | ligne 154 update
-[12] : 4_Systems_001_Title.rb (PSDK) | ligne 79 update_graphics
-[11] : 4_Systems_000_General_2_GamePlay__Base.rb (PSDK) | ligne 435 update
+[29] : 3_Studio.rb (PSDK) | ligne 2147 <top (required)>
+[28] : 3_Studio.rb (PSDK) | ligne 2009 on_use
+[27] : 4_Systems_103_Bag.rb (PSDK) | ligne 59 util_item_on_use_sequence
+[26] : 4_Systems_103_Bag.rb (PSDK) | ligne 29 util_item_useitem
+[25] : 4_Systems_103_Bag.rb (PSDK) | ligne 1280 use_item_in_battle
+[24] : 4_Systems_103_Bag.rb (PSDK) | ligne 1259 choice_a_battle
+[23] : 4_Systems_103_Bag.rb (PSDK) | ligne 1144 action_a
+[22] : 4_Systems_103_Bag.rb (PSDK) | ligne 1122 update_ctrl_button
+[21] : 4_Systems_103_Bag.rb (PSDK) | ligne 1073 update_inputs
+[20] : 4_Systems_000_General_2_GamePlay__Base.rb (PSDK) | ligne 433 update
+[19] : 4_Systems_000_General_2_GamePlay__Base.rb (PSDK) | ligne 463 update
+[18] : 4_Systems_000_General_2_GamePlay__Base.rb (PSDK) | ligne 236 main_process
+[17] : 4_Systems_000_General_2_GamePlay__Base.rb (PSDK) | ligne 144 main
+[16] : 4_Systems_000_General_2_GamePlay__Base.rb (PSDK) | ligne 175 call_scene
+[15] : 4_Systems_000_General.rb (PSDK) | ligne 149 open_battle_bag
+[14] : 5_Battle_02_Visual.rb (PSDK) | ligne 515 show_item_choice
+[13] : 5_Battle_01_Scene.rb (PSDK) | ligne 264 item_choice
+[12] : 5_Battle_01_Scene.rb (PSDK) | ligne 73 next_update_process
+[11] : 5_Battle_01_Scene.rb (PSDK) | ligne 65 update
 [10] : 4_Systems_000_General_2_GamePlay__Base.rb (PSDK) | ligne 236 main_process
 [9] : 4_Systems_000_General_2_GamePlay__Base.rb (PSDK) | ligne 144 main
 [8] : tools/GameLoader/Z_main.rb (PSDK) | ligne 18 <top (required)>
