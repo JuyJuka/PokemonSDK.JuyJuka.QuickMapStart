@@ -1,7 +1,13 @@
 {
   "ExpandedNodes": [
     "",
-    "\\T"
+    "\\T",
+    "\\T2",
+    "\\T2\\Data",
+    "\\T2\\Data\\Tiled",
+    "\\T2\\Data\\Tiled\\Maps",
+    "\\T2\\Data\\Tiled\\Tilesets"
   ],
+  "SelectedNode": "\\T2\\Data\\Tiled\\Tilesets\\passages.tsx",
   "PreviewInSolutionExplorer": false
 }
