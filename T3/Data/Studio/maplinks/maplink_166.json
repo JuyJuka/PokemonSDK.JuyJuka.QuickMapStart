@@ -5,16 +5,16 @@
 "mapId": 166,
 "northMaps": [
 {
+"mapId": 165,
+"offset": -40
+},
+{
 "mapId": 181,
 "offset": 0
 },
 {
 "mapId": 197,
 "offset": 40
-},
-{
-"mapId": 165,
-"offset": -40
 }
 ],
 "eastMaps": [
@@ -25,16 +25,16 @@
 ],
 "southMaps": [
 {
+"mapId": 151,
+"offset": -40
+},
+{
 "mapId": 167,
 "offset": 0
 },
 {
-"mapId": 151,
-"offset": 40
-},
-{
 "mapId": 183,
-"offset": -40
+"offset": 40
 }
 ],
 "westMaps": [

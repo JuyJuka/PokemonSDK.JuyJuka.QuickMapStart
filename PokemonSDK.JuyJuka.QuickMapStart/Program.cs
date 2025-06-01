@@ -193,7 +193,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     {
       string re = string.Empty;
       if (this._Defaults.ContainsKey(layerName)) re = this._Defaults[layerName];
-      return string.IsNullOrEmpty(re) ? (string.Empty+Knowen.Nothing) : re;
+      return string.IsNullOrEmpty(re) ? (string.Empty + Knowen.Nothing) : re;
     }
   }
 
@@ -231,7 +231,6 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       if (x >= Map.Max.X) return Map._0;
       return x;
     }
-
     private static int OverflowY(int y)
     {
       if (y < Map._0) return Map.Max.Y - Map._1;
@@ -306,12 +305,29 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
     private DefinitivMapColor EstimateColor(Color? color, DefinitivMapColor fallback)
     {
-      if (color != null && color.HasValue)
+      DefinitivMapColor? re = null;
+      if (color != null && color.HasValue && re == null)
         foreach (DefinitivMapColor dColor in DefinitivMapColor.DefinitivMapColors)
           if (dColor?.Color != null && dColor.Color.R == color.Value.R && dColor.Color.G == color.Value.G && dColor.Color.B == color.Value.B)
-            return dColor;
+            re = dColor;
+      if (color != null && color.HasValue && re == null)
+      {
+        float hueDiff = float.MaxValue;
+        DefinitivMapColor? reTollerenace = null;
+        foreach (DefinitivMapColor dColor in DefinitivMapColor.DefinitivMapColors)
+        {
+          float dif = Math.Abs(dColor.Color.GetHue() - color.Value.GetHue());
+          if (hueDiff > dif)
+          {
+            hueDiff = dif;
+            reTollerenace = dColor;
+          }
+        }
+        float tollerance = 100;
+        if (hueDiff <= tollerance) re = reTollerenace;
+      }
       // how to estimate a color?
-      return fallback;
+      return re ?? fallback;
     }
 
     public virtual void Export(string folder)
@@ -477,8 +493,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       asset = asset.Replace("{{lid}}", string.Empty + map.Id);
       asset = asset.Replace("{{mid}}", string.Empty + map.Id);
       asset = asset.Replace("{{nid}}", string.Empty + map.IdNorth);
-      asset = asset.Replace("{{nwid}}", string.Empty + map.IdNorthEast);
-      asset = asset.Replace("{{neid}}", string.Empty + map.IdNorthWest);
+      asset = asset.Replace("{{neid}}", string.Empty + map.IdNorthEast);
+      asset = asset.Replace("{{nwid}}", string.Empty + map.IdNorthWest);
       asset = asset.Replace("{{eid}}", string.Empty + map.IdEast);
       asset = asset.Replace("{{sid}}", string.Empty + map.IdSouth);
       asset = asset.Replace("{{swid}}", string.Empty + map.IdSouthWest);

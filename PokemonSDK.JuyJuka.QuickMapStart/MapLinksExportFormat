@@ -5,12 +5,12 @@
 "mapId": {{mid}},
 "northMaps": [
 {
-"mapId": {{nid}},
-"offset": 0
-},
-{
 "mapId": {{nwid}},
 "offset": -40
+},
+{
+"mapId": {{nid}},
+"offset": 0
 },
 {
 "mapId": {{neid}},
@@ -25,12 +25,12 @@
 ],
 "southMaps": [
 {
-"mapId": {{sid}},
-"offset": 0
-},
-{
 "mapId": {{swid}},
 "offset": -40
+},
+{
+"mapId": {{sid}},
+"offset": 0
 },
 {
 "mapId": {{seid}},
