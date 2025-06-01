@@ -574,6 +574,8 @@ export const ZONE_NAME_TEXT_ID = 100010;
             plus += (map.Name + c);
             plus_ += (c);
           }
+        plus = plus.Substring(Map._1);
+        plus_ = plus_.Substring(Map._1);
         while (txtContent.Count <= this._lid) txtContent.Add(string.Empty);
         txtContent[this._lid] = plus;
         File.WriteAllLines(this._txt, txtContent);
