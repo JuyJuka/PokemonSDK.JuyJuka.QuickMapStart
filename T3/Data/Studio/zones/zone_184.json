@@ -1,0 +1,22 @@
+{
+  "klass": "Zone",
+  "id": 184,
+  "dbSymbol": "zone_184",
+  "maps": [
+    184
+  ],
+  "worldmaps": [],
+  "panelId": 0,
+  "warp": {
+    "x": null,
+    "y": null
+  },
+  "position": {
+    "x": null,
+    "y": null
+  },
+  "isFlyAllowed": true,
+  "isWarpDisallowed": false,
+  "forcedWeather": null,
+  "wildGroups": []
+}

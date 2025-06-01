@@ -1,0 +1,30 @@
+{
+"klass": "MapLink",
+"id": 91,
+"dbSymbol": "maplink_91",
+"mapId": 91,
+"northMaps": [
+{
+"mapId": 90,
+"offset": 0
+}
+],
+"eastMaps": [
+{
+"mapId": 107,
+"offset": 0
+}
+],
+"southMaps": [
+{
+"mapId": 92,
+"offset": 0
+}
+],
+"westMaps": [
+{
+"mapId": 75,
+"offset": 0
+}
+]
+}
