@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Update="ZoneExportFormat">
+    <None Update="ZoneExportFormat,">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="TmxMapExportFormat,">

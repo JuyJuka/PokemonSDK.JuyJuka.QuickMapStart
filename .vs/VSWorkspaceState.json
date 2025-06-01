@@ -1,11 +1,7 @@
 {
   "ExpandedNodes": [
     "",
-    "\\T",
     "\\T2",
-    "\\T2\\Data",
-    "\\T2\\Data\\Tiled",
-    "\\T2\\Data\\Tiled\\Maps",
     "\\T2\\Data\\Tiled\\Tilesets"
   ],
   "PreviewInSolutionExplorer": false

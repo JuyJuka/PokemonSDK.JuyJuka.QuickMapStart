@@ -22,8 +22,26 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       */
 
       string folder = @"C:\Users\nicolasb\Downloads\PSDK\T2\T3";
+      string empty = @"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart\empty";
+      string world_ = @"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart\world.bmp";
+      if (!string.IsNullOrEmpty(empty) && Directory.Exists(empty))
+      {
+        if (!Directory.Exists(folder))
+        {
+          Program.CopyFilesRecursively(empty, folder);
+        }
+        else
+        {
+          System.Console.Out.WriteLine("Use silly JJ empty-project?");
+          if (System.Console.In.ReadLine()?.ToLower()?.StartsWith("j") ?? false)
+          {
+            if (Directory.Exists(folder)) Directory.Delete(folder, true);
+            Program.CopyFilesRecursively(empty, folder);
+          }
+        }
+      }
       List<Map> maps = new List<Map>();
-      Bitmap world = new Bitmap(@"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart\world.bmp");
+      Bitmap world = new Bitmap(world_);
       Map.Max = new Point(world.Width, world.Height);
       foreach (Point p in Map.ForEach(world.Size))
       {
@@ -81,6 +99,21 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       System.Console.Write(blank + "|" + map.IdSouth.ToString(format) + "|" + blank);
       System.Console.WriteLine();
       System.Console.WriteLine();
+    }
+
+    private static void CopyFilesRecursively(string sourcePath, string targetPath)
+    {
+      //Now Create all of the directories
+      foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
+      {
+        Directory.CreateDirectory(dirPath.Replace(sourcePath, targetPath));
+      }
+
+      //Copy all the files & Replaces any files with the same name
+      foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
+      {
+        File.Copy(newPath, newPath.Replace(sourcePath, targetPath), true);
+      }
     }
   }
 
@@ -341,14 +374,15 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       })
       {
         System.Console.WriteLine(".." + format.FileExtendsion);
+        // keep order ModifyTargetFolder -> ModifyTargetFile -> Export
+        string f2 = format.ModifyTargetFolder(this, folder);
+        string f3 = format.ModifyTargetFile(this, f2, Path.Combine(f2, this.Name + format.FileExtendsion));
         string content = format.Export(this, s => this.ExportStaticsReadAsset(myFolder, s));
         if (string.IsNullOrEmpty(content)) continue;
-        string f2 = format.ModifyTargetFolder(this, folder);
         if (!Directory.Exists(f2)) Directory.CreateDirectory(f2);
         if (!string.IsNullOrEmpty(format.StaticFilter)) this.ExportStatics(myFolder, format.StaticFilter, f2);
-        f2 = format.ModifyTargetFile(this, f2, Path.Combine(f2, this.Name + format.FileExtendsion));
-        if (File.Exists(f2)) File.Delete(f2);
-        File.WriteAllText(f2, content);
+        if (File.Exists(f3)) File.Delete(f3);
+        File.WriteAllText(f3, content);
       }
     }
 
@@ -506,13 +540,71 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
   public class ZoneExportFormat : SingleAssetMapExportFormat
   {
+    /*
+export const ZONE_DESCRIPTION_TEXT_ID = 100064;
+export const ZONE_NAME_TEXT_ID = 100010;
+     */
+    protected TxtMapExportFormat Description { get; set; } = new TxtMapExportFormat("100064");
+    protected TxtMapExportFormat Name { get; set; } = new TxtMapExportFormat("100010");
+
+    protected class TxtMapExportFormat : SingleAssetMapExportFormat
+    {
+      private string fileId = string.Empty;
+      public TxtMapExportFormat(string id) : base("Data", "Text", "Dialogs", ".csv") { this.fileId = id; }
+
+      public override string ModifyTargetFile(Map map, string folder, string file)
+      {
+        string re = Path.Combine(folder, this.fileId + this.FileExtendsion);
+        string[] txtContent = File.ReadAllLines(re);
+        this._lid = txtContent.Length
+          - Map._1 // 0 based index
+          + Map._1 // header, languages
+          ;
+        return re;
+      }
+
+      public override string Export(Map map, string asset, string config)
+      {
+        List<string> txtContent = new List<string>(File.ReadAllLines(this._txt));
+        char c = config[Map._0];
+        string plus = string.Empty + c;
+        string plus_ = string.Empty + c;
+        foreach (char cc in txtContent[0]) if (cc == c)
+          {
+            plus += (map.Name + c);
+            plus_ += (c);
+          }
+        while (txtContent.Count <= this._lid) txtContent.Add(string.Empty);
+        txtContent[this._lid] = plus;
+        File.WriteAllLines(this._txt, txtContent);
+        return string.Empty;
+      }
+
+      public string _txt = string.Empty;
+      public int _lid = Map._0;
+    }
+
     public ZoneExportFormat() : base("Data", "Studio", "zones", ".json") { }
 
-    public override string ModifyTargetFile(Map map, string folder, string file) { return Path.Combine(folder, "zone_" + map.Id + this.FileExtendsion); }
+
+    public override string ModifyTargetFolder(Map map, string folder)
+    {
+      this.Name._txt = this.Name.ModifyTargetFile(map, this.Name.ModifyTargetFolder(map, folder), string.Empty);
+      this.Description._txt = this.Description.ModifyTargetFile(map, this.Description.ModifyTargetFolder(map, folder), string.Empty);
+      this.Description._lid = this.Name._lid = Math.Max(this.Name._lid, this.Description._lid);
+      return base.ModifyTargetFolder(map, folder);
+    }
+
+    public override string ModifyTargetFile(Map map, string folder, string file)
+    {
+      return Path.Combine(folder, "zone_" + map.Id + this.FileExtendsion);
+    }
 
     public override string Export(Map map, string asset, string config)
     {
-      asset = asset.Replace("{{lid}}", string.Empty + map.Id);
+      this.Name.Export(map, asset, config);
+      this.Description.Export(map, asset, config);
+      asset = asset.Replace("{{lid}}", string.Empty + this.Name._lid);
       asset = asset.Replace("{{mid}}", string.Empty + map.Id);
       asset = asset.Replace("{{nid}}", string.Empty + map.IdNorth);
       asset = asset.Replace("{{eid}}", string.Empty + map.IdEast);
