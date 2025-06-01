@@ -1,8 +1,10 @@
 namespace PokemonSDK.JuyJuka.QuickMapStart
 {
   using System;
+  using System.Drawing;
   using System.Drawing.Drawing2D;
   using System.Drawing.Imaging;
+  using System.Security.Policy;
 
   internal static class Program
   {
@@ -34,7 +36,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       */
 
       string folder = @"C:\Users\nicolasb\Downloads\PSDK\T2\T3";
-      string empty = "";// @"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart\empty";
+      string empty = @"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart\empty";
       string world_ = @"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart\world.bmp";
       Point max = new Point(16, 16);
       Size size = new Size(40, 30);
@@ -61,25 +63,25 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       List<Map> maps = new List<Map>();
       Bitmap world = new Bitmap(Image.FromFile(world_));
       System.Console.WriteLine("Sizing map...");
-      Bitmap worldMax = ResizeImage1(world, max.X, max.Y, max.X, max.Y);
-      worldMax.Save(Path.Combine(Path.GetDirectoryName(world_), max.X + ".bmp"));
-      Bitmap worldSize = ResizeImage1(world, max.X * size.Width, max.Y * size.Height, max.X * size.Width, max.Y * size.Height);
-      worldSize.Save(Path.Combine(Path.GetDirectoryName(world_), size.Width + ".bmp"));
+      BitMapExportFormat.TinnyImage = BitMapExportFormat.ResizeImage1(world, max.X, max.Y, max.X, max.Y);
+      BitMapExportFormat.FullImage = BitMapExportFormat.ResizeImage1(world, max.X * size.Width, max.Y * size.Height, max.X * size.Width, max.Y * size.Height);
       System.Console.WriteLine("Sorting maps...");
       Map.Max = max;
       Map.Size = size;
-      foreach (Point p in Map.ForEach(worldMax.Size))
+      foreach (Point p in Map.ForEach(BitMapExportFormat.TinnyImage.Size))
       {
         var m = new Map()
         {
-          Color = worldMax.GetPixel(p.X, p.Y),
+          Color = BitMapExportFormat.TinnyImage.GetPixel(p.X, p.Y),
           WorldMapCoordinates = new Point(p.X, p.Y),
         };
         maps.Add(m);
       }
+      /*
       System.Console.WriteLine("Debugging maps...");
       foreach (var item in maps) System.Console.WriteLine(item);
       return;
+      */
       System.Console.WriteLine("Writing maps...");
       foreach (Map map in maps) map.Export(folder);
       return;
@@ -101,29 +103,9 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       //Copy all the files & Replaces any files with the same name
       foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
       {
+        System.Console.WriteLine(Path.GetFileName(newPath));
         File.Copy(newPath, newPath.Replace(sourcePath, targetPath), true);
       }
-    }
-
-    private static Bitmap ResizeImage1(Image image, int width, int height, float HorizontalResolution, float VerticalResolution)
-    {
-      Rectangle destRect = new Rectangle(0, 0, width, height);
-      Bitmap destImage = new Bitmap(width, height);
-      destImage.SetResolution(HorizontalResolution, VerticalResolution);
-      using (var graphics = Graphics.FromImage(destImage))
-      {
-        graphics.CompositingQuality = CompositingQuality.HighQuality;
-        graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-        graphics.SmoothingMode = SmoothingMode.HighQuality;
-        graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
-
-        using (var wrapMode = new ImageAttributes())
-        {
-          wrapMode.SetWrapMode(WrapMode.TileFlipXY);
-          graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
-        }
-      }
-      return destImage;
     }
   }
 
@@ -386,13 +368,14 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
         new TmxMapExportFormat(),
         new MapLinksExportFormat(),
         new ZoneExportFormat(),
+        new BitMapExportFormat(),
       })
       {
         System.Console.WriteLine(".." + format.FileExtendsion);
         // keep order ModifyTargetFolder -> ModifyTargetFile -> Export
         string f2 = format.ModifyTargetFolder(this, folder);
         string f3 = format.ModifyTargetFile(this, f2, Path.Combine(f2, this.Name + format.FileExtendsion));
-        string content = format.Export(this, s => this.ExportStaticsReadAsset(myFolder, s));
+        string content = format.Export(this, f2, f3, s => this.ExportStaticsReadAsset(myFolder, s));
         if (string.IsNullOrEmpty(content)) continue;
         if (!Directory.Exists(f2)) Directory.CreateDirectory(f2);
         if (!string.IsNullOrEmpty(format.StaticFilter)) this.ExportStatics(myFolder, format.StaticFilter, f2);
@@ -434,7 +417,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     string StaticFilter { get; }
     string ModifyTargetFolder(Map map, string folder);
     string ModifyTargetFile(Map map, string folder, string file);
-    string Export(Map map, Func<string, Tuple<string, string>> readAsset);
+    string Export(Map map, string folder, string file, Func<string, Tuple<string, string>> readAsset);
   }
 
   public abstract class MapExportFormat : IMapExportFormat
@@ -469,7 +452,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     }
     public virtual string ModifyTargetFile(Map map, string folder, string file) { return file; }
 
-    public abstract string Export(Map map, Func<string, Tuple<string, string>> readAsset);
+    public abstract string Export(Map map, string folder, string file, Func<string, Tuple<string, string>> readAsset);
   }
 
   public abstract class SingleAssetMapExportFormat : MapExportFormat
@@ -477,13 +460,13 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public SingleAssetMapExportFormat() : base() { }
     public SingleAssetMapExportFormat(params string[] pathAndExtension) : base(pathAndExtension) { }
 
-    public override string Export(Map map, Func<string, Tuple<string, string>> readAsset)
+    public override string Export(Map map, string folder, string file, Func<string, Tuple<string, string>> readAsset)
     {
       Tuple<string, string> a = readAsset(this.GetType().Name);
-      return this.Export(map, a.Item2, a.Item1);
+      return this.Export(map, folder, file, a.Item2, a.Item1);
     }
 
-    public abstract string Export(Map map, string asset, string config);
+    public abstract string Export(Map map, string folder, string file, string asset, string config);
   }
 
   public class TmxMapExportFormat : SingleAssetMapExportFormat
@@ -500,7 +483,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
     public override string ModifyTargetFolder(Map map, string folder) { return Path.Combine(string.Empty + Path.GetDirectoryName(folder), Path.GetFileName(folder) + this.StaticFilter); }
 
-    public override string Export(Map map, string asset, string config)
+    public override string Export(Map map, string folder, string file, string asset, string config)
     {
       string re = asset;
       string[] layers = [
@@ -537,7 +520,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
     public override string ModifyTargetFile(Map map, string folder, string file) { return Path.Combine(folder, "maplink_" + map.Id + this.FileExtendsion); }
 
-    public override string Export(Map map, string asset, string config)
+    public override string Export(Map map, string folder, string file, string asset, string config)
     {
       asset = asset.Replace("{{lid}}", string.Empty + map.Id);
       asset = asset.Replace("{{mid}}", string.Empty + map.Id);
@@ -578,9 +561,9 @@ export const ZONE_NAME_TEXT_ID = 100010;
         return re;
       }
 
-      public override string Export(Map map, string asset, string config)
+      public override string Export(Map map, string folder, string file, string asset, string config)
       {
-        List<string> txtContent = new List<string>(File.ReadAllLines(this._txt));
+        List<string> txtContent = new List<string>(File.ReadAllLines(file));
         char c = config[Map._0];
         string plus = string.Empty + c;
         string plus_ = string.Empty + c;
@@ -593,34 +576,28 @@ export const ZONE_NAME_TEXT_ID = 100010;
         plus_ = plus_.Substring(Map._1);
         while (txtContent.Count <= this._lid) txtContent.Add(string.Empty);
         txtContent[this._lid] = plus;
-        File.WriteAllLines(this._txt, txtContent);
+        File.WriteAllLines(file, txtContent);
         return string.Empty;
       }
 
-      public string _txt = string.Empty;
       public int _lid = Map._0;
     }
 
-    public ZoneExportFormat() : base("Data", "Studio", "zones", ".json") { }
-
-
-    public override string ModifyTargetFolder(Map map, string folder)
-    {
-      this.Name._txt = this.Name.ModifyTargetFile(map, this.Name.ModifyTargetFolder(map, folder), string.Empty);
-      this.Description._txt = this.Description.ModifyTargetFile(map, this.Description.ModifyTargetFolder(map, folder), string.Empty);
-      this.Description._lid = this.Name._lid = Math.Max(this.Name._lid, this.Description._lid);
-      return base.ModifyTargetFolder(map, folder);
-    }
+    private static string[] _pathAndExtension = ["Data", "Studio", "zones", ".json"];
+    public ZoneExportFormat() : base(ZoneExportFormat._pathAndExtension) { }
 
     public override string ModifyTargetFile(Map map, string folder, string file)
     {
       return Path.Combine(folder, "zone_" + map.Id + this.FileExtendsion);
     }
 
-    public override string Export(Map map, string asset, string config)
+    public override string Export(Map map, string folder, string file, string asset, string config)
     {
-      this.Name.Export(map, asset, config);
-      this.Description.Export(map, asset, config);
+      string zwi;
+      string folder2 = file;
+      for (int i = Map._0; i < ZoneExportFormat._pathAndExtension.Length; i++) folder2 = Path.GetDirectoryName(folder2);
+      this.Name.Export(map, (zwi = this.Name.ModifyTargetFolder(map, folder2)), this.Name.ModifyTargetFile(map, zwi, file), asset, config);
+      this.Description.Export(map, (zwi = this.Description.ModifyTargetFolder(map, folder2)), this.Description.ModifyTargetFile(map, zwi, file), asset, config);
       asset = asset.Replace("{{lid}}", string.Empty + this.Name._lid);
       asset = asset.Replace("{{mid}}", string.Empty + map.Id);
       asset = asset.Replace("{{nid}}", string.Empty + map.IdNorth);
@@ -628,6 +605,68 @@ export const ZONE_NAME_TEXT_ID = 100010;
       asset = asset.Replace("{{sid}}", string.Empty + map.IdSouth);
       asset = asset.Replace("{{wid}}", string.Empty + map.IdWest);
       return asset;
+    }
+  }
+
+  public class BitMapExportFormat : MapExportFormat
+  {
+    public BitMapExportFormat() : base(".bmp") { this.StaticFilter = "_bmp"; }
+
+    public override string ModifyTargetFolder(Map map, string folder) { return Path.Combine(string.Empty + Path.GetDirectoryName(folder), Path.GetFileName(folder) + this.StaticFilter); }
+
+    public override string Export(Map map, string folder, string file, Func<string, Tuple<string, string>> readAsset)
+    {
+      string file_ = Path.Combine(folder, this.StaticFilter + this.FileExtendsion);
+      string file__ = Path.Combine(folder, this.StaticFilter + Map._0 + this.FileExtendsion);
+      if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+      if (!File.Exists(file_)) this.Export_BitMap().Save(file_);
+      if (BitMapExportFormat.TinnyImage != null && !File.Exists(file__)) BitMapExportFormat.TinnyImage.Save(file__);
+      if (File.Exists(file)) File.Delete(file);
+      Size s = this.Export_Size();
+      ResizeImage1(this.Export_BitMap(), s.Width, s.Height, s.Width, s.Height
+      , map.WorldMapCoordinates.X * s.Width, map.WorldMapCoordinates.Y * s.Height, s.Width, s.Height
+      ).Save(file);
+      return string.Empty;
+    }
+
+    protected virtual Bitmap Export_BitMap()
+    {
+      return BitMapExportFormat.FullImage;
+    }
+
+    protected virtual Size Export_Size()
+    {
+      return Map.Size;
+    }
+
+    public static Bitmap? TinnyImage { get; set; }
+    public static Bitmap? FullImage { get; set; }
+
+    public static Bitmap ResizeImage1(Image image, int width, int height, float HorizontalResolution, float VerticalResolution
+    , int? srcX = null
+      , int? srcY = null
+      , int? srcW = null
+      , int? srcH = null
+      )
+    {
+      Func<int?, int, int> alt = (x, y) => { if (x != null && x.HasValue) return x.Value; return y; };
+      Rectangle destRect = new Rectangle(0, 0, width, height);
+      Bitmap destImage = new Bitmap(width, height);
+      destImage.SetResolution(HorizontalResolution, VerticalResolution);
+      using (var graphics = Graphics.FromImage(destImage))
+      {
+        graphics.CompositingQuality = CompositingQuality.HighQuality;
+        graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+        graphics.SmoothingMode = SmoothingMode.HighQuality;
+        graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+        using (var wrapMode = new ImageAttributes())
+        {
+          wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+          graphics.DrawImage(image, destRect, alt(srcX, 0), alt(srcY, 0), alt(srcW, image.Width), alt(srcH, image.Height), GraphicsUnit.Pixel, wrapMode);
+        }
+      }
+      return destImage;
     }
   }
 }
