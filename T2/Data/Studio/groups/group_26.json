@@ -2,6 +2,18 @@
   "klass": "Group",
   "id": 26,
   "dbSymbol": "group_26",
+  "systemTag": "Grass",
+  "terrainTag": 0,
+  "tool": null,
+  "isDoubleBattle": false,
+  "isHordeBattle": false,
+  "customConditions": [
+    {
+      "type": "enabledSwitch",
+      "value": 11,
+      "relationWithPreviousCondition": "AND"
+    }
+  ],
   "encounters": [
     {
       "specie": "bulbasaur",
@@ -17,7 +29,7 @@
           "maximumLevel": 10
         }
       },
-      "randomEncounterChance": 1,
+      "randomEncounterChance": 100,
       "expandPokemonSetup": [
         {
           "type": "evs",
@@ -59,7 +71,7 @@
           "maximumLevel": 10
         }
       },
-      "randomEncounterChance": 1,
+      "randomEncounterChance": 100,
       "expandPokemonSetup": [
         {
           "type": "evs",
@@ -88,17 +100,5 @@
       ]
     }
   ],
-  "isDoubleBattle": false,
-  "systemTag": "Grass",
-  "terrainTag": 0,
-  "customConditions": [
-    {
-      "value": 11,
-      "type": "enabledSwitch",
-      "relationWithPreviousCondition": "AND"
-    }
-  ],
-  "tool": null,
-  "isHordeBattle": false,
   "stepsAverage": 30
 }
