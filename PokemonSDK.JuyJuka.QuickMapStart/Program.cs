@@ -1,6 +1,8 @@
 namespace PokemonSDK.JuyJuka.QuickMapStart
 {
   using System;
+  using System.Drawing.Drawing2D;
+  using System.Drawing.Imaging;
 
   internal static class Program
   {
@@ -11,8 +13,18 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     static void Main()
     {
       /*
-      foreach (var x in DefinitivMapColor.DefinitivMapColors) Console.WriteLine(x.Name + "=" + x.Color.R + "x" + x.Color.G + "x" + x.Color.B);
+      int maxdmcnl = Map._0;
+      foreach (var x in DefinitivMapColor.DefinitivMapColors) if (x.Name.Length > maxdmcnl) maxdmcnl = x.Name.Length;
+      foreach (var x in DefinitivMapColor.DefinitivMapColors) Console.WriteLine("{0}{1}\t{2:000}x{3:000}x{4:000}\t{5}"
+      , x.Name
+      , new string(' ', (maxdmcnl - x.Name.Length) + 1)
+      , x.Color.R
+      , x.Color.G
+      , x.Color.B
+      , x.Color.GetHue()
+      );
       Console.In.ReadLine();
+      // return;
 // Grassland    =000x128x000
 // Forest       =000x100x000
 // Sea          =000x000x255
@@ -22,12 +34,15 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       */
 
       string folder = @"C:\Users\nicolasb\Downloads\PSDK\T2\T3";
-      string empty = @"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart\empty";
+      string empty = "";// @"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart\empty";
       string world_ = @"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart\world.bmp";
+      Point max = new Point(16, 16);
+      Size size = new Size(40, 30);
       if (!string.IsNullOrEmpty(empty) && Directory.Exists(empty))
       {
         if (!Directory.Exists(folder))
         {
+          System.Console.WriteLine("Copying empty...");
           Program.CopyFilesRecursively(empty, folder);
         }
         else
@@ -35,70 +50,44 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
           System.Console.Out.WriteLine("Use silly JJ empty-project?");
           if (System.Console.In.ReadLine()?.ToLower()?.StartsWith("j") ?? false)
           {
+            System.Console.WriteLine("Deleting old...");
             if (Directory.Exists(folder)) Directory.Delete(folder, true);
+            System.Console.WriteLine("Copying empty...");
             Program.CopyFilesRecursively(empty, folder);
           }
         }
       }
+      System.Console.WriteLine("Reading world...");
       List<Map> maps = new List<Map>();
-      Bitmap world = new Bitmap(world_);
-      Map.Max = new Point(world.Width, world.Height);
-      foreach (Point p in Map.ForEach(world.Size))
+      Bitmap world = new Bitmap(Image.FromFile(world_));
+      System.Console.WriteLine("Sizing map...");
+      Bitmap worldMax = ResizeImage1(world, max.X, max.Y, max.X, max.Y);
+      worldMax.Save(Path.Combine(Path.GetDirectoryName(world_), max.X + ".bmp"));
+      Bitmap worldSize = ResizeImage1(world, max.X * size.Width, max.Y * size.Height, max.X * size.Width, max.Y * size.Height);
+      worldSize.Save(Path.Combine(Path.GetDirectoryName(world_), size.Width + ".bmp"));
+      System.Console.WriteLine("Sorting maps...");
+      Map.Max = max;
+      Map.Size = size;
+      foreach (Point p in Map.ForEach(worldMax.Size))
       {
         var m = new Map()
         {
-          Color = world.GetPixel(p.X, p.Y),
+          Color = worldMax.GetPixel(p.X, p.Y),
           WorldMapCoordinates = new Point(p.X, p.Y),
         };
         maps.Add(m);
       }
-      // PrintList2(maps);
-      /*
-      PrintList1(maps);
-      Console.In.ReadLine();
-      PrintSquare(maps[17]);
-      PrintSquare(maps[16]);
-      PrintSquare(maps[00]);
-      Console.In.ReadLine();
-      */
+      System.Console.WriteLine("Debugging maps...");
+      foreach (var item in maps) System.Console.WriteLine(item);
+      return;
+      System.Console.WriteLine("Writing maps...");
       foreach (Map map in maps) map.Export(folder);
-
-      //Console.In.ReadLine();
       return;
 
       // To customize application configuration such as set high DPI settings or default font,
       // see https://aka.ms/applicationconfiguration.
       ApplicationConfiguration.Initialize();
       Application.Run(new Form1());
-    }
-
-    private static void PrintList1(IEnumerable<Map> maps)
-    {
-      foreach (var m in maps) System.Console.WriteLine(m.Name + "\t" + m.Id);
-    }
-
-    private static void PrintList2(IEnumerable<Map> maps)
-    {
-      foreach (var m in maps) System.Console.WriteLine(m.Name + "\t" + m.Color.Value.R + "x" + m.Color.Value.G + "x" + m.Color.Value.B + "\t" + m.DefinitivColor.Name);
-    }
-
-    private static void PrintSquare(Map map)
-    {
-      string blank = new string(' ', map.Name.Length);
-      string format = new string('0', map.Name.Length);
-      System.Console.Write(blank + "|" + map.NameNorth + "|" + blank);
-      System.Console.Write(blank);
-      System.Console.Write(blank + "|" + map.IdNorth.ToString(format) + "|" + blank);
-      System.Console.WriteLine();
-      System.Console.Write(map.NameWest + "|" + map.Name + "|" + map.NameEast);
-      System.Console.Write(blank);
-      System.Console.Write(map.IdWest.ToString(format) + "|" + map.Id.ToString(format) + "|" + map.IdEast.ToString(format));
-      System.Console.WriteLine();
-      System.Console.Write(blank + "|" + map.NameSouth + "|" + blank);
-      System.Console.Write(blank);
-      System.Console.Write(blank + "|" + map.IdSouth.ToString(format) + "|" + blank);
-      System.Console.WriteLine();
-      System.Console.WriteLine();
     }
 
     private static void CopyFilesRecursively(string sourcePath, string targetPath)
@@ -114,6 +103,27 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       {
         File.Copy(newPath, newPath.Replace(sourcePath, targetPath), true);
       }
+    }
+
+    private static Bitmap ResizeImage1(Image image, int width, int height, float HorizontalResolution, float VerticalResolution)
+    {
+      Rectangle destRect = new Rectangle(0, 0, width, height);
+      Bitmap destImage = new Bitmap(width, height);
+      destImage.SetResolution(HorizontalResolution, VerticalResolution);
+      using (var graphics = Graphics.FromImage(destImage))
+      {
+        graphics.CompositingQuality = CompositingQuality.HighQuality;
+        graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+        graphics.SmoothingMode = SmoothingMode.HighQuality;
+        graphics.PixelOffsetMode = PixelOffsetMode.HighQuality;
+
+        using (var wrapMode = new ImageAttributes())
+        {
+          wrapMode.SetWrapMode(WrapMode.TileFlipXY);
+          graphics.DrawImage(image, destRect, 0, 0, image.Width, image.Height, GraphicsUnit.Pixel, wrapMode);
+        }
+      }
+      return destImage;
     }
   }
 
@@ -146,7 +156,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 1.9	Rare Pokémon
      */
     public static DefinitivMapColor DefinitivMapColors_Grassland = new DefinitivMapColor("Grassland", Color.Green, Knowen.Grass);
-    public static DefinitivMapColor DefinitivMapColors_Forest = new DefinitivMapColor("Forest", Color.DarkGreen, Knowen.Grass);
+    public static DefinitivMapColor DefinitivMapColors_Forest = new DefinitivMapColor("Forest", Color.FromArgb(0, 99, 20), Knowen.Grass);
     // public static DefinitivMapColor DefinitivMapColors_WatersEdge = new DefinitivMapColor("WatersEdge",Color.Blue);
     public static DefinitivMapColor DefinitivMapColors_Sea = new DefinitivMapColor("Sea", Color.Blue, Knowen.Water, Knowen.SystemTagSea);
     // public static DefinitivMapColor DefinitivMapColors_Cave = new DefinitivMapColor("Cave",Color.Black);
@@ -232,11 +242,16 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
   public class Map
   {
+    public override string ToString()
+    {
+      return this.Name + "\t" + this.DefinitivColor?.Name;
+    }
+
     #region Static
     public static readonly int _0 = (int)decimal.Zero;
     public static readonly int _1 = (int)decimal.One;
     public static Point Max { get; set; } = new Point(16, 16);
-    public static Size Size { get; protected set; } = new Size(40, 30);
+    public static Size Size { get; set; } = new Size(40, 30);
     public static int IdOffset { get; set; } = 22;
 
     public static IEnumerable<Point> ForEach(Size max)
