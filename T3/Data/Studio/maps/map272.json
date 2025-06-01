@@ -13,8 +13,8 @@
     "volume": 100,
     "pitch": 100
   },
-  "mtime": 1748796846795,
-  "sha1": "d59fb6f6cb9fe3f7ee9deb65a0f5602b24bd940f",
+  "mtime": 1748802314799,
+  "sha1": "217a56b1caddb677ae9ddcef76b152670912bcb2",
   "tiledFilename": "E_X15Y10",
   "tileMetadata": {
     "width": 40,
@@ -46,6 +46,9 @@
         {
           "globalId": 151,
           "transformId": 0
+        },
+        {
+          "systemTag": 405
         },
         {
           "passage": 0

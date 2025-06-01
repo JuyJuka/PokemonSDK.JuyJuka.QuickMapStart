@@ -2,8 +2,6 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 {
   using System;
 
-  using static System.Windows.Forms.DataFormats;
-
   internal static class Program
   {
     /// <summary>
@@ -25,18 +23,20 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
       string folder = @"C:\Users\nicolasb\Downloads\PSDK\T2\T3";
       List<Map> maps = new List<Map>();
-      Bitmap world = new Bitmap(@"C:\Users\nicolasb\Downloads\PSDK\PokemonSDK.JuyJuka.QuickMapStart\world.bmp");
+      Bitmap world = new Bitmap(@"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart\world.bmp");
       Map.Max = new Point(world.Width, world.Height);
       foreach (Point p in Map.ForEach(world.Size))
       {
-        maps.Add(new Map()
+        var m = new Map()
         {
           Color = world.GetPixel(p.X, p.Y),
           WorldMapCoordinates = new Point(p.X, p.Y),
-        });
+        };
+        maps.Add(m);
       }
+      // PrintList2(maps);
       /*
-      PrintList(maps);
+      PrintList1(maps);
       Console.In.ReadLine();
       PrintSquare(maps[17]);
       PrintSquare(maps[16]);
@@ -54,9 +54,14 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       Application.Run(new Form1());
     }
 
-    private static void PrintList(IEnumerable<Map> maps)
+    private static void PrintList1(IEnumerable<Map> maps)
     {
       foreach (var m in maps) System.Console.WriteLine(m.Name + "\t" + m.Id);
+    }
+
+    private static void PrintList2(IEnumerable<Map> maps)
+    {
+      foreach (var m in maps) System.Console.WriteLine(m.Name + "\t" + m.Color.Value.R + "x" + m.Color.Value.G + "x" + m.Color.Value.B + "\t" + m.DefinitivColor.Name);
     }
 
     private static void PrintSquare(Map map)
@@ -87,6 +92,10 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public static readonly object Mointain = 690;
     public static readonly object RoughTerrain = 93;
     public static readonly object Uraban = 239;
+
+    public static readonly object SystemTagSea = 4257 + 21;
+    public static readonly object SystemTagGrass = 4257 + 5;
+    public static readonly object SystemTagSand = 4257 + 14;
   }
 
   public class DefinitivMapColor
@@ -106,10 +115,10 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public static DefinitivMapColor DefinitivMapColors_Grassland = new DefinitivMapColor("Grassland", Color.Green, Knowen.Grass);
     public static DefinitivMapColor DefinitivMapColors_Forest = new DefinitivMapColor("Forest", Color.DarkGreen, Knowen.Grass);
     // public static DefinitivMapColor DefinitivMapColors_WatersEdge = new DefinitivMapColor("WatersEdge",Color.Blue);
-    public static DefinitivMapColor DefinitivMapColors_Sea = new DefinitivMapColor("Sea", Color.Blue, Knowen.Water);
+    public static DefinitivMapColor DefinitivMapColors_Sea = new DefinitivMapColor("Sea", Color.Blue, Knowen.Water, Knowen.SystemTagSea);
     // public static DefinitivMapColor DefinitivMapColors_Cave = new DefinitivMapColor("Cave",Color.Black);
     public static DefinitivMapColor DefinitivMapColors_Mountain = new DefinitivMapColor("Mountain", Color.DarkGray, Knowen.Mointain);
-    public static DefinitivMapColor DefinitivMapColors_RoughTerrain = new DefinitivMapColor("RoughTerrain", Color.Yellow, Knowen.RoughTerrain);
+    public static DefinitivMapColor DefinitivMapColors_RoughTerrain = new DefinitivMapColor("RoughTerrain", Color.Yellow, Knowen.RoughTerrain, Knowen.SystemTagSand);
     public static DefinitivMapColor DefinitivMapColors_Urban = new DefinitivMapColor("Urban", Color.LightGray, Knowen.Uraban);
     // public static DefinitivMapColor DefinitivMapColors_Rare = new DefinitivMapColor(Color.Red);
 
@@ -136,18 +145,55 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
     public virtual string Name { get; set; } = "";
     public virtual Color Color { get; set; } = Color.Transparent;
-    public virtual object Background { get; set; }
 
-    public DefinitivMapColor(string name, Color color, object background)
+    public DefinitivMapColor(string name, Color color
+      , object? default11 = null
+      , object? defaultS = null
+
+      , object? default1D1 = null
+      , object? defaultP = null
+      , object? defaultTT = null
+      , object? default3D3 = null
+      , object? default33 = null
+      , object? default2D2 = null
+      , object? default22 = null
+      )
     {
+      string[] layers = new string[]{
+        TmxMapExportFormat.LayerP,
+        TmxMapExportFormat.LayerS,
+        TmxMapExportFormat.LayerTT,
+        TmxMapExportFormat.Layer3.Item2,
+        TmxMapExportFormat.Layer3.Item1,
+        TmxMapExportFormat.Layer2.Item2,
+        TmxMapExportFormat.Layer2.Item1,
+        TmxMapExportFormat.Layer1.Item2,
+        TmxMapExportFormat.Layer1.Item1,
+      };
+      string[] values = new string[] {
+        string.Empty+defaultP,
+        string.Empty+defaultS,
+        string.Empty+defaultTT,
+        string.Empty+default3D3,
+        string.Empty+default33,
+        string.Empty+default2D2,
+        string.Empty+default22,
+        string.Empty+default1D1,
+        string.Empty+default11,
+      };
+      for (int i = Map._0; i < values.Length; i++)
+        if (!string.IsNullOrEmpty(values[i]))
+          this._Defaults.Add(layers[i], values[i]);
       this.Name = name;
       this.Color = color;
-      this.Background = background;
     }
 
-    public virtual string ToLayer(Point p, string v)
+    protected Dictionary<string, string> _Defaults = new Dictionary<string, string>();
+    public virtual string ToLayer(Point p, int layerIndex, string layerName, Point point)
     {
-      return string.Empty + Knowen.Nothing;
+      string re = string.Empty;
+      if (this._Defaults.ContainsKey(layerName)) re = this._Defaults[layerName];
+      return string.IsNullOrEmpty(re) ? (string.Empty+Knowen.Nothing) : re;
     }
   }
 
@@ -205,7 +251,11 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
     public virtual int Id { get { return this.MakeId(this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y + Map._0); } }
     public virtual int IdNorth { get { return this.MakeId(this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y - Map._1); } }
+    public virtual int IdNorthEast { get { return this.MakeId(this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y - Map._1); } }
+    public virtual int IdNorthWest { get { return this.MakeId(this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y - Map._1); } }
     public virtual int IdSouth { get { return this.MakeId(this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y + Map._1); } }
+    public virtual int IdSouthEast { get { return this.MakeId(this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y + Map._1); } }
+    public virtual int IdSouthWest { get { return this.MakeId(this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y + Map._1); } }
     public virtual int IdWest { get { return this.MakeId(this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y + Map._0); } }
     public virtual int IdEast { get { return this.MakeId(this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y + Map._0); } }
     #endregion Id
@@ -229,12 +279,16 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
     public virtual string Name { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y + Map._0); } }
     public virtual string NameNorth { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y - Map._1); } }
+    public virtual string NameNorthEast { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y - Map._1); } }
+    public virtual string NameNorthWest { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y - Map._1); } }
     public virtual string NameSouth { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y + Map._1); } }
+    public virtual string NameSouthEast { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y + Map._1); } }
+    public virtual string NameSouthWest { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y + Map._1); } }
     public virtual string NameWest { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y + Map._0); } }
     public virtual string NameEast { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y + Map._0); } }
     #endregion Name
 
-    public virtual string Description { get; set; } = "";
+    public virtual string Description { get; set; } = "{{}}";
     public virtual bool IsExterior { get; protected set; } = true;
     public virtual Point WorldMapCoordinates { get; set; } = new Point();
 
@@ -262,6 +316,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
     public virtual void Export(string folder)
     {
+      System.Console.WriteLine(this.Name + "...");
       string myFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly()?.Location) ?? string.Empty;
       foreach (IMapExportFormat format in new IMapExportFormat[] {
         new TmxMapExportFormat(),
@@ -269,6 +324,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
         new ZoneExportFormat(),
       })
       {
+        System.Console.WriteLine(".." + format.FileExtendsion);
         string content = format.Export(this, s => this.ExportStaticsReadAsset(myFolder, s));
         if (string.IsNullOrEmpty(content)) continue;
         string f2 = format.ModifyTargetFolder(this, folder);
@@ -367,6 +423,14 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
   public class TmxMapExportFormat : SingleAssetMapExportFormat
   {
+    private static Tuple<string, string> X(string a, string b) { return new Tuple<string, string>(a, b); }
+    public static readonly string LayerP = "{{p}}";
+    public static readonly string LayerS = "{{s}}";
+    public static readonly string LayerTT = "{{tt}}";
+    public static readonly Tuple<string, string> Layer3 = TmxMapExportFormat.X("{{3_3}}", "{{3_d_3}}");
+    public static readonly Tuple<string, string> Layer2 = TmxMapExportFormat.X("{{2_2}}", "{{2_d_2}}");
+    public static readonly Tuple<string, string> Layer1 = TmxMapExportFormat.X("{{1_1}}", "{{1_d_1}}");
+
     public TmxMapExportFormat() : base(".tmx") { this.StaticFilter = "_tiled"; }
 
     public override string ModifyTargetFolder(Map map, string folder) { return Path.Combine(string.Empty + Path.GetDirectoryName(folder), Path.GetFileName(folder) + this.StaticFilter); }
@@ -375,26 +439,24 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     {
       string re = asset;
       string[] layers = [
-        "{{p}}",
-        "{{s}}",
-        "{{tt}}",
-        "{{3_d_3}}",
-        "{{3_3}}",
-        "{{2_d_2}}",
-        "{{2_2}}",
-        "{{1_d_1}}",
-        "{{1_1}}",
+        TmxMapExportFormat.LayerP,
+        TmxMapExportFormat.LayerS,
+        TmxMapExportFormat.LayerTT,
+        TmxMapExportFormat.Layer3.Item2,
+        TmxMapExportFormat.Layer3.Item1,
+        TmxMapExportFormat.Layer2.Item2,
+        TmxMapExportFormat.Layer2.Item1,
+        TmxMapExportFormat.Layer1.Item2,
+        TmxMapExportFormat.Layer1.Item1,
       ];
       string[] csvs = new string[layers.Length];
       foreach (Point p in Map.ForEach(Map.Size))
       {
-        for (int i = 0; i < layers.Length - Map._1; i++)
+        for (int i = 0; i < layers.Length; i++)
         {
-          csvs[i] += (config + map.DefinitivColor.ToLayer(p, layers[i]));
+          csvs[i] += (config + map.DefinitivColor.ToLayer(p, i, layers[i], p));
           if (p.Y == Map.Size.Width - Map._1) csvs[i] += System.Environment.NewLine;
         }
-        csvs[layers.Length - Map._1] += (config + map.DefinitivColor.Background);
-        if (p.Y == Map.Size.Width - Map._1) csvs[layers.Length - Map._1] += System.Environment.NewLine;
       }
       for (int i = 0; i < layers.Length; i++)
       {
@@ -415,8 +477,12 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       asset = asset.Replace("{{lid}}", string.Empty + map.Id);
       asset = asset.Replace("{{mid}}", string.Empty + map.Id);
       asset = asset.Replace("{{nid}}", string.Empty + map.IdNorth);
+      asset = asset.Replace("{{nwid}}", string.Empty + map.IdNorthEast);
+      asset = asset.Replace("{{neid}}", string.Empty + map.IdNorthWest);
       asset = asset.Replace("{{eid}}", string.Empty + map.IdEast);
       asset = asset.Replace("{{sid}}", string.Empty + map.IdSouth);
+      asset = asset.Replace("{{swid}}", string.Empty + map.IdSouthWest);
+      asset = asset.Replace("{{seid}}", string.Empty + map.IdSouthEast);
       asset = asset.Replace("{{wid}}", string.Empty + map.IdWest);
       return asset;
     }

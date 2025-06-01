@@ -13,8 +13,8 @@
     "volume": 100,
     "pitch": 100
   },
-  "mtime": 1748796835043,
-  "sha1": "556c744b895c6633ec4089d493863ad3aa2afd42",
+  "mtime": 1748802306040,
+  "sha1": "1272ba969e2b8a0da0bd257eb42b3e529043e520",
   "tiledFilename": "E_X04Y02",
   "tileMetadata": {
     "width": 40,
@@ -46,6 +46,9 @@
         {
           "globalId": 93,
           "transformId": 0
+        },
+        {
+          "systemTag": 398
         },
         {
           "passage": 0

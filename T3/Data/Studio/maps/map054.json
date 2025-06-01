@@ -13,8 +13,8 @@
     "volume": 100,
     "pitch": 100
   },
-  "mtime": 1748796833202,
-  "sha1": "556c744b895c6633ec4089d493863ad3aa2afd42",
+  "mtime": 1748802304519,
+  "sha1": "217a56b1caddb677ae9ddcef76b152670912bcb2",
   "tiledFilename": "E_X02Y00",
   "tileMetadata": {
     "width": 40,
@@ -44,8 +44,11 @@
     "tileByTileId": [
       [
         {
-          "globalId": 93,
+          "globalId": 151,
           "transformId": 0
+        },
+        {
+          "systemTag": 405
         },
         {
           "passage": 0

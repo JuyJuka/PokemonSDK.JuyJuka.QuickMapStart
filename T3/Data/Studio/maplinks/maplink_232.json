@@ -7,6 +7,14 @@
 {
 "mapId": 231,
 "offset": 0
+},
+{
+"mapId": 247,
+"offset": 40
+},
+{
+"mapId": 215,
+"offset": -40
 }
 ],
 "eastMaps": [
@@ -19,6 +27,14 @@
 {
 "mapId": 233,
 "offset": 0
+},
+{
+"mapId": 217,
+"offset": 40
+},
+{
+"mapId": 249,
+"offset": -40
 }
 ],
 "westMaps": [
