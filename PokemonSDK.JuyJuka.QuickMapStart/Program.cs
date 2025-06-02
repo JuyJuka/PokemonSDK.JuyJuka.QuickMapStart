@@ -157,6 +157,11 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       1 + 132, 1 + 134, 1 + 135,
       1 + 139,
       1 + 141);
+    public static readonly Knowen.Border BorderUrban = new Knowen.Border(
+      1 + 230, 1 + 231, 1 + 229,
+      1 + 246, 1 + 247, 1 + 245,
+      1 + 239,
+      1 + 237);
 
     public class Border
     {
@@ -419,6 +424,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public static DefinitivMapColor DefinitivMapColors_Urban =
       DefinitivMapColorFluent.New("Urban", Color.LightGray, Knowen.Uraban)
       .Panel(Knowen.PanelUrban)
+      .Border(Knowen.BorderUrban)
       .DefinitivMapColor;
     // public static DefinitivMapColor DefinitivMapColors_Rare = new DefinitivMapColor(Color.Red);
 
