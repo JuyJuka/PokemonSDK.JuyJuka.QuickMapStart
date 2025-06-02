@@ -6,7 +6,7 @@
     {{mid}}
   ],
   "worldmaps": [],
-  "panelId": 0,
+  "panelId": {{panel}},
   "warp": {
     "x": null,
     "y": null

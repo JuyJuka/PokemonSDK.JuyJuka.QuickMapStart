@@ -29,6 +29,7 @@
     private void InitializeComponent()
     {
       this.components = new System.ComponentModel.Container();
+      System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
       this.tableLayoutPanel1 = new TableLayoutPanel();
       this.textBoxFolder = new TextBox();
       this.label1 = new Label();
@@ -54,6 +55,15 @@
       this.tabPage1 = new TabPage();
       this.tabPagePreview = new TabPage();
       this.tabControlPreviews = new TabControl();
+      this.tabPagePreviewMaps = new TabPage();
+      this.splitContainer1 = new SplitContainer();
+      this.tableLayoutPanelMapsPreview = new TableLayoutPanel();
+      this.propertyGrid1 = new PropertyGrid();
+      this.toolStrip1 = new ToolStrip();
+      this.toolStripButton1 = new ToolStripButton();
+      this.toolStripButton2 = new ToolStripButton();
+      this.tabPageInput = new TabPage();
+      this.pictureBoxInput = new PictureBox();
       this.tabPage4 = new TabPage();
       this.flowLayoutPanelZoom = new FlowLayoutPanel();
       this.button2 = new Button();
@@ -61,16 +71,10 @@
       this.button5 = new Button();
       this.button6 = new Button();
       this.label8 = new Label();
-      this.tabPageInput = new TabPage();
-      this.pictureBoxInput = new PictureBox();
       this.tabPageSmall = new TabPage();
       this.pictureBoxSmall = new PictureBox();
       this.tabPageBig = new TabPage();
       this.pictureBoxBig = new PictureBox();
-      this.tabPagePreviewMaps = new TabPage();
-      this.splitContainer1 = new SplitContainer();
-      this.tableLayoutPanelMapsPreview = new TableLayoutPanel();
-      this.propertyGrid1 = new PropertyGrid();
       this.tabPage2 = new TabPage();
       this.tableLayoutPanel2 = new TableLayoutPanel();
       this.label6 = new Label();
@@ -84,29 +88,39 @@
       this.label11 = new Label();
       this.textBoxEmpty = new TextBox();
       this.button9 = new Button();
+      this.label15 = new Label();
+      this.button14 = new Button();
+      this.button15 = new Button();
+      this.label14 = new Label();
+      this.button12 = new Button();
+      this.button13 = new Button();
       this.statusStrip1 = new StatusStrip();
       this.toolStripStatusLabel1 = new ToolStripStatusLabel();
       this.toolStripProgressBar1 = new ToolStripProgressBar();
       this.timer1 = new System.Windows.Forms.Timer(this.components);
+      this.saveFileDialogExportColors = new SaveFileDialog();
+      this.openFileDialogImportColors = new OpenFileDialog();
+      this.colorDialog1 = new ColorDialog();
       this.tableLayoutPanel1.SuspendLayout();
       this.flowLayoutPanel1.SuspendLayout();
       this.tabControl1.SuspendLayout();
       this.tabPage1.SuspendLayout();
       this.tabPagePreview.SuspendLayout();
       this.tabControlPreviews.SuspendLayout();
-      this.tabPage4.SuspendLayout();
-      this.flowLayoutPanelZoom.SuspendLayout();
-      this.tabPageInput.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)this.pictureBoxInput).BeginInit();
-      this.tabPageSmall.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)this.pictureBoxSmall).BeginInit();
-      this.tabPageBig.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)this.pictureBoxBig).BeginInit();
       this.tabPagePreviewMaps.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)this.splitContainer1).BeginInit();
       this.splitContainer1.Panel1.SuspendLayout();
       this.splitContainer1.Panel2.SuspendLayout();
       this.splitContainer1.SuspendLayout();
+      this.toolStrip1.SuspendLayout();
+      this.tabPageInput.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)this.pictureBoxInput).BeginInit();
+      this.tabPage4.SuspendLayout();
+      this.flowLayoutPanelZoom.SuspendLayout();
+      this.tabPageSmall.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)this.pictureBoxSmall).BeginInit();
+      this.tabPageBig.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)this.pictureBoxBig).BeginInit();
       this.tabPage2.SuspendLayout();
       this.tableLayoutPanel2.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxX).BeginInit();
@@ -368,11 +382,11 @@
       // tabControlPreviews
       // 
       this.tabControlPreviews.Appearance = TabAppearance.Buttons;
-      this.tabControlPreviews.Controls.Add(this.tabPage4);
+      this.tabControlPreviews.Controls.Add(this.tabPagePreviewMaps);
       this.tabControlPreviews.Controls.Add(this.tabPageInput);
+      this.tabControlPreviews.Controls.Add(this.tabPage4);
       this.tabControlPreviews.Controls.Add(this.tabPageSmall);
       this.tabControlPreviews.Controls.Add(this.tabPageBig);
-      this.tabControlPreviews.Controls.Add(this.tabPagePreviewMaps);
       this.tabControlPreviews.Dock = DockStyle.Fill;
       this.tabControlPreviews.Location = new Point(0, 0);
       this.tabControlPreviews.Name = "tabControlPreviews";
@@ -380,6 +394,107 @@
       this.tabControlPreviews.Size = new Size(1030, 818);
       this.tabControlPreviews.TabIndex = 0;
       this.tabControlPreviews.SelectedIndexChanged += this.tabControl1_SelectedIndexChanged;
+      // 
+      // tabPagePreviewMaps
+      // 
+      this.tabPagePreviewMaps.Controls.Add(this.splitContainer1);
+      this.tabPagePreviewMaps.Location = new Point(4, 42);
+      this.tabPagePreviewMaps.Name = "tabPagePreviewMaps";
+      this.tabPagePreviewMaps.Padding = new Padding(3);
+      this.tabPagePreviewMaps.Size = new Size(1022, 772);
+      this.tabPagePreviewMaps.TabIndex = 4;
+      this.tabPagePreviewMaps.Text = "Maps (no zoom)";
+      this.tabPagePreviewMaps.UseVisualStyleBackColor = true;
+      // 
+      // splitContainer1
+      // 
+      this.splitContainer1.Dock = DockStyle.Fill;
+      this.splitContainer1.Location = new Point(3, 3);
+      this.splitContainer1.Name = "splitContainer1";
+      // 
+      // splitContainer1.Panel1
+      // 
+      this.splitContainer1.Panel1.Controls.Add(this.tableLayoutPanelMapsPreview);
+      // 
+      // splitContainer1.Panel2
+      // 
+      this.splitContainer1.Panel2.Controls.Add(this.propertyGrid1);
+      this.splitContainer1.Panel2.Controls.Add(this.toolStrip1);
+      this.splitContainer1.Size = new Size(1016, 766);
+      this.splitContainer1.SplitterDistance = 617;
+      this.splitContainer1.TabIndex = 3;
+      // 
+      // tableLayoutPanelMapsPreview
+      // 
+      this.tableLayoutPanelMapsPreview.ColumnCount = 2;
+      this.tableLayoutPanelMapsPreview.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+      this.tableLayoutPanelMapsPreview.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
+      this.tableLayoutPanelMapsPreview.Dock = DockStyle.Fill;
+      this.tableLayoutPanelMapsPreview.Location = new Point(0, 0);
+      this.tableLayoutPanelMapsPreview.Name = "tableLayoutPanelMapsPreview";
+      this.tableLayoutPanelMapsPreview.RowCount = 2;
+      this.tableLayoutPanelMapsPreview.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+      this.tableLayoutPanelMapsPreview.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
+      this.tableLayoutPanelMapsPreview.Size = new Size(617, 766);
+      this.tableLayoutPanelMapsPreview.TabIndex = 2;
+      // 
+      // propertyGrid1
+      // 
+      this.propertyGrid1.Dock = DockStyle.Fill;
+      this.propertyGrid1.Location = new Point(0, 40);
+      this.propertyGrid1.Name = "propertyGrid1";
+      this.propertyGrid1.Size = new Size(395, 726);
+      this.propertyGrid1.TabIndex = 0;
+      // 
+      // toolStrip1
+      // 
+      this.toolStrip1.ImageScalingSize = new Size(28, 28);
+      this.toolStrip1.Items.AddRange(new ToolStripItem[] { this.toolStripButton1, this.toolStripButton2 });
+      this.toolStrip1.Location = new Point(0, 0);
+      this.toolStrip1.Name = "toolStrip1";
+      this.toolStrip1.Size = new Size(395, 40);
+      this.toolStrip1.TabIndex = 1;
+      this.toolStrip1.Text = "toolStrip1";
+      // 
+      // toolStripButton1
+      // 
+      this.toolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Text;
+      this.toolStripButton1.Image = (Image)resources.GetObject("toolStripButton1.Image");
+      this.toolStripButton1.ImageTransparentColor = Color.Magenta;
+      this.toolStripButton1.Name = "toolStripButton1";
+      this.toolStripButton1.Size = new Size(150, 34);
+      this.toolStripButton1.Text = "Previous Color";
+      this.toolStripButton1.Visible = false;
+      // 
+      // toolStripButton2
+      // 
+      this.toolStripButton2.DisplayStyle = ToolStripItemDisplayStyle.Text;
+      this.toolStripButton2.Image = (Image)resources.GetObject("toolStripButton2.Image");
+      this.toolStripButton2.ImageTransparentColor = Color.Magenta;
+      this.toolStripButton2.Name = "toolStripButton2";
+      this.toolStripButton2.Size = new Size(116, 34);
+      this.toolStripButton2.Text = "Next Color";
+      this.toolStripButton2.Click += this.toolStripButton2_Click;
+      // 
+      // tabPageInput
+      // 
+      this.tabPageInput.AutoScroll = true;
+      this.tabPageInput.Controls.Add(this.pictureBoxInput);
+      this.tabPageInput.Location = new Point(4, 42);
+      this.tabPageInput.Name = "tabPageInput";
+      this.tabPageInput.Size = new Size(1022, 772);
+      this.tabPageInput.TabIndex = 3;
+      this.tabPageInput.Text = "Input (no Zoom)";
+      this.tabPageInput.UseVisualStyleBackColor = true;
+      // 
+      // pictureBoxInput
+      // 
+      this.pictureBoxInput.Location = new Point(0, 0);
+      this.pictureBoxInput.Name = "pictureBoxInput";
+      this.pictureBoxInput.Size = new Size(175, 88);
+      this.pictureBoxInput.SizeMode = PictureBoxSizeMode.StretchImage;
+      this.pictureBoxInput.TabIndex = 1;
+      this.pictureBoxInput.TabStop = false;
       // 
       // tabPage4
       // 
@@ -390,7 +505,7 @@
       this.tabPage4.Padding = new Padding(3);
       this.tabPage4.Size = new Size(1022, 772);
       this.tabPage4.TabIndex = 0;
-      this.tabPage4.Text = "None";
+      this.tabPage4.Text = "Zoom";
       this.tabPage4.UseVisualStyleBackColor = true;
       // 
       // flowLayoutPanelZoom
@@ -455,26 +570,6 @@
       this.label8.TabIndex = 1;
       this.label8.Text = "Zoom";
       // 
-      // tabPageInput
-      // 
-      this.tabPageInput.AutoScroll = true;
-      this.tabPageInput.Controls.Add(this.pictureBoxInput);
-      this.tabPageInput.Location = new Point(4, 42);
-      this.tabPageInput.Name = "tabPageInput";
-      this.tabPageInput.Size = new Size(1022, 772);
-      this.tabPageInput.TabIndex = 3;
-      this.tabPageInput.Text = "Input (no Zoom)";
-      this.tabPageInput.UseVisualStyleBackColor = true;
-      // 
-      // pictureBoxInput
-      // 
-      this.pictureBoxInput.Location = new Point(0, 0);
-      this.pictureBoxInput.Name = "pictureBoxInput";
-      this.pictureBoxInput.Size = new Size(175, 88);
-      this.pictureBoxInput.SizeMode = PictureBoxSizeMode.StretchImage;
-      this.pictureBoxInput.TabIndex = 1;
-      this.pictureBoxInput.TabStop = false;
-      // 
       // tabPageSmall
       // 
       this.tabPageSmall.AutoScroll = true;
@@ -516,56 +611,6 @@
       this.pictureBoxBig.TabIndex = 1;
       this.pictureBoxBig.TabStop = false;
       // 
-      // tabPagePreviewMaps
-      // 
-      this.tabPagePreviewMaps.Controls.Add(this.splitContainer1);
-      this.tabPagePreviewMaps.Location = new Point(4, 42);
-      this.tabPagePreviewMaps.Name = "tabPagePreviewMaps";
-      this.tabPagePreviewMaps.Padding = new Padding(3);
-      this.tabPagePreviewMaps.Size = new Size(1022, 772);
-      this.tabPagePreviewMaps.TabIndex = 4;
-      this.tabPagePreviewMaps.Text = "Maps (no zoom)";
-      this.tabPagePreviewMaps.UseVisualStyleBackColor = true;
-      // 
-      // splitContainer1
-      // 
-      this.splitContainer1.Dock = DockStyle.Fill;
-      this.splitContainer1.Location = new Point(3, 3);
-      this.splitContainer1.Name = "splitContainer1";
-      // 
-      // splitContainer1.Panel1
-      // 
-      this.splitContainer1.Panel1.Controls.Add(this.tableLayoutPanelMapsPreview);
-      // 
-      // splitContainer1.Panel2
-      // 
-      this.splitContainer1.Panel2.Controls.Add(this.propertyGrid1);
-      this.splitContainer1.Size = new Size(1016, 766);
-      this.splitContainer1.SplitterDistance = 617;
-      this.splitContainer1.TabIndex = 3;
-      // 
-      // tableLayoutPanelMapsPreview
-      // 
-      this.tableLayoutPanelMapsPreview.ColumnCount = 2;
-      this.tableLayoutPanelMapsPreview.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-      this.tableLayoutPanelMapsPreview.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 50F));
-      this.tableLayoutPanelMapsPreview.Dock = DockStyle.Fill;
-      this.tableLayoutPanelMapsPreview.Location = new Point(0, 0);
-      this.tableLayoutPanelMapsPreview.Name = "tableLayoutPanelMapsPreview";
-      this.tableLayoutPanelMapsPreview.RowCount = 2;
-      this.tableLayoutPanelMapsPreview.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-      this.tableLayoutPanelMapsPreview.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-      this.tableLayoutPanelMapsPreview.Size = new Size(617, 766);
-      this.tableLayoutPanelMapsPreview.TabIndex = 2;
-      // 
-      // propertyGrid1
-      // 
-      this.propertyGrid1.Dock = DockStyle.Fill;
-      this.propertyGrid1.Location = new Point(0, 0);
-      this.propertyGrid1.Name = "propertyGrid1";
-      this.propertyGrid1.Size = new Size(395, 766);
-      this.propertyGrid1.TabIndex = 0;
-      // 
       // tabPage2
       // 
       this.tabPage2.Controls.Add(this.tableLayoutPanel2);
@@ -594,10 +639,20 @@
       this.tableLayoutPanel2.Controls.Add(this.label11, 0, 4);
       this.tableLayoutPanel2.Controls.Add(this.textBoxEmpty, 1, 4);
       this.tableLayoutPanel2.Controls.Add(this.button9, 2, 4);
+      this.tableLayoutPanel2.Controls.Add(this.label15, 0, 5);
+      this.tableLayoutPanel2.Controls.Add(this.button14, 2, 5);
+      this.tableLayoutPanel2.Controls.Add(this.button15, 1, 5);
+      this.tableLayoutPanel2.Controls.Add(this.label14, 0, 6);
+      this.tableLayoutPanel2.Controls.Add(this.button12, 1, 6);
+      this.tableLayoutPanel2.Controls.Add(this.button13, 2, 6);
       this.tableLayoutPanel2.Dock = DockStyle.Fill;
       this.tableLayoutPanel2.Location = new Point(3, 3);
       this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-      this.tableLayoutPanel2.RowCount = 5;
+      this.tableLayoutPanel2.RowCount = 9;
+      this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+      this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+      this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+      this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
       this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
       this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
       this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
@@ -693,11 +748,69 @@
       // 
       this.button9.Location = new Point(685, 163);
       this.button9.Name = "button9";
-      this.button9.Size = new Size(131, 40);
+      this.button9.Size = new Size(131, 34);
       this.button9.TabIndex = 11;
       this.button9.Text = "...";
       this.button9.UseVisualStyleBackColor = true;
       this.button9.Click += this.button9_Click;
+      // 
+      // label15
+      // 
+      this.label15.AutoSize = true;
+      this.label15.Location = new Point(3, 200);
+      this.label15.Name = "label15";
+      this.label15.Size = new Size(62, 30);
+      this.label15.TabIndex = 15;
+      this.label15.Text = "Color";
+      // 
+      // button14
+      // 
+      this.button14.Location = new Point(685, 203);
+      this.button14.Name = "button14";
+      this.button14.Size = new Size(131, 34);
+      this.button14.TabIndex = 16;
+      this.button14.Text = "Edit Colors";
+      this.button14.UseVisualStyleBackColor = true;
+      this.button14.Click += this.button14_Click;
+      // 
+      // button15
+      // 
+      this.button15.Location = new Point(344, 203);
+      this.button15.Name = "button15";
+      this.button15.Size = new Size(131, 34);
+      this.button15.TabIndex = 19;
+      this.button15.Text = "Log Colors";
+      this.button15.UseVisualStyleBackColor = true;
+      this.button15.Click += this.button15_Click;
+      // 
+      // label14
+      // 
+      this.label14.AutoSize = true;
+      this.label14.Location = new Point(3, 240);
+      this.label14.Name = "label14";
+      this.label14.Size = new Size(71, 30);
+      this.label14.TabIndex = 12;
+      this.label14.Text = "Colors";
+      // 
+      // button12
+      // 
+      this.button12.Location = new Point(344, 243);
+      this.button12.Name = "button12";
+      this.button12.Size = new Size(131, 34);
+      this.button12.TabIndex = 13;
+      this.button12.Text = "Export Colors";
+      this.button12.UseVisualStyleBackColor = true;
+      this.button12.Click += this.button12_Click;
+      // 
+      // button13
+      // 
+      this.button13.Location = new Point(685, 243);
+      this.button13.Name = "button13";
+      this.button13.Size = new Size(131, 34);
+      this.button13.TabIndex = 14;
+      this.button13.Text = "Import Colors";
+      this.button13.UseVisualStyleBackColor = true;
+      this.button13.Click += this.button13_Click;
       // 
       // statusStrip1
       // 
@@ -728,6 +841,10 @@
       // 
       this.timer1.Tick += this.timer1_Tick;
       // 
+      // openFileDialogImportColors
+      // 
+      this.openFileDialogImportColors.FileName = "openFileDialog2";
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new SizeF(12F, 30F);
@@ -745,20 +862,23 @@
       this.tabPage1.ResumeLayout(false);
       this.tabPagePreview.ResumeLayout(false);
       this.tabControlPreviews.ResumeLayout(false);
+      this.tabPagePreviewMaps.ResumeLayout(false);
+      this.splitContainer1.Panel1.ResumeLayout(false);
+      this.splitContainer1.Panel2.ResumeLayout(false);
+      this.splitContainer1.Panel2.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)this.splitContainer1).EndInit();
+      this.splitContainer1.ResumeLayout(false);
+      this.toolStrip1.ResumeLayout(false);
+      this.toolStrip1.PerformLayout();
+      this.tabPageInput.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)this.pictureBoxInput).EndInit();
       this.tabPage4.ResumeLayout(false);
       this.tabPage4.PerformLayout();
       this.flowLayoutPanelZoom.ResumeLayout(false);
-      this.tabPageInput.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)this.pictureBoxInput).EndInit();
       this.tabPageSmall.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)this.pictureBoxSmall).EndInit();
       this.tabPageBig.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)this.pictureBoxBig).EndInit();
-      this.tabPagePreviewMaps.ResumeLayout(false);
-      this.splitContainer1.Panel1.ResumeLayout(false);
-      this.splitContainer1.Panel2.ResumeLayout(false);
-      ((System.ComponentModel.ISupportInitialize)this.splitContainer1).EndInit();
-      this.splitContainer1.ResumeLayout(false);
       this.tabPage2.ResumeLayout(false);
       this.tableLayoutPanel2.ResumeLayout(false);
       this.tableLayoutPanel2.PerformLayout();
@@ -833,5 +953,17 @@
     private FlowLayoutPanel flowLayoutPanel1;
     private Button button10;
     private Button button11;
+    private Label label14;
+    private Button button12;
+    private Button button13;
+    private SaveFileDialog saveFileDialogExportColors;
+    private OpenFileDialog openFileDialogImportColors;
+    private Label label15;
+    private Button button14;
+    private ColorDialog colorDialog1;
+    private ToolStrip toolStrip1;
+    private ToolStripButton toolStripButton1;
+    private ToolStripButton toolStripButton2;
+    private Button button15;
   }
 }

@@ -13,33 +13,6 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     [STAThread]
     static void Main()
     {
-      /*
-      int maxdmcnl = Map._0;
-      foreach (var x in DefinitivMapColor.DefinitivMapColors) if (x.Name.Length > maxdmcnl) maxdmcnl = x.Name.Length;
-      foreach (var x in DefinitivMapColor.DefinitivMapColors) Console.WriteLine("{0}{1}\t{2:000}x{3:000}x{4:000}\t{5}"
-      , x.Name
-      , new string(' ', (maxdmcnl - x.Name.Length) + 1)
-      , x.Color.R
-      , x.Color.G
-      , x.Color.B
-      , x.Color.GetHue()
-      );
-      Console.In.ReadLine();
-      // return;
-// Grassland    =000x128x000
-// Forest       =000x100x000
-// Sea          =000x000x255
-// Mountain     =169x169x169
-// RoughTerrain =255x255x000
-// Urban        =211x211x211
-      */
-
-      /*
-      string world_ = @"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart\world.bmp";
-      WorldMap worldMap = new WorldMap();
-      worldMap.SkaleImage(world_, new Point(16, 16), new Size(40, 30));
-      return;
-      */
       // To customize application configuration such as set high DPI settings or default font,
       // see https://aka.ms/applicationconfiguration.
       ApplicationConfiguration.Initialize();
@@ -164,6 +137,77 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public static readonly object SystemTagSea = 4257 + 21;
     public static readonly object SystemTagGrass = 4257 + 5;
     public static readonly object SystemTagSand = 4257 + 14;
+
+    public static readonly object PanelGrass = 1;
+    public static readonly object PanelForest = 6;
+    public static readonly object PanelSea = 8;
+    public static readonly object PanelMointain = 4;
+    public static readonly object PanelRoughTerrain = 5;
+    public static readonly object PanelUrban = 3;
+
+    public static readonly Knowen.Border BorderSea = new Knowen.Border(
+      4257 + 148, 4257 + 142, 4257 + 143,
+      4257 + 132, 4257 + 134, 4257 + 135,
+      4257 + 139,
+      4257 + 141);
+
+    public class Border
+    {
+      public Border(params object[] objects)
+      {
+        int i = Map._0;
+        if (objects != null && objects.Length > i) this.North = objects[i++];
+        if (objects != null && objects.Length > i) this.NorthEast = objects[i++];
+        if (objects != null && objects.Length > i) this.NorthWest = objects[i++];
+        if (objects != null && objects.Length > i) this.South = objects[i++];
+        if (objects != null && objects.Length > i) this.SouthEast = objects[i++];
+        if (objects != null && objects.Length > i) this.SouthWest = objects[i++];
+        if (objects != null && objects.Length > i) this.East = objects[i++];
+        if (objects != null && objects.Length > i) this.West = objects[i++];
+      }
+
+      public readonly object? North = Knowen.Nothing;
+      public readonly object? NorthEast = Knowen.Nothing;
+      public readonly object? NorthWest = Knowen.Nothing;
+      public readonly object? South = Knowen.Nothing;
+      public readonly object? SouthEast = Knowen.Nothing;
+      public readonly object? SouthWest = Knowen.Nothing;
+      public readonly object? East = Knowen.Nothing;
+      public readonly object? West = Knowen.Nothing;
+    }
+  }
+
+  public sealed class DefinitivMapColorFluent
+  {
+    public static DefinitivMapColorFluent New(string name, Color color, object background)
+    {
+      return new DefinitivMapColorFluent(name, color, background);
+    }
+    private DefinitivMapColorFluent(string name, Color color, object background) { this.DefinitivMapColor = new DefinitivMapColor(name, color, background); }
+
+    public DefinitivMapColor DefinitivMapColor { get; private set; }
+
+    private DefinitivMapColorFluent DefaultSystemTag(string tag)
+    {
+      if (!this.DefinitivMapColor._Defaults.ContainsKey(TmxMapExportFormat.LayerS)) this.DefinitivMapColor._Defaults.Add(TmxMapExportFormat.LayerS, tag);
+      this.DefinitivMapColor._Defaults[TmxMapExportFormat.LayerS] = tag;
+      return this;
+    }
+    public DefinitivMapColorFluent DefaultSystemTagSea() { return this.DefaultSystemTag(string.Empty + Knowen.SystemTagSea); }
+    public DefinitivMapColorFluent DefaultSystemTagSand() { return this.DefaultSystemTag(string.Empty + Knowen.SystemTagSand); }
+
+    public DefinitivMapColorFluent Border(Knowen.Border border)
+    {
+      return this;
+    }
+
+    public DefinitivMapColorFluent Panel(object panel)
+    {
+      string? tag = string.Empty + panel;
+      if (string.IsNullOrWhiteSpace(tag)) tag = null;
+      this.DefinitivMapColor.Panel = tag ?? (string.Empty + Knowen.Nothing);
+      return this;
+    }
   }
 
   public class DefinitivMapColor : ICloneable
@@ -180,16 +224,38 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 1.8	Urban Pokémon
 1.9	Rare Pokémon
      */
-    public static DefinitivMapColor DefinitivMapColors_Grassland = new DefinitivMapColor("Grassland", Color.Green, Knowen.Grass);
-    public static DefinitivMapColor DefinitivMapColors_Forest = new DefinitivMapColor("Forest", Color.FromArgb(0, 99, 20), Knowen.Grass);
+    public static DefinitivMapColor DefinitivMapColors_Grassland =
+      DefinitivMapColorFluent.New("Grassland", Color.Green, Knowen.Grass)
+      .Panel(Knowen.PanelGrass)
+      .DefinitivMapColor;
+    public static DefinitivMapColor DefinitivMapColors_Forest =
+      DefinitivMapColorFluent.New("Forest", Color.FromArgb(0, 99, 20), Knowen.Grass)
+      .Panel(Knowen.PanelForest)
+      .DefinitivMapColor;
     // public static DefinitivMapColor DefinitivMapColors_WatersEdge = new DefinitivMapColor("WatersEdge",Color.Blue);
-    public static DefinitivMapColor DefinitivMapColors_Sea = new DefinitivMapColor("Sea", Color.Blue, Knowen.Water, Knowen.SystemTagSea);
+    public static DefinitivMapColor DefinitivMapColors_Sea =
+      DefinitivMapColorFluent.New("Sea", Color.FromArgb(77,105,245), Knowen.Water)
+      .DefaultSystemTagSea()
+      .Panel(Knowen.PanelSea)
+      .Border(Knowen.BorderSea)
+      .DefinitivMapColor;
     // public static DefinitivMapColor DefinitivMapColors_Cave = new DefinitivMapColor("Cave",Color.Black);
-    public static DefinitivMapColor DefinitivMapColors_Mountain = new DefinitivMapColor("Mountain", Color.DarkGray, Knowen.Mointain);
-    public static DefinitivMapColor DefinitivMapColors_RoughTerrain = new DefinitivMapColor("RoughTerrain", Color.Yellow, Knowen.RoughTerrain, Knowen.SystemTagSand);
-    public static DefinitivMapColor DefinitivMapColors_Urban = new DefinitivMapColor("Urban", Color.LightGray, Knowen.Uraban);
+    public static DefinitivMapColor DefinitivMapColors_Mountain =
+      DefinitivMapColorFluent.New("Mountain", Color.FromArgb(125, 125, 140), Knowen.Mointain)
+      .Panel(Knowen.PanelMointain)
+      .DefinitivMapColor;
+    public static DefinitivMapColor DefinitivMapColors_RoughTerrain =
+      DefinitivMapColorFluent.New("RoughTerrain", Color.Yellow, Knowen.RoughTerrain)
+      .DefaultSystemTagSand()
+      .Panel(Knowen.PanelRoughTerrain)
+      .DefinitivMapColor;
+    public static DefinitivMapColor DefinitivMapColors_Urban =
+      DefinitivMapColorFluent.New("Urban", Color.LightGray, Knowen.Uraban)
+      .Panel(Knowen.PanelUrban)
+      .DefinitivMapColor;
     // public static DefinitivMapColor DefinitivMapColors_Rare = new DefinitivMapColor(Color.Red);
 
+    public virtual string Panel { get; set; } = string.Empty + Knowen.Nothing;
     public virtual string Name { get; set; } = "";
     public virtual Color Color { get; set; } = Color.Transparent;
     public virtual string ColorRGB
@@ -247,11 +313,18 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       this.Color = color;
     }
 
-    protected Dictionary<string, string> _Defaults = new Dictionary<string, string>();
+    internal protected readonly Dictionary<string, string> _Defaults = new Dictionary<string, string>();
+    internal protected readonly List<Func<Point, int, string, Point, string>> _Functions = new List<Func<Point, int, string, Point, string>>();
     public virtual string ToLayer(Point p, int layerIndex, string layerName, Point point)
     {
       string re = string.Empty;
       if (this._Defaults.ContainsKey(layerName)) re = this._Defaults[layerName];
+      this._Functions.ForEach(x =>
+      {
+        if (x == null) return;
+        string re2 = x(p, layerIndex, layerName, point);
+        if (!string.IsNullOrEmpty(re2)) re = re2;
+      });
       return string.IsNullOrEmpty(re) ? (string.Empty + Knowen.Nothing) : re;
     }
 
@@ -655,6 +728,7 @@ export const ZONE_NAME_TEXT_ID = 100010;
       asset = asset.Replace("{{eid}}", string.Empty + map.IdEast);
       asset = asset.Replace("{{sid}}", string.Empty + map.IdSouth);
       asset = asset.Replace("{{wid}}", string.Empty + map.IdWest);
+      asset = asset.Replace("{{panel}}", map.DefinitivColor.Panel ?? "0");
       return asset;
     }
   }

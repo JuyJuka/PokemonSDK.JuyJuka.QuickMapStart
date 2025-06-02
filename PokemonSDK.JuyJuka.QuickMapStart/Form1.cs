@@ -1,6 +1,8 @@
 namespace PokemonSDK.JuyJuka.QuickMapStart
 {
+  using System.Collections.Generic;
   using System.Drawing;
+  using System.Windows.Forms;
 
   public partial class Form1 : Form, ILogger
   {
@@ -91,13 +93,13 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       if (tabControl.SelectedTab == this.tabPageSmall) this.tabControl1_SelectedIndexChanged_Bind(this.pictureBoxSmall, this.WorldMap?.BitMapExportFormat?.TinnyImage, false);
       if (tabControl.SelectedTab == this.tabPageInput) this.tabControl1_SelectedIndexChanged_Bind(this.pictureBoxInput, this.WorldMap?.BitMapExportFormat?.OriginalImage, true);
 
-      if (tabControl.SelectedTab == this.tabPagePreviewMaps)
+      if (this.tabPagePreviewMaps.Tag != this.WorldMap.BitMapExportFormat.OriginalImage)
       {
         List<Control> controls = new List<Control>();
         foreach (Control control in this.tableLayoutPanelMapsPreview.Controls) controls.Add(control);
         foreach (Control control in controls) this.tableLayoutPanelMapsPreview.Controls.Remove(control);
         foreach (Control control in controls) control.Dispose();
-        Size bSize = new Size(32, 32);
+        Size bSize = new Size(60, 60);
         this.tableLayoutPanelMapsPreview.SuspendLayout();
         this.tableLayoutPanelMapsPreview.ColumnStyles.Clear();
         this.tableLayoutPanelMapsPreview.RowStyles.Clear();
@@ -107,13 +109,14 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
         {
           Button button = new Button();
           button.Size = bSize;
-          button.Text = m.Name;
+          button.Text = m.DefinitivColor.ToString();
           button.BackColor = m.DefinitivColor.Color;
           button.AutoSize = false;
           button.Tag = m;
           button.Click += this.tableLayoutPanelMapsPreview_button_click;
           this.tableLayoutPanelMapsPreview.Controls.Add(button, m.WorldMapCoordinates.X, m.WorldMapCoordinates.Y);
         }
+        this.tabPagePreviewMaps.Tag = this.WorldMap.BitMapExportFormat.OriginalImage;
         this.tableLayoutPanelMapsPreview.ResumeLayout();
       }
     }
@@ -246,6 +249,119 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
         WorkingDirectory = this.textBoxFolder.Text,
         Arguments = "\"" + Path.Combine(this.textBoxFolder.Text, ((Control)sender).Text) + "\"",
       });
+    }
+
+    private static string _12_13 = ","; // = Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
+    private void button12_Click(object sender, EventArgs e)
+    {
+      if (this.saveFileDialogExportColors.ShowDialog() == DialogResult.OK)
+      {
+        System.IO.File.WriteAllLines(this.saveFileDialogExportColors.FileName, this.WorldMap.DefinitivMapColors.ConvertAll(color => string.Format(
+          "{0},{1:000},{2:000},{3:000}"
+          , color?.Name
+          , color?.Color.R
+          , color?.Color.G
+          , color?.Color.B
+          , _12_13
+          )));
+      }
+    }
+
+    private void button13_Click(object sender, EventArgs e)
+    {
+      if (this.openFileDialogImportColors.ShowDialog() == DialogResult.OK)
+      {
+        foreach (string line in System.IO.File.ReadAllLines(this.openFileDialogImportColors.FileName))
+        {
+          this.WorldMap.DefinitivMapColors.ForEach(color =>
+          {
+            if (string.IsNullOrEmpty(color?.Name)) return;
+            if (!line.StartsWith(color.Name)) return;
+            try
+            {
+              string[] s = line.Split(_12_13);
+              int i = Map._1;
+              color.Color = Color.FromArgb(int.Parse(s[i++]), int.Parse(s[i++]), int.Parse(s[i++]));
+            }
+            catch (Exception ex)
+            {
+              this.WorldMap.Logger.Write(ex.ToString());
+            }
+          });
+        }
+      }
+    }
+
+    private DefinitivMapColor Next(object current)
+    {
+      int i = Map._0;
+      if (current != null) i = this.WorldMap.DefinitivMapColors.IndexOf(current as DefinitivMapColor);
+      i++;
+      if (i >= this.WorldMap.DefinitivMapColors.Count) i = Map._0;
+      return this.WorldMap.DefinitivMapColors[i];
+    }
+
+    private void button14_Click(object sender, EventArgs e)
+    {
+      Form form = new Form();
+      Dictionary<Form1ColorControl, DefinitivMapColor> cs = new Dictionary<Form1ColorControl, DefinitivMapColor>();
+      for (int i = this.WorldMap.DefinitivMapColors.Count - Map._1; i >= 0; i--)
+      {
+        DefinitivMapColor color = this.WorldMap.DefinitivMapColors[i];
+        if (color == null) continue;
+        Form1ColorControl c = new Form1ColorControl(color.Name, color.Color);
+        c.Dock = DockStyle.Top;
+        c.ColorDialog = this.colorDialog1;
+        form.Controls.Add(c);
+        cs.Add(c, color);
+      }
+      form.AcceptButton = new Button()
+      {
+        Text = "OK",
+        Dock = DockStyle.Bottom,
+        Height = 40,
+        DialogResult = DialogResult.OK,
+      };
+      // ((Button)form.AcceptButton).Click += (s, e) => form.Close();
+      form.WindowState = FormWindowState.Maximized;
+      form.Controls.Add((Button)form.AcceptButton);
+      if (form.ShowDialog() == DialogResult.OK)
+      {
+        foreach (var kvp in cs)
+        {
+          kvp.Value.Color = kvp.Key.ReturnColor;
+        }
+      }
+    }
+
+    private void toolStripButton2_Click(object sender, EventArgs e)
+    {
+      Map map = this.propertyGrid1.SelectedObject as Map;
+      if (map == null) return;
+      Control button = null;
+      foreach (Control control in this.tableLayoutPanelMapsPreview.Controls) if (control?.Tag == map) button = control;
+      map.Color = this.Next(map.DefinitivColor).Color;
+      if (button != null)
+      {
+        button.BackColor = map.DefinitivColor.Color;
+        button.Text = map.DefinitivColor.Name;
+      }
+    }
+
+    private void button15_Click(object sender, EventArgs e)
+    {
+      int maxdmcnl = Map._0;
+      foreach (var x in this.WorldMap.DefinitivMapColors) if (x.Name.Length > maxdmcnl) maxdmcnl = x.Name.Length;
+      this.log.Clear();
+      this.WorldMap.DefinitivMapColors.ForEach(x => this.Write(string.Format("{0}{1}\t{2:000}x{3:000}x{4:000}\t{5}"
+      , x.Name
+      , new string(' ', (maxdmcnl - x.Name.Length) + 1)
+      , x.Color.R
+      , x.Color.G
+      , x.Color.B
+      , x.Color.GetHue()
+      )));
+      this.toolStripStatusLabel1_Click(sender, e);
     }
   }
 }
