@@ -972,7 +972,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 export const ZONE_DESCRIPTION_TEXT_ID = 100064;
 export const ZONE_NAME_TEXT_ID = 100010;
      */
-    protected TxtMapExportFormat Description { get; set; } = new TxtMapExportFormat("100064", null);
+    protected TxtMapExportFormat Description { get; set; } = new TxtMapExportFormat("100064", m => m.Name);
     protected TxtMapExportFormat Name { get; set; } = new TxtMapExportFormat("100010", m => m.ContigousName);
 
     protected class TxtMapExportFormat : SingleAssetMapExportFormat
@@ -1004,7 +1004,7 @@ export const ZONE_NAME_TEXT_ID = 100010;
         string plus_ = string.Empty + c;
         foreach (char cc in txtContent[0]) if (cc == c)
           {
-            plus += (map.Name + c);
+            plus += (this.toString(map) + c);
             plus_ += (c);
           }
         plus = plus.Substring(Map._1);
@@ -1028,11 +1028,16 @@ export const ZONE_NAME_TEXT_ID = 100010;
 
     public override string Export(Map map, string folder, string file, string asset, string config)
     {
-      string zwi;
       string folder2 = file;
       for (int i = Map._0; i < ZoneExportFormat._pathAndExtension.Length; i++) folder2 = Path.GetDirectoryName(folder2);
-      this.Name.Export(map, (zwi = this.Name.ModifyTargetFolder(map, folder2)), this.Name.ModifyTargetFile(map, zwi, file), asset, config);
-      this.Description.Export(map, (zwi = this.Description.ModifyTargetFolder(map, folder2)), this.Description.ModifyTargetFile(map, zwi, file), asset, config);
+      string n_d = this.Name.ModifyTargetFolder(map, folder2);
+      string n_f = this.Name.ModifyTargetFile(map, n_d, file);
+      string d_d = this.Description.ModifyTargetFolder(map, folder2);
+      string d_f = this.Description.ModifyTargetFile(map, d_d, file);
+      this.Description._lid = this.Name._lid = Math.Max(this.Name._lid, this.Description._lid);
+      this.Name.Export(map, n_d, n_f, asset, config);
+      this.Description.Export(map, d_d, d_f, asset, config);
+
       asset = asset.Replace("{{lid}}", string.Empty + this.Name._lid);
       asset = asset.Replace("{{mid}}", string.Empty + map.Id);
       asset = asset.Replace("{{nid}}", string.Empty + map.IdNorth);
