@@ -345,6 +345,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       {
         button.BackColor = map.DefinitivColor.Color;
         button.Text = map.DefinitivColor.Name;
+        this.propertyGrid1.SelectedObject = null;
+        this.propertyGrid1.SelectedObject = map;
       }
     }
 
@@ -362,6 +364,59 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       , x.Color.GetHue()
       )));
       this.toolStripStatusLabel1_Click(sender, e);
+    }
+
+    private static string _NamesImEx = ",";
+    private void toolStripButtonNamesImport_Click(object sender, EventArgs e)
+    {
+      if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
+      {
+        this.WorldMap.ContigousNames.Clear();
+        foreach (string line in File.ReadAllLines(this.openFileDialog1.FileName))
+        {
+          if (string.IsNullOrEmpty(line)) continue;
+          string[] line2 = line.Split(_NamesImEx, Map._1 + Map._1);
+          if (line2.Length <= Map._1) continue;
+          this.WorldMap.ContigousNames.Add(new Tuple<string, string>(line2[Map._0], line2[Map._1]));
+        }
+        this.textBoxNames.Tag = null;
+        this.toolStripButtonNextNames_Click(sender, e);
+      }
+    }
+
+    private void toolStripButtonNamesExport_Click(object sender, EventArgs e)
+    {
+      if (this.saveFileDialogExportColors.ShowDialog() == DialogResult.OK)
+      {
+        File.WriteAllLines(this.saveFileDialogExportColors.FileName, this.WorldMap.ContigousNames.ConvertAll(name => name.Item1 + _NamesImEx + name.Item2));
+      }
+    }
+
+    private void toolStripButtonNextNames_Click(object sender, EventArgs e)
+    {
+      DefinitivMapColor next = this.Next(this.textBoxNames.Tag);
+      this.textBoxNames.Enabled = false;
+      this.textBoxNames.Text = null;
+      this.textBoxNames.Tag = next;
+      if (next == null) return;
+      string re = string.Empty;
+      this.WorldMap.ContigousNames.FindAll(x => x?.Item1 == next.Name).ForEach(x => re += x.Item2 + Environment.NewLine);
+      this.toolStripLabelNextNames.Text = next.Name;
+      this.textBoxNames.Text = re;
+      this.textBoxNames.Enabled = true;
+    }
+
+    private void textBoxNames_TextChanged(object sender, EventArgs e)
+    {
+      if (!this.textBoxNames.Enabled) return;
+      DefinitivMapColor next = this.textBoxNames.Tag as DefinitivMapColor;
+      if (next == null) return;
+      List<Tuple<string, string>> neu = this.WorldMap.ContigousNames.FindAll(x => x.Item1 != next.Name);
+      foreach (string name in this.textBoxNames.Text.Split(Environment.NewLine))
+        if (!string.IsNullOrEmpty(name))
+          neu.Add(new Tuple<string, string>(next.Name, name));
+      this.WorldMap.ContigousNames.Clear();
+      this.WorldMap.ContigousNames.AddRange(neu);
     }
   }
 }

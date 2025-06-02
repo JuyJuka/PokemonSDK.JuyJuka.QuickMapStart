@@ -53,6 +53,16 @@
       this.openFileDialog1 = new OpenFileDialog();
       this.tabControl1 = new TabControl();
       this.tabPage1 = new TabPage();
+      this.tabPageContiguesNames = new TabPage();
+      this.textBoxNames = new TextBox();
+      this.toolStrip2 = new ToolStrip();
+      this.toolStripButton3 = new ToolStripButton();
+      this.toolStripButtonNextNames = new ToolStripButton();
+      this.toolStripSeparator1 = new ToolStripSeparator();
+      this.toolStripButtonNamesImport = new ToolStripButton();
+      this.toolStripButtonNamesExport = new ToolStripButton();
+      this.toolStripSeparator2 = new ToolStripSeparator();
+      this.toolStripLabelNextNames = new ToolStripLabel();
       this.tabPagePreview = new TabPage();
       this.tabControlPreviews = new TabControl();
       this.tabPagePreviewMaps = new TabPage();
@@ -105,6 +115,8 @@
       this.flowLayoutPanel1.SuspendLayout();
       this.tabControl1.SuspendLayout();
       this.tabPage1.SuspendLayout();
+      this.tabPageContiguesNames.SuspendLayout();
+      this.toolStrip2.SuspendLayout();
       this.tabPagePreview.SuspendLayout();
       this.tabControlPreviews.SuspendLayout();
       this.tabPagePreviewMaps.SuspendLayout();
@@ -348,6 +360,7 @@
       // tabControl1
       // 
       this.tabControl1.Controls.Add(this.tabPage1);
+      this.tabControl1.Controls.Add(this.tabPageContiguesNames);
       this.tabControl1.Controls.Add(this.tabPagePreview);
       this.tabControl1.Controls.Add(this.tabPage2);
       this.tabControl1.Dock = DockStyle.Fill;
@@ -368,6 +381,95 @@
       this.tabPage1.TabIndex = 0;
       this.tabPage1.Text = "Main";
       this.tabPage1.UseVisualStyleBackColor = true;
+      // 
+      // tabPageContiguesNames
+      // 
+      this.tabPageContiguesNames.Controls.Add(this.textBoxNames);
+      this.tabPageContiguesNames.Controls.Add(this.toolStrip2);
+      this.tabPageContiguesNames.Location = new Point(4, 39);
+      this.tabPageContiguesNames.Name = "tabPageContiguesNames";
+      this.tabPageContiguesNames.Size = new Size(1030, 818);
+      this.tabPageContiguesNames.TabIndex = 3;
+      this.tabPageContiguesNames.Text = "Names";
+      this.tabPageContiguesNames.UseVisualStyleBackColor = true;
+      // 
+      // textBoxNames
+      // 
+      this.textBoxNames.Dock = DockStyle.Fill;
+      this.textBoxNames.Enabled = false;
+      this.textBoxNames.Location = new Point(0, 40);
+      this.textBoxNames.Multiline = true;
+      this.textBoxNames.Name = "textBoxNames";
+      this.textBoxNames.ScrollBars = ScrollBars.Both;
+      this.textBoxNames.Size = new Size(1030, 778);
+      this.textBoxNames.TabIndex = 1;
+      this.textBoxNames.TextChanged += this.textBoxNames_TextChanged;
+      // 
+      // toolStrip2
+      // 
+      this.toolStrip2.ImageScalingSize = new Size(28, 28);
+      this.toolStrip2.Items.AddRange(new ToolStripItem[] { this.toolStripButton3, this.toolStripButtonNextNames, this.toolStripSeparator1, this.toolStripButtonNamesImport, this.toolStripButtonNamesExport, this.toolStripSeparator2, this.toolStripLabelNextNames });
+      this.toolStrip2.Location = new Point(0, 0);
+      this.toolStrip2.Name = "toolStrip2";
+      this.toolStrip2.Size = new Size(1030, 40);
+      this.toolStrip2.TabIndex = 0;
+      this.toolStrip2.Text = "toolStrip2";
+      // 
+      // toolStripButton3
+      // 
+      this.toolStripButton3.DisplayStyle = ToolStripItemDisplayStyle.Text;
+      this.toolStripButton3.Image = (Image)resources.GetObject("toolStripButton3.Image");
+      this.toolStripButton3.ImageTransparentColor = Color.Magenta;
+      this.toolStripButton3.Name = "toolStripButton3";
+      this.toolStripButton3.Size = new Size(95, 34);
+      this.toolStripButton3.Text = "Previous";
+      this.toolStripButton3.Visible = false;
+      // 
+      // toolStripButtonNextNames
+      // 
+      this.toolStripButtonNextNames.DisplayStyle = ToolStripItemDisplayStyle.Text;
+      this.toolStripButtonNextNames.Image = (Image)resources.GetObject("toolStripButtonNextNames.Image");
+      this.toolStripButtonNextNames.ImageTransparentColor = Color.Magenta;
+      this.toolStripButtonNextNames.Name = "toolStripButtonNextNames";
+      this.toolStripButtonNextNames.Size = new Size(61, 34);
+      this.toolStripButtonNextNames.Text = "Next";
+      this.toolStripButtonNextNames.Click += this.toolStripButtonNextNames_Click;
+      // 
+      // toolStripSeparator1
+      // 
+      this.toolStripSeparator1.Name = "toolStripSeparator1";
+      this.toolStripSeparator1.Size = new Size(6, 40);
+      // 
+      // toolStripButtonNamesImport
+      // 
+      this.toolStripButtonNamesImport.DisplayStyle = ToolStripItemDisplayStyle.Text;
+      this.toolStripButtonNamesImport.Image = (Image)resources.GetObject("toolStripButtonNamesImport.Image");
+      this.toolStripButtonNamesImport.ImageTransparentColor = Color.Magenta;
+      this.toolStripButtonNamesImport.Name = "toolStripButtonNamesImport";
+      this.toolStripButtonNamesImport.Size = new Size(79, 34);
+      this.toolStripButtonNamesImport.Text = "Import";
+      this.toolStripButtonNamesImport.Click += this.toolStripButtonNamesImport_Click;
+      // 
+      // toolStripButtonNamesExport
+      // 
+      this.toolStripButtonNamesExport.DisplayStyle = ToolStripItemDisplayStyle.Text;
+      this.toolStripButtonNamesExport.Image = (Image)resources.GetObject("toolStripButtonNamesExport.Image");
+      this.toolStripButtonNamesExport.ImageTransparentColor = Color.Magenta;
+      this.toolStripButtonNamesExport.Name = "toolStripButtonNamesExport";
+      this.toolStripButtonNamesExport.Size = new Size(76, 34);
+      this.toolStripButtonNamesExport.Text = "Export";
+      this.toolStripButtonNamesExport.Click += this.toolStripButtonNamesExport_Click;
+      // 
+      // toolStripSeparator2
+      // 
+      this.toolStripSeparator2.Name = "toolStripSeparator2";
+      this.toolStripSeparator2.Size = new Size(6, 40);
+      // 
+      // toolStripLabelNextNames
+      // 
+      this.toolStripLabelNextNames.Name = "toolStripLabelNextNames";
+      this.toolStripLabelNextNames.Size = new Size(41, 34);
+      this.toolStripLabelNextNames.Text = "<>";
       // 
       // tabPagePreview
       // 
@@ -860,6 +962,10 @@
       this.flowLayoutPanel1.ResumeLayout(false);
       this.tabControl1.ResumeLayout(false);
       this.tabPage1.ResumeLayout(false);
+      this.tabPageContiguesNames.ResumeLayout(false);
+      this.tabPageContiguesNames.PerformLayout();
+      this.toolStrip2.ResumeLayout(false);
+      this.toolStrip2.PerformLayout();
       this.tabPagePreview.ResumeLayout(false);
       this.tabControlPreviews.ResumeLayout(false);
       this.tabPagePreviewMaps.ResumeLayout(false);
@@ -965,5 +1071,15 @@
     private ToolStripButton toolStripButton1;
     private ToolStripButton toolStripButton2;
     private Button button15;
+    private TabPage tabPageContiguesNames;
+    private TextBox textBoxNames;
+    private ToolStrip toolStrip2;
+    private ToolStripLabel toolStripLabelNextNames;
+    private ToolStripButton toolStripButton3;
+    private ToolStripButton toolStripButtonNextNames;
+    private ToolStripSeparator toolStripSeparator1;
+    private ToolStripButton toolStripButtonNamesImport;
+    private ToolStripButton toolStripButtonNamesExport;
+    private ToolStripSeparator toolStripSeparator2;
   }
 }

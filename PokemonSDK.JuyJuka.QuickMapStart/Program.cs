@@ -51,6 +51,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
   public class WorldMap
   {
+    public List<Tuple<string, string>> ContigousNames { get; protected set; } = new List<Tuple<string, string>>();
     public ILogger Logger { get; set; } = new Logger();
     public BitMapExportFormat BitMapExportFormat { get; set; } = new BitMapExportFormat();
     public Point Max { get; protected set; } = new Point(16, 16);
@@ -234,7 +235,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       .DefinitivMapColor;
     // public static DefinitivMapColor DefinitivMapColors_WatersEdge = new DefinitivMapColor("WatersEdge",Color.Blue);
     public static DefinitivMapColor DefinitivMapColors_Sea =
-      DefinitivMapColorFluent.New("Sea", Color.FromArgb(77,105,245), Knowen.Water)
+      DefinitivMapColorFluent.New("Sea", Color.FromArgb(77, 105, 245), Knowen.Water)
       .DefaultSystemTagSea()
       .Panel(Knowen.PanelSea)
       .Border(Knowen.BorderSea)
@@ -426,6 +427,47 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public virtual string NameSouthWest { get { return Map.MakeName(this.World, this.IsExterior, this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y + Map._1); } }
     public virtual string NameWest { get { return Map.MakeName(this.World, this.IsExterior, this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y + Map._0); } }
     public virtual string NameEast { get { return Map.MakeName(this.World, this.IsExterior, this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y + Map._0); } }
+
+    public virtual string ContigousName
+    {
+      get
+      {
+        // Name List
+        List<string> names = new List<string>();
+        foreach (var line in this.World.ContigousNames)
+          if (!string.IsNullOrEmpty(line.Item2) && line?.Item1 == this.DefinitivColor?.Name)
+            names.Add(line.Item2);
+        if (names.Count <= Map._0) return this.Name;
+        // Contigues
+        Map map = this;
+        Map next = null;
+        do
+        {
+          next = this.World.Maps.Find(x => x.Name == map.NameNorth);
+          if (next != null && next.DefinitivColor == map.DefinitivColor) map = next;
+          else next = null;
+        } while (next != null && next != this);
+        do
+        {
+          next = this.World.Maps.Find(x => x.Name == map.NameWest);
+          if (next != null && next.DefinitivColor == map.DefinitivColor) map = next;
+          else next = null;
+        } while (next != null && next != this);
+        // Name Index
+        int index = Map._0;
+        foreach (Point p in Map.ForEach(this.World.Max))
+        {
+          Map point = this.World.Maps.Find(x => x.WorldMapCoordinates == p);
+          if (point == map) break;
+          if (this.World.Maps.Find(x => x.Name == point.NameNorth).DefinitivColor.Name == point.DefinitivColor.Name) continue;
+          if (this.World.Maps.Find(x => x.Name == point.NameWest).DefinitivColor.Name == point.DefinitivColor.Name) continue;
+          if (point?.DefinitivColor == map.DefinitivColor) index++;
+        }
+        // not enough
+        if (names.Count <= index) return this.Name;
+        else return names[index];
+      }
+    }
     #endregion Name
 
     #region Property - World
@@ -457,14 +499,16 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     {
       get
       {
-        if (this._color != this.Color) this._DefinitivColor = this.EstimateColor(this.Color, DefinitivMapColor.DefinitivMapColors_Grassland);
+        if (this._color != this.Color) this._DefinitivColor = this.EstimateColor(this.Color);
         return this._DefinitivColor;
       }
     }
 
-    private DefinitivMapColor EstimateColor(Color? color, DefinitivMapColor fallback)
+    private DefinitivMapColor EstimateColor(Color? color)
     {
+      DefinitivMapColor? fallback = null;
       DefinitivMapColor? re = null;
+      foreach (DefinitivMapColor dColor in this.World.DefinitivMapColors) fallback = fallback ?? dColor;
       if (color != null && color.HasValue && re == null)
         foreach (DefinitivMapColor dColor in this.World.DefinitivMapColors)
           if (dColor?.Color != null && dColor.Color.R == color.Value.R && dColor.Color.G == color.Value.G && dColor.Color.B == color.Value.B)
@@ -666,13 +710,18 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 export const ZONE_DESCRIPTION_TEXT_ID = 100064;
 export const ZONE_NAME_TEXT_ID = 100010;
      */
-    protected TxtMapExportFormat Description { get; set; } = new TxtMapExportFormat("100064");
-    protected TxtMapExportFormat Name { get; set; } = new TxtMapExportFormat("100010");
+    protected TxtMapExportFormat Description { get; set; } = new TxtMapExportFormat("100064", null);
+    protected TxtMapExportFormat Name { get; set; } = new TxtMapExportFormat("100010", m => m.ContigousName);
 
     protected class TxtMapExportFormat : SingleAssetMapExportFormat
     {
       private string fileId = string.Empty;
-      public TxtMapExportFormat(string id) : base("Data", "Text", "Dialogs", ".csv") { this.fileId = id; }
+      private Func<Map, string> toString = m => m.Name;
+      public TxtMapExportFormat(string id, Func<Map, string> toString) : base("Data", "Text", "Dialogs", ".csv")
+      {
+        this.fileId = id;
+        this.toString = toString ?? this.toString;
+      }
 
       public override string ModifyTargetFile(Map map, string folder, string file)
       {
