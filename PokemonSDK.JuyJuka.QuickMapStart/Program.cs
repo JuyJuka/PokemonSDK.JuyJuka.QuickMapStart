@@ -4,7 +4,6 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
   using System.Drawing;
   using System.Drawing.Drawing2D;
   using System.Drawing.Imaging;
-  using System.Security.Policy;
 
   internal static class Program
   {
@@ -35,64 +34,19 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 // Urban        =211x211x211
       */
 
-      string folder = @"C:\Users\nicolasb\Downloads\PSDK\T2\T3";
-      string empty = @"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart\empty";
-      string world_ = @"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart\world.bmp";
-      Point max = new Point(16, 16);
-      Size size = new Size(40, 30);
-      if (!string.IsNullOrEmpty(empty) && Directory.Exists(empty))
-      {
-        if (!Directory.Exists(folder))
-        {
-          System.Console.WriteLine("Copying empty...");
-          Program.CopyFilesRecursively(empty, folder);
-        }
-        else
-        {
-          System.Console.Out.WriteLine("Use silly JJ empty-project?");
-          if (System.Console.In.ReadLine()?.ToLower()?.StartsWith("j") ?? false)
-          {
-            System.Console.WriteLine("Deleting old...");
-            if (Directory.Exists(folder)) Directory.Delete(folder, true);
-            System.Console.WriteLine("Copying empty...");
-            Program.CopyFilesRecursively(empty, folder);
-          }
-        }
-      }
-      System.Console.WriteLine("Reading world...");
-      List<Map> maps = new List<Map>();
-      Bitmap world = new Bitmap(Image.FromFile(world_));
-      System.Console.WriteLine("Sizing map...");
-      BitMapExportFormat.TinnyImage = BitMapExportFormat.ResizeImage1(world, max.X, max.Y, max.X, max.Y);
-      BitMapExportFormat.FullImage = BitMapExportFormat.ResizeImage1(world, max.X * size.Width, max.Y * size.Height, max.X * size.Width, max.Y * size.Height);
-      System.Console.WriteLine("Sorting maps...");
-      Map.Max = max;
-      Map.Size = size;
-      foreach (Point p in Map.ForEach(BitMapExportFormat.TinnyImage.Size))
-      {
-        var m = new Map()
-        {
-          Color = BitMapExportFormat.TinnyImage.GetPixel(p.X, p.Y),
-          WorldMapCoordinates = new Point(p.X, p.Y),
-        };
-        maps.Add(m);
-      }
       /*
-      System.Console.WriteLine("Debugging maps...");
-      foreach (var item in maps) System.Console.WriteLine(item);
+      string world_ = @"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart\world.bmp";
+      WorldMap worldMap = new WorldMap();
+      worldMap.SkaleImage(world_, new Point(16, 16), new Size(40, 30));
       return;
       */
-      System.Console.WriteLine("Writing maps...");
-      foreach (Map map in maps) map.Export(folder);
-      return;
-
       // To customize application configuration such as set high DPI settings or default font,
       // see https://aka.ms/applicationconfiguration.
       ApplicationConfiguration.Initialize();
       Application.Run(new Form1());
     }
 
-    private static void CopyFilesRecursively(string sourcePath, string targetPath)
+    public static void CopyFilesRecursively(string sourcePath, string targetPath, ILogger logger)
     {
       //Now Create all of the directories
       foreach (string dirPath in Directory.GetDirectories(sourcePath, "*", SearchOption.AllDirectories))
@@ -103,8 +57,97 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       //Copy all the files & Replaces any files with the same name
       foreach (string newPath in Directory.GetFiles(sourcePath, "*.*", SearchOption.AllDirectories))
       {
-        System.Console.WriteLine(Path.GetFileName(newPath));
+        logger.Write(Path.GetFileName(newPath));
         File.Copy(newPath, newPath.Replace(sourcePath, targetPath), true);
+      }
+    }
+  }
+
+  public interface ILogger
+  {
+    void Write(string message);
+  }
+
+  public class Logger : ILogger
+  {
+    public virtual void Write(string message)
+    {
+      System.Console.WriteLine(message);
+    }
+  }
+
+  public class WorldMap
+  {
+    public ILogger Logger { get; set; } = new Logger();
+    public BitMapExportFormat BitMapExportFormat { get; set; } = new BitMapExportFormat();
+    public Point Max { get; protected set; } = new Point(16, 16);
+    public Size Size { get; protected set; } = new Size(40, 30);
+    public int IdOffset { get; set; } = 22;
+    public List<Map> Maps { get; protected set; } = new List<Map>();
+    public IMapExportFormat[] Formats
+    {
+      get
+      {
+        return new IMapExportFormat[] {
+          new TmxMapExportFormat(),
+          new MapLinksExportFormat(),
+          new ZoneExportFormat(),
+          this.BitMapExportFormat,
+        };
+      }
+    }
+
+    private List<DefinitivMapColor>? _DefinitivMapColors = null;
+    public List<DefinitivMapColor> DefinitivMapColors
+    {
+      get
+      {
+        return (this._DefinitivMapColors = (this._DefinitivMapColors ??
+          [
+            DefinitivMapColor.DefinitivMapColors_Grassland,
+            DefinitivMapColor.DefinitivMapColors_Forest,
+            // DefinitivMapColor.DefinitivMapColors_WatersEdge,
+            DefinitivMapColor.DefinitivMapColors_Sea,
+            // DefinitivMapColor.DefinitivMapColors_Cave,
+            DefinitivMapColor.DefinitivMapColors_Mountain,
+            DefinitivMapColor.DefinitivMapColors_RoughTerrain,
+            DefinitivMapColor.DefinitivMapColors_Urban,
+            // DefinitivMapColor.DefinitivMapColors_Rare,
+          ]
+        ));
+      }
+    }
+
+    public void SkaleImage(string fileName, Point? max = null, Size? size = null)
+    {
+      this.Logger.Write("Reading world...");
+      this.Maps.Clear();
+      this.Logger.Write("Sizing map...");
+      if (max != null && max.HasValue) this.Max = new Point(Math.Abs(max.Value.X), Math.Abs(max.Value.Y));
+      if (size != null && size.HasValue) this.Size = new Size(Math.Abs(size.Value.Width), Math.Abs(size.Value.Height));
+      Bitmap world = new Bitmap(Image.FromFile(fileName));
+      this.BitMapExportFormat.TinnyImage = BitMapExportFormat.ResizeImage1(world, this.Max.X, this.Max.Y, this.Max.X, this.Max.Y);
+      this.BitMapExportFormat.FullImage = BitMapExportFormat.ResizeImage1(world, this.Max.X * this.Size.Width, this.Max.Y * this.Size.Height, this.Max.X * this.Size.Width, this.Max.Y * this.Size.Height);
+      this.BitMapExportFormat.OriginalImage = world;
+      this.Logger.Write("Sorting maps...");
+      foreach (Point p in Map.ForEach(BitMapExportFormat.TinnyImage.Size))
+      {
+        var m = new Map(this)
+        {
+          Color = BitMapExportFormat.TinnyImage.GetPixel(p.X, p.Y),
+          WorldMapCoordinates = new Point(p.X, p.Y),
+        };
+        m.Image = this.BitMapExportFormat.Export2(m);
+        this.Maps.Add(m);
+      }
+    }
+
+    public void Expor(string folder)
+    {
+      foreach (Map map in this.Maps)
+      {
+        map.World = this;
+        map.Export(folder);
       }
     }
   }
@@ -123,7 +166,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public static readonly object SystemTagSand = 4257 + 14;
   }
 
-  public class DefinitivMapColor
+  public class DefinitivMapColor : ICloneable
   {
     /*
      https://bulbapedia.bulbagarden.net/wiki/List_of_Pok%C3%A9mon_by_habitat
@@ -147,29 +190,20 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public static DefinitivMapColor DefinitivMapColors_Urban = new DefinitivMapColor("Urban", Color.LightGray, Knowen.Uraban);
     // public static DefinitivMapColor DefinitivMapColors_Rare = new DefinitivMapColor(Color.Red);
 
-    private static List<DefinitivMapColor>? _DefinitivMapColors = null;
-    public static List<DefinitivMapColor> DefinitivMapColors
+    public virtual string Name { get; set; } = "";
+    public virtual Color Color { get; set; } = Color.Transparent;
+    public virtual string ColorRGB
     {
       get
       {
-        return (DefinitivMapColor._DefinitivMapColors = (DefinitivMapColor._DefinitivMapColors ??
-          [
-            DefinitivMapColor.DefinitivMapColors_Grassland,
-            DefinitivMapColor.DefinitivMapColors_Forest,
-            // DefinitivMapColor.DefinitivMapColors_WatersEdge,
-            DefinitivMapColor.DefinitivMapColors_Sea,
-            // DefinitivMapColor.DefinitivMapColors_Cave,
-            DefinitivMapColor.DefinitivMapColors_Mountain,
-            DefinitivMapColor.DefinitivMapColors_RoughTerrain,
-            DefinitivMapColor.DefinitivMapColors_Urban,
-            // DefinitivMapColor.DefinitivMapColors_Rare,
-          ]
-        ));
+        return string.Format("R={0:000} G={0:000} B={0:000}", this.Color.R, this.Color.G, this.Color.B);
       }
     }
 
-    public virtual string Name { get; set; } = "";
-    public virtual Color Color { get; set; } = Color.Transparent;
+    public override string ToString()
+    {
+      return this.Name ?? base.ToString();
+    }
 
     public DefinitivMapColor(string name, Color color
       , object? default11 = null
@@ -220,6 +254,13 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       if (this._Defaults.ContainsKey(layerName)) re = this._Defaults[layerName];
       return string.IsNullOrEmpty(re) ? (string.Empty + Knowen.Nothing) : re;
     }
+
+    public object Clone()
+    {
+      DefinitivMapColor re = new DefinitivMapColor(this.Name, this.Color);
+      foreach (string k in this._Defaults.Keys) re._Defaults.Add(k, this._Defaults[k]);
+      return re;
+    }
   }
 
   public class Map
@@ -232,9 +273,6 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     #region Static
     public static readonly int _0 = (int)decimal.Zero;
     public static readonly int _1 = (int)decimal.One;
-    public static Point Max { get; set; } = new Point(16, 16);
-    public static Size Size { get; set; } = new Size(40, 30);
-    public static int IdOffset { get; set; } = 22;
 
     public static IEnumerable<Point> ForEach(Size max)
     {
@@ -255,38 +293,38 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       }
     }
 
-    private static int OverflowX(int x)
+    private static int OverflowX(WorldMap w, int x)
     {
-      if (x < Map._0) return Map.Max.X - Map._1;
-      if (x >= Map.Max.X) return Map._0;
+      if (x < Map._0) return w.Max.X - Map._1;
+      if (x >= w.Max.X) return Map._0;
       return x;
     }
-    private static int OverflowY(int y)
+    private static int OverflowY(WorldMap w, int y)
     {
-      if (y < Map._0) return Map.Max.Y - Map._1;
-      if (y >= Map.Max.Y) return Map._0;
+      if (y < Map._0) return w.Max.Y - Map._1;
+      if (y >= w.Max.Y) return Map._0;
       return y;
     }
     #endregion Statis
 
     #region Id
-    private int MakeId(int x, int y)
+    private int MakeId(WorldMap w, int x, int y)
     {
-      return Map.IdOffset
-        + (Map.OverflowX(x) * Map.Max.X/*does it need to be Max.Y ?*/)
-        + Map.OverflowY(y)
+      return w.IdOffset
+        + (Map.OverflowX(w, x) * w.Max.X/*does it need to be Max.Y ?*/)
+        + Map.OverflowY(w, y)
         ;
     }
 
-    public virtual int Id { get { return this.MakeId(this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y + Map._0); } }
-    public virtual int IdNorth { get { return this.MakeId(this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y - Map._1); } }
-    public virtual int IdNorthEast { get { return this.MakeId(this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y - Map._1); } }
-    public virtual int IdNorthWest { get { return this.MakeId(this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y - Map._1); } }
-    public virtual int IdSouth { get { return this.MakeId(this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y + Map._1); } }
-    public virtual int IdSouthEast { get { return this.MakeId(this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y + Map._1); } }
-    public virtual int IdSouthWest { get { return this.MakeId(this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y + Map._1); } }
-    public virtual int IdWest { get { return this.MakeId(this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y + Map._0); } }
-    public virtual int IdEast { get { return this.MakeId(this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y + Map._0); } }
+    public virtual int Id { get { return this.MakeId(this.World, this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y + Map._0); } }
+    public virtual int IdNorth { get { return this.MakeId(this.World, this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y - Map._1); } }
+    public virtual int IdNorthEast { get { return this.MakeId(this.World, this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y - Map._1); } }
+    public virtual int IdNorthWest { get { return this.MakeId(this.World, this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y - Map._1); } }
+    public virtual int IdSouth { get { return this.MakeId(this.World, this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y + Map._1); } }
+    public virtual int IdSouthEast { get { return this.MakeId(this.World, this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y + Map._1); } }
+    public virtual int IdSouthWest { get { return this.MakeId(this.World, this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y + Map._1); } }
+    public virtual int IdWest { get { return this.MakeId(this.World, this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y + Map._0); } }
+    public virtual int IdEast { get { return this.MakeId(this.World, this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y + Map._0); } }
     #endregion Id
 
     #region Name
@@ -297,29 +335,47 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       while (max > re.Length) re = "0" + re;
       return re;
     }
-    private static string MakeName(bool exterior, int x, int y)
+    private static string MakeName(WorldMap w, bool exterior, int x, int y)
     {
       return string.Empty
         + "" + (exterior ? "E_" : "I_")
-        + "X" + Map.MakeLength(Map.Max.X, Map.OverflowX(x))
-        + "Y" + Map.MakeLength(Map.Max.Y, Map.OverflowY(y))
+        + "X" + Map.MakeLength(w.Max.X, Map.OverflowX(w, x))
+        + "Y" + Map.MakeLength(w.Max.Y, Map.OverflowY(w, y))
         ;
     }
 
-    public virtual string Name { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y + Map._0); } }
-    public virtual string NameNorth { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y - Map._1); } }
-    public virtual string NameNorthEast { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y - Map._1); } }
-    public virtual string NameNorthWest { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y - Map._1); } }
-    public virtual string NameSouth { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y + Map._1); } }
-    public virtual string NameSouthEast { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y + Map._1); } }
-    public virtual string NameSouthWest { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y + Map._1); } }
-    public virtual string NameWest { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y + Map._0); } }
-    public virtual string NameEast { get { return Map.MakeName(this.IsExterior, this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y + Map._0); } }
+    public virtual string Name { get { return Map.MakeName(this.World, this.IsExterior, this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y + Map._0); } }
+    public virtual string NameNorth { get { return Map.MakeName(this.World, this.IsExterior, this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y - Map._1); } }
+    public virtual string NameNorthEast { get { return Map.MakeName(this.World, this.IsExterior, this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y - Map._1); } }
+    public virtual string NameNorthWest { get { return Map.MakeName(this.World, this.IsExterior, this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y - Map._1); } }
+    public virtual string NameSouth { get { return Map.MakeName(this.World, this.IsExterior, this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y + Map._1); } }
+    public virtual string NameSouthEast { get { return Map.MakeName(this.World, this.IsExterior, this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y + Map._1); } }
+    public virtual string NameSouthWest { get { return Map.MakeName(this.World, this.IsExterior, this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y + Map._1); } }
+    public virtual string NameWest { get { return Map.MakeName(this.World, this.IsExterior, this.WorldMapCoordinates.X - Map._1, this.WorldMapCoordinates.Y + Map._0); } }
+    public virtual string NameEast { get { return Map.MakeName(this.World, this.IsExterior, this.WorldMapCoordinates.X + Map._1, this.WorldMapCoordinates.Y + Map._0); } }
     #endregion Name
+
+    #region Property - World
+    public Map(WorldMap world)
+    {
+      this.World = world;
+    }
+    private WorldMap _World;
+    public virtual WorldMap World
+    {
+      get { return _World; }
+      set
+      {
+        if (value == null) throw new ArgumentNullException(nameof(this.World));
+        this._World = value;
+      }
+    }
+    #endregion Property - World
 
     public virtual string Description { get; set; } = "{{}}";
     public virtual bool IsExterior { get; protected set; } = true;
     public virtual Point WorldMapCoordinates { get; set; } = new Point();
+    public virtual Bitmap? Image { get; set; } = null;
 
     public Color? Color { get; set; } = null;
     private Color? _color = null;
@@ -337,14 +393,14 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     {
       DefinitivMapColor? re = null;
       if (color != null && color.HasValue && re == null)
-        foreach (DefinitivMapColor dColor in DefinitivMapColor.DefinitivMapColors)
+        foreach (DefinitivMapColor dColor in this.World.DefinitivMapColors)
           if (dColor?.Color != null && dColor.Color.R == color.Value.R && dColor.Color.G == color.Value.G && dColor.Color.B == color.Value.B)
             re = dColor;
       if (color != null && color.HasValue && re == null)
       {
         float hueDiff = float.MaxValue;
         DefinitivMapColor? reTollerenace = null;
-        foreach (DefinitivMapColor dColor in DefinitivMapColor.DefinitivMapColors)
+        foreach (DefinitivMapColor dColor in this.World.DefinitivMapColors)
         {
           float dif = Math.Abs(dColor.Color.GetHue() - color.Value.GetHue());
           if (hueDiff > dif)
@@ -362,16 +418,11 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
     public virtual void Export(string folder)
     {
-      System.Console.WriteLine(this.Name + "...");
+      this.World.Logger.Write(this.Name + "...");
       string myFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly()?.Location) ?? string.Empty;
-      foreach (IMapExportFormat format in new IMapExportFormat[] {
-        new TmxMapExportFormat(),
-        new MapLinksExportFormat(),
-        new ZoneExportFormat(),
-        new BitMapExportFormat(),
-      })
+      foreach (IMapExportFormat format in this.World.Formats)
       {
-        System.Console.WriteLine(".." + format.FileExtendsion);
+        this.World.Logger.Write(this.Name + ".." + format.FileExtendsion);
         // keep order ModifyTargetFolder -> ModifyTargetFile -> Export
         string f2 = format.ModifyTargetFolder(this, folder);
         string f3 = format.ModifyTargetFile(this, f2, Path.Combine(f2, this.Name + format.FileExtendsion));
@@ -498,12 +549,12 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
         TmxMapExportFormat.Layer1.Item1,
       ];
       string[] csvs = new string[layers.Length];
-      foreach (Point p in Map.ForEach(Map.Size))
+      foreach (Point p in Map.ForEach(map.World.Size))
       {
         for (int i = 0; i < layers.Length; i++)
         {
           csvs[i] += (config + map.DefinitivColor.ToLayer(p, i, layers[i], p));
-          if (p.Y == Map.Size.Width - Map._1) csvs[i] += System.Environment.NewLine;
+          if (p.Y == map.World.Size.Width - Map._1) csvs[i] += System.Environment.NewLine;
         }
       }
       for (int i = 0; i < layers.Length; i++)
@@ -619,30 +670,31 @@ export const ZONE_NAME_TEXT_ID = 100010;
       string file_ = Path.Combine(folder, this.StaticFilter + this.FileExtendsion);
       string file__ = Path.Combine(folder, this.StaticFilter + Map._0 + this.FileExtendsion);
       if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
-      if (!File.Exists(file_)) this.Export_BitMap().Save(file_);
-      if (BitMapExportFormat.TinnyImage != null && !File.Exists(file__)) BitMapExportFormat.TinnyImage.Save(file__);
+      if (this.FullImage != null && !File.Exists(file_)) this.FullImage.Save(file_);
+      if (this.TinnyImage != null && !File.Exists(file__)) this.TinnyImage.Save(file__);
       if (File.Exists(file)) File.Delete(file);
-      Size s = this.Export_Size();
-      ResizeImage1(this.Export_BitMap(), s.Width, s.Height, s.Width, s.Height
-      , map.WorldMapCoordinates.X * s.Width, map.WorldMapCoordinates.Y * s.Height, s.Width, s.Height
-      ).Save(file);
+      this.Export2(map).Save(file);
       return string.Empty;
     }
 
-    protected virtual Bitmap Export_BitMap()
+    public virtual Bitmap Export2(Map map)
     {
-      return BitMapExportFormat.FullImage;
+      Size s = this.Export_Size(map);
+      return ResizeImage1(this.FullImage, s.Width, s.Height, s.Width, s.Height
+      , map.WorldMapCoordinates.X * s.Width, map.WorldMapCoordinates.Y * s.Height, s.Width, s.Height
+      );
     }
 
-    protected virtual Size Export_Size()
+    protected virtual Size Export_Size(Map map)
     {
-      return Map.Size;
+      return map.World.Size;
     }
 
-    public static Bitmap? TinnyImage { get; set; }
-    public static Bitmap? FullImage { get; set; }
+    public Bitmap? TinnyImage { get; set; }
+    public Bitmap? FullImage { get; set; }
+    public Bitmap? OriginalImage { get; set; }
 
-    public static Bitmap ResizeImage1(Image image, int width, int height, float HorizontalResolution, float VerticalResolution
+    public virtual Bitmap ResizeImage1(Image image, int width, int height, float HorizontalResolution, float VerticalResolution
     , int? srcX = null
       , int? srcY = null
       , int? srcW = null
