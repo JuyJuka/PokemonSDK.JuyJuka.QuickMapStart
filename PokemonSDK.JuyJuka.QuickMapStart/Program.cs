@@ -146,11 +146,17 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public static readonly object PanelRoughTerrain = 5;
     public static readonly object PanelUrban = 3;
 
+    /*
+    N NE NW
+    S SE SW
+    E
+    W
+     */
     public static readonly Knowen.Border BorderSea = new Knowen.Border(
-      4257 + 148, 4257 + 142, 4257 + 143,
-      4257 + 132, 4257 + 134, 4257 + 135,
-      4257 + 139,
-      4257 + 141);
+      1 + 148, 1 + 142, 1 + 143,
+      1 + 132, 1 + 134, 1 + 135,
+      1 + 139,
+      1 + 141);
 
     public class Border
     {
@@ -199,7 +205,91 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
     public DefinitivMapColorFluent Border(Knowen.Border border)
     {
+      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderN, a, border.North));
+      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderNE, a, border.NorthEast));
+      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderNW, a, border.NorthWest));
+      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderS, a, border.South));
+      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderSE, a, border.SouthEast));
+      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderSW, a, border.SouthWest));
+      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderE, a, border.East));
+      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderW, a, border.West));
       return this;
+    }
+
+    public bool BorderN(DefinitivMapColor.FunctionParameters functionParameters)
+    {
+      return true
+        && functionParameters.Point.Y == Map._0
+        && functionParameters.Point.X != Map._0
+        && functionParameters.Point.X < (functionParameters.Map.World.Size.Width - Map._1)
+        ;
+    }
+
+    public bool BorderNW(DefinitivMapColor.FunctionParameters functionParameters)
+    {
+      return true
+        && functionParameters.Point.Y == Map._0
+        && functionParameters.Point.X == Map._0
+        ;
+    }
+
+    public bool BorderNE(DefinitivMapColor.FunctionParameters functionParameters)
+    {
+      return true
+        && functionParameters.Point.Y == Map._0
+        && functionParameters.Point.X == (functionParameters.Map.World.Size.Width - Map._1)
+        ;
+    }
+
+    public bool BorderSW(DefinitivMapColor.FunctionParameters functionParameters)
+    {
+      return true
+        && functionParameters.Point.Y == (functionParameters.Map.World.Size.Height - Map._1)
+        && functionParameters.Point.X == Map._0
+        ;
+    }
+
+    public bool BorderSE(DefinitivMapColor.FunctionParameters functionParameters)
+    {
+      return true
+        && functionParameters.Point.Y == (functionParameters.Map.World.Size.Height - Map._1)
+        && functionParameters.Point.X == (functionParameters.Map.World.Size.Width - Map._1)
+        ;
+    }
+
+    public bool BorderS(DefinitivMapColor.FunctionParameters functionParameters)
+    {
+      return true
+        && functionParameters.Point.Y == (functionParameters.Map.World.Size.Height - Map._1)
+        && functionParameters.Point.X != Map._0
+        && functionParameters.Point.X < (functionParameters.Map.World.Size.Width - Map._1)
+        ;
+    }
+
+    public bool BorderW(DefinitivMapColor.FunctionParameters functionParameters)
+    {
+      return true
+        && functionParameters.Point.X == Map._0
+        && functionParameters.Point.Y != Map._0
+        && functionParameters.Point.Y < (functionParameters.Map.World.Size.Height - Map._1)
+        ;
+    }
+
+    public bool BorderE(DefinitivMapColor.FunctionParameters functionParameters)
+    {
+      return true
+        && functionParameters.Point.X == (functionParameters.Map.World.Size.Width - Map._1)
+        && functionParameters.Point.Y != Map._0
+        && functionParameters.Point.Y < (functionParameters.Map.World.Size.Height - Map._1)
+        ;
+    }
+
+    private string Border(Func<DefinitivMapColor.FunctionParameters, bool> test, DefinitivMapColor.FunctionParameters a, object? value)
+    {
+      if (!test(a)) return string.Empty;
+      if (a.LayerName == TmxMapExportFormat.LayerS) return string.Empty + Knowen.Nothing;
+      if (a.LayerName != TmxMapExportFormat.Layer1.Item1) return string.Empty;
+      return string.Empty + value;
     }
 
     public DefinitivMapColorFluent Panel(object panel)
@@ -314,16 +404,31 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       this.Color = color;
     }
 
+    public class FunctionParameters
+    {
+      public FunctionParameters(Map p, int layerIndex, string layerName, Point point)
+      {
+        this.Map = p;
+        this.Point = point;
+        this.LayerIndex = layerIndex;
+        this.LayerName = layerName;
+      }
+      public Map Map { get; set; }
+      public int LayerIndex { get; set; }
+      public string LayerName { get; set; }
+      public Point Point { get; set; }
+    }
+
     internal protected readonly Dictionary<string, string> _Defaults = new Dictionary<string, string>();
-    internal protected readonly List<Func<Point, int, string, Point, string>> _Functions = new List<Func<Point, int, string, Point, string>>();
-    public virtual string ToLayer(Point p, int layerIndex, string layerName, Point point)
+    internal protected readonly List<Func<FunctionParameters, string>> _Functions = new List<Func<FunctionParameters, string>>();
+    public virtual string ToLayer(Map m, int layerIndex, string layerName, Point point)
     {
       string re = string.Empty;
       if (this._Defaults.ContainsKey(layerName)) re = this._Defaults[layerName];
       this._Functions.ForEach(x =>
       {
         if (x == null) return;
-        string re2 = x(p, layerIndex, layerName, point);
+        string re2 = x(new FunctionParameters(m, layerIndex, layerName, point));
         if (!string.IsNullOrEmpty(re2)) re = re2;
       });
       return string.IsNullOrEmpty(re) ? (string.Empty + Knowen.Nothing) : re;
@@ -651,8 +756,52 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
     public override string ModifyTargetFolder(Map map, string folder) { return Path.Combine(string.Empty + Path.GetDirectoryName(folder), Path.GetFileName(folder) + this.StaticFilter); }
 
+    /*private static void Draw(Map map, string folder, string file, string asset, string config)
+    {
+      List<string> output = new List<string>();
+      for (int y = 0; y < 42; y++)
+      {
+        string n_s = string.Empty;
+        string m_s = string.Empty;
+        string s_s = string.Empty;
+        for (int x = 0; x < 42; x++)
+        {
+          bool elSE = true;
+          Func<bool, string> IS = (bool b) =>
+          {
+            if (b) elSE = false;
+            return "|" + (b ? "*" : "-");
+          };
+          DefinitivMapColorFluent f = DefinitivMapColorFluent.New("", Color.Transparent, null);
+          DefinitivMapColor.FunctionParameters p = new DefinitivMapColor.FunctionParameters(map, 8, TmxMapExportFormat.Layer1.Item1, new Point(x, y));
+          string w = IS(f.BorderW(p));
+          string e = IS(f.BorderE(p));
+          string n = ""
+            + IS(f.BorderNW(p))
+            + IS(f.BorderN(p))
+            + IS(f.BorderNE(p))
+            + "|";
+          string s = ""
+            + IS(f.BorderSW(p))
+            + IS(f.BorderS(p))
+            + IS(f.BorderSE(p))
+            + "|";
+          string m = w + IS(elSE) + e + "|";
+          n_s += (n + " ");
+          m_s += (m + " ");
+          s_s += (s + " ");
+        }
+        output.Add(n_s);
+        output.Add(m_s);
+        output.Add(s_s);
+        output.Add(string.Empty);
+      }
+      System.IO.File.WriteAllLines(@"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart_examples\xxx.txt", output);
+    }*/
+
     public override string Export(Map map, string folder, string file, string asset, string config)
     {
+      //Draw(map, folder, file, asset, config);
       string re = asset;
       string[] layers = [
         TmxMapExportFormat.LayerP,
@@ -666,12 +815,16 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
         TmxMapExportFormat.Layer1.Item1,
       ];
       string[] csvs = new string[layers.Length];
-      foreach (Point p in Map.ForEach(map.World.Size))
+
+      for (int y = 0; y < map.World.Size.Height; y++)
       {
-        for (int i = 0; i < layers.Length; i++)
+        for (int x = 0; x < map.World.Size.Width; x++)
         {
-          csvs[i] += (config + map.DefinitivColor.ToLayer(p, i, layers[i], p));
-          if (p.Y == map.World.Size.Width - Map._1) csvs[i] += System.Environment.NewLine;
+          for (int i = 0; i < layers.Length; i++)
+          {
+            csvs[i] += (config + map.DefinitivColor.ToLayer(map, i, layers[i], new Point(x,y)));
+            if (x == map.World.Size.Width - Map._1) csvs[i] += Environment.NewLine;
+          }
         }
       }
       for (int i = 0; i < layers.Length; i++)

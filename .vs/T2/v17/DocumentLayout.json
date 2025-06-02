@@ -14,7 +14,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 19,
+          "SelectedChildIndex": 20,
           "Children": [
             {
               "$type": "Bookmark",
@@ -93,6 +93,10 @@
               "Name": "ST:128:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "Program.cs",
@@ -100,7 +104,7 @@
               "RelativeDocumentMoniker": "PokemonSDK.JuyJuka.QuickMapStart\\Program.cs",
               "ToolTip": "C:\\Users\\nicolasb\\Downloads\\PSDK\\T2\\PokemonSDK.JuyJuka.QuickMapStart\\Program.cs",
               "RelativeToolTip": "PokemonSDK.JuyJuka.QuickMapStart\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADUAAAAmAAAAAAAAAA==",
+              "ViewState": "AgIAAFQBAAAAAAAAAAAqwFYBAAAHAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-06-02T05:30:38.821Z",
               "EditorCaption": ""
@@ -108,6 +112,16 @@
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c64b9c2-e352-428e-a56d-0ace190b99a6}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 178,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{a80febb4-e7e0-4147-b476-21aaf2453969}"
             }
           ]
         }
