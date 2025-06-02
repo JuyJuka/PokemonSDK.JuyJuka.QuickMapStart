@@ -62,7 +62,20 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
     private void button1_Click(object sender, EventArgs e)
     {
-      if (this.openFileDialog1.ShowDialog() == DialogResult.OK) this.textBoxImage.Text = this.openFileDialog1.FileName;
+      if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
+      {
+        this.textBoxImage.Text = this.openFileDialog1.FileName;
+        string folder = Path.GetDirectoryName(this.openFileDialog1.FileName);
+        string name = Path.GetFileNameWithoutExtension(this.openFileDialog1.FileName);
+        if (Directory.Exists(Path.Combine(folder, name)) && DialogResult.Yes == MessageBox.Show("Folder recogniced. We could set it as export folder.", "Folder recogniced.", MessageBoxButtons.YesNo))
+        {
+          this.textBoxFolder.Text = Path.Combine(folder, name);
+        }
+        if (File.Exists(Path.Combine(folder, name + ".csv")) && DialogResult.Yes == MessageBox.Show("CSV file recogniced. We could set it as importable Names.", "CSV/Names recogniced.", MessageBoxButtons.YesNo))
+        {
+          this.textBoxListOfNames.Text = Path.Combine(folder, name + ".csv");
+        }
+      }
     }
 
     private void button3_Click(object sender, EventArgs e)
@@ -81,6 +94,12 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
         , new Point((int)this.numericUpDownMaxX.Value, (int)this.numericUpDownMaxY.Value)
         , new Size((int)this.numericUpDownSizeWidht.Value, (int)this.numericUpDownSizeHeight.Value)
         );
+
+      if (!string.IsNullOrEmpty(this.textBoxListOfNames.Text) && File.Exists(this.textBoxListOfNames.Text))
+      {
+        this.openFileDialog1.FileName = this.textBoxListOfNames.Text;
+        this.toolStripButtonNamesImport_Click(this.textBoxListOfNames, null);
+      }
     }
 
     private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
@@ -369,7 +388,10 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     private static string _NamesImEx = ",";
     private void toolStripButtonNamesImport_Click(object sender, EventArgs e)
     {
-      if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
+      if (false
+      || (sender == this.textBoxListOfNames)
+      || (this.openFileDialog1.ShowDialog() == DialogResult.OK)
+      )
       {
         this.WorldMap.ContigousNames.Clear();
         foreach (string line in File.ReadAllLines(this.openFileDialog1.FileName))
@@ -417,6 +439,14 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
           neu.Add(new Tuple<string, string>(next.Name, name));
       this.WorldMap.ContigousNames.Clear();
       this.WorldMap.ContigousNames.AddRange(neu);
+    }
+
+    private void buttonSetImportNames_Click(object sender, EventArgs e)
+    {
+      if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
+      {
+        this.textBoxListOfNames.Text = this.openFileDialog1.FileName;
+      }
     }
   }
 }

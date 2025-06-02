@@ -138,6 +138,10 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public static readonly object SystemTagSea = 4257 + 21;
     public static readonly object SystemTagGrass = 4257 + 5;
     public static readonly object SystemTagSand = 4257 + 14;
+    public static readonly object SystemTagClimb = 4257 + 62;
+
+
+    public static readonly object PassagesX = 4385 + 15;
 
     public static readonly object PanelGrass = 1;
     public static readonly object PanelForest = 6;
@@ -162,6 +166,11 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       1 + 246, 1 + 247, 1 + 245,
       1 + 239,
       1 + 237);
+    public static readonly Knowen.Border BorderMountain = new Knowen.Border(
+      1 + 681, 1 + 682, 1 + 680,
+      1 + 697, 1 + 698, 1 + 696,
+      1 + 690,
+      1 + 688);
 
     public class Border
     {
@@ -208,16 +217,21 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public DefinitivMapColorFluent DefaultSystemTagSea() { return this.DefaultSystemTag(string.Empty + Knowen.SystemTagSea); }
     public DefinitivMapColorFluent DefaultSystemTagSand() { return this.DefaultSystemTag(string.Empty + Knowen.SystemTagSand); }
 
-    public DefinitivMapColorFluent Border(Knowen.Border border)
+    public DefinitivMapColorFluent Border(string differentLayer, Knowen.Border border)
     {
-      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderN, a, border.North));
-      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderNE, a, border.NorthEast));
-      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderNW, a, border.NorthWest));
-      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderS, a, border.South));
-      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderSE, a, border.SouthEast));
-      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderSW, a, border.SouthWest));
-      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderE, a, border.East));
-      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderW, a, border.West));
+      return this.Border(border, differentLayer);
+    }
+
+    public DefinitivMapColorFluent Border(Knowen.Border border, string? differentLayer = null)
+    {
+      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderN, a, border.North, differentLayer));
+      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderNE, a, border.NorthEast, differentLayer));
+      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderNW, a, border.NorthWest, differentLayer));
+      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderS, a, border.South, differentLayer));
+      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderSE, a, border.SouthEast, differentLayer));
+      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderSW, a, border.SouthWest, differentLayer));
+      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderE, a, border.East, differentLayer));
+      this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderW, a, border.West, differentLayer));
       return this;
     }
 
@@ -365,9 +379,11 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       ;
     }
 
-    private string Border(Func<DefinitivMapColor.FunctionParameters, bool> test, DefinitivMapColor.FunctionParameters a, object? value)
+    private string Border(Func<DefinitivMapColor.FunctionParameters, bool> test, DefinitivMapColor.FunctionParameters a, object? value, string? differentLayer)
     {
       if (!test(a)) return string.Empty;
+      if (differentLayer != null && a.LayerName == differentLayer) return string.Empty + value;
+      if (differentLayer != null) return string.Empty;
       if (a.LayerName == TmxMapExportFormat.LayerS) return string.Empty + Knowen.Nothing;
       if (a.LayerName != TmxMapExportFormat.Layer1.Item1) return string.Empty;
       return string.Empty + value;
@@ -415,6 +431,17 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public static DefinitivMapColor DefinitivMapColors_Mountain =
       DefinitivMapColorFluent.New("Mountain", Color.FromArgb(125, 125, 140), Knowen.Mointain)
       .Panel(Knowen.PanelMointain)
+      .Border(Knowen.BorderMountain)
+      .Border(TmxMapExportFormat.LayerS, new Knowen.Border(
+        Knowen.SystemTagClimb, Knowen.Nothing, Knowen.Nothing,
+        Knowen.SystemTagClimb, Knowen.Nothing, Knowen.Nothing,
+        Knowen.SystemTagClimb,
+        Knowen.SystemTagClimb))
+      .Border(TmxMapExportFormat.LayerP, new Knowen.Border(
+        Knowen.PassagesX, Knowen.PassagesX, Knowen.PassagesX,
+        Knowen.PassagesX, Knowen.PassagesX, Knowen.PassagesX,
+        Knowen.PassagesX,
+        Knowen.PassagesX))
       .DefinitivMapColor;
     public static DefinitivMapColor DefinitivMapColors_RoughTerrain =
       DefinitivMapColorFluent.New("RoughTerrain", Color.Yellow, Knowen.RoughTerrain)
