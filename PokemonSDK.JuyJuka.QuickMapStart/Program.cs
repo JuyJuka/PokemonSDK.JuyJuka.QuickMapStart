@@ -216,18 +216,42 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       return this;
     }
 
+    private bool EqualDefinitivColorName(Map p, Func<Map, string> pp)
+    {
+      string next = pp(p);
+      Map? next_ = p?.World?.Maps?.Find(x => x.Name == next);
+      return object.Equals(p?.DefinitivColor, next_?.DefinitivColor);
+    }
+
     public bool BorderN(DefinitivMapColor.FunctionParameters functionParameters)
     {
-      return true
+      return false
+        || (true
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameNorth)
         && functionParameters.Point.Y == Map._0
         && functionParameters.Point.X != Map._0
         && functionParameters.Point.X < (functionParameters.Map.World.Size.Width - Map._1)
+        )
+        || (true
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameNorth)
+        && functionParameters.Point.Y == Map._0
+        && functionParameters.Point.X == Map._0
+        && this.EqualDefinitivColorName(functionParameters.Map, x => x.NameWest)
+        )
+        || (true
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameNorth)
+        && functionParameters.Point.Y == Map._0
+        && functionParameters.Point.X >= (functionParameters.Map.World.Size.Width - Map._1)
+        && this.EqualDefinitivColorName(functionParameters.Map, x => x.NameEast)
+        )
         ;
     }
 
     public bool BorderNW(DefinitivMapColor.FunctionParameters functionParameters)
     {
       return true
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameNorth)
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameWest)
         && functionParameters.Point.Y == Map._0
         && functionParameters.Point.X == Map._0
         ;
@@ -236,6 +260,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public bool BorderNE(DefinitivMapColor.FunctionParameters functionParameters)
     {
       return true
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameNorth)
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameEast)
         && functionParameters.Point.Y == Map._0
         && functionParameters.Point.X == (functionParameters.Map.World.Size.Width - Map._1)
         ;
@@ -244,6 +270,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public bool BorderSW(DefinitivMapColor.FunctionParameters functionParameters)
     {
       return true
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameSouth)
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameWest)
         && functionParameters.Point.Y == (functionParameters.Map.World.Size.Height - Map._1)
         && functionParameters.Point.X == Map._0
         ;
@@ -252,6 +280,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public bool BorderSE(DefinitivMapColor.FunctionParameters functionParameters)
     {
       return true
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameSouth)
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameEast)
         && functionParameters.Point.Y == (functionParameters.Map.World.Size.Height - Map._1)
         && functionParameters.Point.X == (functionParameters.Map.World.Size.Width - Map._1)
         ;
@@ -259,29 +289,75 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
     public bool BorderS(DefinitivMapColor.FunctionParameters functionParameters)
     {
-      return true
+      return false
+        || (true
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameSouth)
         && functionParameters.Point.Y == (functionParameters.Map.World.Size.Height - Map._1)
         && functionParameters.Point.X != Map._0
         && functionParameters.Point.X < (functionParameters.Map.World.Size.Width - Map._1)
+        )
+        || (true
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameSouth)
+        && functionParameters.Point.Y == (functionParameters.Map.World.Size.Height - Map._1)
+        && functionParameters.Point.X == Map._0
+        && this.EqualDefinitivColorName(functionParameters.Map, x => x.NameWest)
+        )
+        || (true
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameSouth)
+        && functionParameters.Point.Y == (functionParameters.Map.World.Size.Height - Map._1)
+        && functionParameters.Point.X >= (functionParameters.Map.World.Size.Width - Map._1)
+        && this.EqualDefinitivColorName(functionParameters.Map, x => x.NameEast)
+        )
         ;
     }
 
     public bool BorderW(DefinitivMapColor.FunctionParameters functionParameters)
     {
-      return true
+      return false
+        || (true
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameWest)
         && functionParameters.Point.X == Map._0
         && functionParameters.Point.Y != Map._0
         && functionParameters.Point.Y < (functionParameters.Map.World.Size.Height - Map._1)
+        )
+        || (true
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameWest)
+        && functionParameters.Point.X == Map._0
+        && functionParameters.Point.Y == Map._0
+        && this.EqualDefinitivColorName(functionParameters.Map, x => x.NameNorth)
+        )
+        || (true
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameWest)
+        && functionParameters.Point.X == Map._0
+        && functionParameters.Point.Y >= (functionParameters.Map.World.Size.Height - Map._1)
+        && this.EqualDefinitivColorName(functionParameters.Map, x => x.NameSouth)
+        )
         ;
     }
 
     public bool BorderE(DefinitivMapColor.FunctionParameters functionParameters)
     {
-      return true
+      return false ||
+        (true
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameEast)
         && functionParameters.Point.X == (functionParameters.Map.World.Size.Width - Map._1)
         && functionParameters.Point.Y != Map._0
         && functionParameters.Point.Y < (functionParameters.Map.World.Size.Height - Map._1)
+        )
+        || (true
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameEast)
+        && functionParameters.Point.X == (functionParameters.Map.World.Size.Width - Map._1)
+        && functionParameters.Point.Y == Map._0
+        && this.EqualDefinitivColorName(functionParameters.Map, x => x.NameNorth)
+        )
+        || (true
+        && !this.EqualDefinitivColorName(functionParameters.Map, x => x.NameEast)
+        && functionParameters.Point.X == (functionParameters.Map.World.Size.Width - Map._1)
+        && functionParameters.Point.Y >= (functionParameters.Map.World.Size.Height - Map._1)
+        && this.EqualDefinitivColorName(functionParameters.Map, x => x.NameSouth)
+        )
         ;
+      ;
     }
 
     private string Border(Func<DefinitivMapColor.FunctionParameters, bool> test, DefinitivMapColor.FunctionParameters a, object? value)
@@ -822,7 +898,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
         {
           for (int i = 0; i < layers.Length; i++)
           {
-            csvs[i] += (config + map.DefinitivColor.ToLayer(map, i, layers[i], new Point(x,y)));
+            csvs[i] += (config + map.DefinitivColor.ToLayer(map, i, layers[i], new Point(x, y)));
             if (x == map.World.Size.Width - Map._1) csvs[i] += Environment.NewLine;
           }
         }
