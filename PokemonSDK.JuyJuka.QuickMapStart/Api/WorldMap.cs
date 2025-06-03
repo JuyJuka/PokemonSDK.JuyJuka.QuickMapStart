@@ -14,14 +14,14 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
 
   public class WorldMap
   {
-    public List<Tuple<string, string>> ContigousNames { get; protected set; } = new List<Tuple<string, string>>();
-    public ILogger Logger { get; set; } = new Logger();
-    public BitMapExportFormat BitMapExportFormat { get; set; } = new BitMapExportFormat();
-    public Point Max { get; protected set; } = new Point(16, 16);
-    public Size Size { get; protected set; } = new Size(40, 30);
-    public int IdOffset { get; set; } = 22;
-    public List<Map> Maps { get; protected set; } = new List<Map>();
-    public IMapExportFormat[] Formats
+    public virtual List<Tuple<string, string>> ContigousNames { get; protected set; } = new List<Tuple<string, string>>();
+    public virtual ILogger Logger { get; set; } = new Logger();
+    public virtual BitMapExportFormat BitMapExportFormat { get; set; } = new BitMapExportFormat();
+    public virtual Point Max { get; protected set; } = new Point(16, 16);
+    public virtual Size Size { get; protected set; } = new Size(40, 30);
+    public virtual int IdOffset { get; set; } = 22;
+    public virtual List<Map> Maps { get; protected set; } = new List<Map>();
+    public virtual IMapExportFormat[] Formats
     {
       get
       {
@@ -42,21 +42,18 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
       {
         return (this._DefinitivMapColors = (this._DefinitivMapColors ??
           [
-            DefinitivMapColor.DefinitivMapColors_Grassland,
-            DefinitivMapColor.DefinitivMapColors_Forest,
-            // DefinitivMapColor.DefinitivMapColors_WatersEdge,
-            DefinitivMapColor.DefinitivMapColors_Sea,
-            // DefinitivMapColor.DefinitivMapColors_Cave,
-            DefinitivMapColor.DefinitivMapColors_Mountain,
-            DefinitivMapColor.DefinitivMapColors_RoughTerrain,
-            DefinitivMapColor.DefinitivMapColors_Urban,
-            // DefinitivMapColor.DefinitivMapColors_Rare,
+            StaticColors.DefinitivMapColors_Grassland,
+            StaticColors.DefinitivMapColors_Forest,
+            StaticColors.DefinitivMapColors_Sea,
+            StaticColors.DefinitivMapColors_Mountain,
+            StaticColors.DefinitivMapColors_RoughTerrain,
+            StaticColors.DefinitivMapColors_Urban,
           ]
         ));
       }
     }
 
-    public void SkaleImage(string fileName, Point? max = null, Size? size = null)
+    public virtual void SkaleImage(string fileName, Point? max = null, Size? size = null)
     {
       this.Logger.Write("Reading world...");
       this.Maps.Clear();
@@ -80,7 +77,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
       }
     }
 
-    public void Expor(string folder)
+    public virtual void Expor(string folder)
     {
       foreach (Map map in this.Maps)
       {

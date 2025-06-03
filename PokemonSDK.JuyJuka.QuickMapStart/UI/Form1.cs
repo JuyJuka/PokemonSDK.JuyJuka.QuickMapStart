@@ -11,7 +11,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
   public partial class Form1 : Form, ILogger
   {
     public virtual WorldMap WorldMap { get; protected set; } = new WorldMap();
-    
+
     public Form1()
     {
       this.InitializeComponent();
@@ -248,19 +248,16 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
 
     private void toolStripStatusLabel1_Click(object sender, EventArgs e)
     {
-      if (this.log.Count > 0)
-      {
-        Form form = new Form();
-        TextBox textBox = new TextBox();
-        textBox.Dock = DockStyle.Fill;
-        textBox.Multiline = true;
-        textBox.ReadOnly = true;
-        textBox.ScrollBars = ScrollBars.Both;
-        form.Text = this.Text;
-        textBox.Text = string.Join(Environment.NewLine, this.log);
-        form.Controls.Add(textBox);
-        form.ShowDialog();
-      }
+      if (this.log.Count > 0) this.ShowADialog<string, TextBox>(
+        (d, c) =>
+        {
+          c.Multiline = true;
+          c.ReadOnly = true;
+          c.ScrollBars = ScrollBars.Both;
+          c.Dock = DockStyle.Fill;
+          c.Text = d;
+        },
+        string.Join(Environment.NewLine, this.log));
     }
 
     private void button10_Click(object sender, EventArgs e)
@@ -326,35 +323,14 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
 
     private void button14_Click(object sender, EventArgs e)
     {
-      Form form = new Form();
       Dictionary<Form1ColorControl, DefinitivMapColor> cs = new Dictionary<Form1ColorControl, DefinitivMapColor>();
-      for (int i = this.WorldMap.DefinitivMapColors.Count - Map._1; i >= 0; i--)
+      if (this.ShowADialog<DefinitivMapColor, Form1ColorControl>((d, c) =>
       {
-        DefinitivMapColor color = this.WorldMap.DefinitivMapColors[i];
-        if (color == null) continue;
-        Form1ColorControl c = new Form1ColorControl(color.Name, color.Color);
-        c.Dock = DockStyle.Top;
         c.ColorDialog = this.colorDialog1;
-        form.Controls.Add(c);
-        cs.Add(c, color);
-      }
-      form.AcceptButton = new Button()
-      {
-        Text = "OK",
-        Dock = DockStyle.Bottom,
-        Height = 40,
-        DialogResult = DialogResult.OK,
-      };
-      // ((Button)form.AcceptButton).Click += (s, e) => form.Close();
-      form.WindowState = FormWindowState.Maximized;
-      form.Controls.Add((Button)form.AcceptButton);
-      if (form.ShowDialog() == DialogResult.OK)
-      {
-        foreach (var kvp in cs)
-        {
-          kvp.Value.Color = kvp.Key.ReturnColor;
-        }
-      }
+        c.Name = d.Name;
+        c.ReturnColor = d.Color;
+        cs.Add(c, d);
+      }, this.WorldMap.DefinitivMapColors)) foreach (var kvp in cs) kvp.Value.Color = kvp.Key.ReturnColor;
     }
 
     private void toolStripButton2_Click(object sender, EventArgs e)
@@ -451,6 +427,45 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       {
         this.textBoxListOfNames.Text = this.openFileDialog1.FileName;
       }
+    }
+
+    public virtual bool ShowADialog<TData, TControl>(Action<TData, TControl> setup, params TData[] objekts)
+      where TControl : Control, new()
+    {
+      return this.ShowADialog<TData, TControl>(setup, (IEnumerable<TData>)objekts);
+    }
+
+    public virtual bool ShowADialog<TData, TControl>(Action<TData, TControl> setup, IEnumerable<TData> objekts)
+      where TControl : Control, new()
+    {
+      Form form = new Form();
+      form.Text = this.Text;
+      if (objekts != null)
+        foreach (TData data in objekts)
+        {
+          TControl textBox = new TControl();
+          textBox.Dock = DockStyle.Top;
+          if (setup != null) setup(data, textBox);
+          form.Controls.Add(textBox);
+        }
+      form.AcceptButton = new Button()
+      {
+        Text = "OK",
+        Dock = DockStyle.Bottom,
+        Height = 40,
+        DialogResult = DialogResult.OK,
+      };
+      form.CancelButton = new Button()
+      {
+        Text = "Cancel",
+        Dock = DockStyle.Bottom,
+        Height = 40,
+        DialogResult = DialogResult.Cancel,
+      };
+      form.WindowState = FormWindowState.Maximized;
+      form.Controls.Add((Button)form.AcceptButton);
+      form.Controls.Add((Button)form.CancelButton);
+      return form.ShowDialog() == form.AcceptButton.DialogResult;
     }
   }
 }
