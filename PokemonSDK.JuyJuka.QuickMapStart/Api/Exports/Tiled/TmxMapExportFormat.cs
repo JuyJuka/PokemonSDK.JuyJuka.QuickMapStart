@@ -19,6 +19,25 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Tiled
     public static readonly string Height = "{{height}}";
     public static readonly string Widht = "{{width}}";
 
+    public static string[] Layers
+    {
+      get
+      {
+        return
+        [
+        LayerP,
+        LayerS,
+        LayerTT,
+        Layer3.Item2,
+        Layer3.Item1,
+        Layer2.Item2,
+        Layer2.Item1,
+        Layer1.Item2,
+        Layer1.Item1,
+        ];
+      }
+    }
+
     public TmxMapExportFormat() : base(".tmx") { this.StaticFilter = "_tiled"; }
 
     public override string ModifyTargetFolder(Map map, IPokemonStudioFolder folder) { return Path.Combine(string.Empty + Path.GetDirectoryName(folder?.Folder), Path.GetFileName(folder?.Folder) + this.StaticFilter); }
@@ -29,17 +48,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Tiled
       string re = asset;
       re = re.Replace(TmxMapExportFormat.Height, string.Empty + map.World.Size.Height);
       re = re.Replace(TmxMapExportFormat.Widht, string.Empty + map.World.Size.Width);
-      string[] layers = [
-        LayerP,
-        LayerS,
-        LayerTT,
-        Layer3.Item2,
-        Layer3.Item1,
-        Layer2.Item2,
-        Layer2.Item1,
-        Layer1.Item2,
-        Layer1.Item1,
-      ];
+      string[] layers = Layers;
       string[] csvs = new string[layers.Length];
 
       for (int y = 0; y < map.World.Size.Height; y++)

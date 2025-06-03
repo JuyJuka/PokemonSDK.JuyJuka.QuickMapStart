@@ -1,5 +1,6 @@
 ﻿namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
 {
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.Colors.Shapes;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Tiled;
 
   public static class StaticColors
@@ -73,6 +74,12 @@
       .DefaultSystemTagSand()
       .Music(Knowen.MusicGrass)
       .Panel(Knowen.PanelRoughTerrain)
+      .AddShapeAt<TreeShape>(0, 0)
+      .AddShapeAt<TreeShape>(4, 3)
+      .AddShapeAt<TreeShape>(4 + 1, 3 + 0)
+      .AddShapeAt<TreeShape>(4 + 0, 3 + 1)
+      .AddShapeAt<TreeShape>(4 + 2, 3 + 0)
+      .AddShapeAt<TreeShape>(4 + 0, 3 + 2)
       .DefinitivMapColor;
     #endregion RoughTerrain
 

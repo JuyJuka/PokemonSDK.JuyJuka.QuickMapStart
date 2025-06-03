@@ -6,11 +6,11 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     public static readonly string MusicUraban = "43 camphrier town.ogg";
 
     public static readonly object Nothing = 0;
-    public static readonly object Grass = 1;
-    public static readonly object Water = 151;
-    public static readonly object Mointain = 690;
-    public static readonly object RoughTerrain = 93;
-    public static readonly object Uraban = 239;
+    public static readonly object Grass = 1 + 0;
+    public static readonly object Water = 1 + 150;
+    public static readonly object Mointain = 1 + 689;
+    public static readonly object RoughTerrain = 1 + 92;
+    public static readonly object Uraban = 1 + 238;
 
     public static readonly object SystemTagSea = 4257 + 21;
     public static readonly object SystemTagGrass = 4257 + 5;
