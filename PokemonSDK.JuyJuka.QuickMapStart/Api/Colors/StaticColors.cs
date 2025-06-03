@@ -28,6 +28,7 @@
       DefinitivMapColorFluent.New("Grassland", Color.Green, Knowen.Grass)
       .Panel(Knowen.PanelGrass)
       .Music(Knowen.MusicGrass)
+      .AddShapeRandomly<GrassPatchShape>(2, 1, 3, 1)
       .DefinitivMapColor;
     #endregion Grassland
 
@@ -74,12 +75,12 @@
       .DefaultSystemTagSand()
       .Music(Knowen.MusicGrass)
       .Panel(Knowen.PanelRoughTerrain)
-      .AddShapeAt<TreeShape>(0, 0)
-      .AddShapeAt<TreeShape>(4, 3)
-      .AddShapeAt<TreeShape>(4 + 1, 3 + 0)
-      .AddShapeAt<TreeShape>(4 + 0, 3 + 1)
-      .AddShapeAt<TreeShape>(4 + 2, 3 + 0)
-      .AddShapeAt<TreeShape>(4 + 0, 3 + 2)
+      //.AddShapeAt<TreeShape>(0, 0)
+      //.AddShapeAt<TreeShape>(4, 3)
+      //.AddShapeAt<TreeShape>(4 + 1, 3 + 0)
+      //.AddShapeAt<TreeShape>(4 + 0, 3 + 1)
+      //.AddShapeAt<TreeShape>(4 + 2, 3 + 0)
+      //.AddShapeAt<TreeShape>(4 + 0, 3 + 2)
       .DefinitivMapColor;
     #endregion RoughTerrain
 

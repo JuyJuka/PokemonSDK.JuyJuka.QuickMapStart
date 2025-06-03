@@ -6,6 +6,23 @@
   using Y = Tuple<string, Point, string>;
   public class Shape : IShape
   {
+    public static Point Max(IEnumerable<Y> points)
+    {
+      int x, y;
+      return Shape.Max(points, out x, out y);
+    }
+    public static Point Max(IEnumerable<Y> points, out int maxX, out int maxY)
+    {
+      maxY = Map._0;
+      maxX = Map._0;
+      foreach (var x in points??[])
+      {
+        maxY = Math.Max(maxY, x.Item2.Y);
+        maxX = Math.Max(maxX, x.Item2.X);
+      }
+      return new Point(maxX, maxY);
+    }
+
     public virtual IShapePositon? Position { get; set; } = null;
     public virtual Y[] Points { get; set; } = [];
 
@@ -60,12 +77,7 @@
       int sizeMinX = Map._0;
       int maxY = Map._0;
       int maxX = Map._0;
-
-      foreach (var x in this.Points)
-      {
-        maxY = Math.Max(maxY, x.Item2.Y);
-        maxX = Math.Max(maxX, x.Item2.X);
-      }
+      Shape.Max(this.Points, out maxX, out maxY);
 
       Point shapeStart = original;
       bool shapeStart_IsStart = false;

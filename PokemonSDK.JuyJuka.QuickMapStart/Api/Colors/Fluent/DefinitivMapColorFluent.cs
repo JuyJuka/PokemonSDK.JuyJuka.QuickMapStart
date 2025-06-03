@@ -20,6 +20,26 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
       if (action != null) foreach (Action<T> action_ in action) if (action_ != null) action_(obj);
     }
 
+    public DefinitivMapColorFluent AddShapeRandomly<Shape>(int x, int y, int fx, int fy, params Action<Shape>[] action)
+      where Shape : IShape, new()
+    {
+      return this.AddShapeRandomly(x, y, fx, fy, new Shape(), s => this.DoActions((Shape)s, action));
+    }
+
+    public DefinitivMapColorFluent AddShapeRandomly(int x, int y, int fx, int fy, IShape shape, params Action<IShape>[] action)
+    {
+      int maxY = Map._0;
+      int maxX = Map._0;
+      Shapes.Shape.Max((shape as Shapes.Shape)?.Points, out maxX, out maxY);
+      return this.AddShape(x, y, shape, new SeamingRandomShapePositon()
+      {
+        WorldMapCoordinatesXModulo = x,
+        WorldMapCoordinatesYModulo = y,
+        FrequencyX = Math.Max(fx, Map._0) + Math.Abs(maxX),
+        FrequencyY = Math.Max(fy, Map._0) + Math.Abs(maxY),
+      }, action);
+    }
+
     public DefinitivMapColorFluent AddShapeAt<Shape>(int x, int y, params Action<Shape>[] action)
       where Shape : IShape, new()
     {
@@ -28,9 +48,14 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
 
     public DefinitivMapColorFluent AddShapeAt(int x, int y, IShape shape, params Action<IShape>[] action)
     {
+      return this.AddShape(x, y, shape, new AtShapePositon(x, y), action);
+    }
+
+    private DefinitivMapColorFluent AddShape(int x, int y, IShape shape, IShapePositon pos, params Action<IShape>[] action)
+    {
       if (shape != null)
       {
-        shape.Position = new AtShapePositon(x, y);
+        shape.Position = pos;
         this.DoActions(shape, action);
         this.DefinitivMapColor._Functions.Insert(Map._0, shape.ToLayer);
       }

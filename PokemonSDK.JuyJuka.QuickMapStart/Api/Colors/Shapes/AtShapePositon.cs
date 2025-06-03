@@ -10,7 +10,7 @@
     public AtShapePositon(int x, int y) { this.Point = new Point(x, y); }
     public AtShapePositon(Point point) { this.Point = point; }
     public virtual Point Point { get; set; } = new Point();
-    public bool IsStart(X parameters, Point start)
+    public virtual bool IsStart(X parameters, Point start)
     {
       return start.X == this.Point.X && start.Y == this.Point.Y;
     }
