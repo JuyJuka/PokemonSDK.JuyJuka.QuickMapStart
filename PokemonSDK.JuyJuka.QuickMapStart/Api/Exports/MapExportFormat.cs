@@ -25,15 +25,15 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports
     {
       if (this._mod != null && this._mod.Length > Map._0)
       {
-        return Path.Combine(folder?.Folder ?? ".", Path.Combine(this._mod));
+        return Path.Combine(folder?.Folder ?? PokemonStudioFolder.Fallback, Path.Combine(this._mod));
       }
       else
       {
-        return folder?.Folder ?? ".";
+        return folder?.Folder ?? PokemonStudioFolder.Fallback;
       }
     }
-    public virtual string ModifyTargetFile(Map map, string folder, string file) { return file; }
+    public virtual string ModifyTargetFile(Map map, IPokemonStudioFolder project, string folder, string file) { return file; }
 
-    public abstract string Export(Map map, string folder, string file, Func<string, Tuple<string, string>> readAsset);
+    public abstract string Export(Map map, IPokemonStudioFolder project, string folder, string file, Func<string, Tuple<string, string>> readAsset);
   }
 }

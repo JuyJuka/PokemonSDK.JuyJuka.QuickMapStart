@@ -1,12 +1,13 @@
 namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Music
 {
   using System;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
 
   public class MusicMapExportFormat : MapExportFormat
   {
     public MusicMapExportFormat() : base("Data", "Studio", "maps", ".json") { }
 
-    public override string ModifyTargetFile(Map map, string folder, string file)
+    public override string ModifyTargetFile(Map map, IPokemonStudioFolder project, string folder, string file)
     {
       if (string.IsNullOrEmpty(map?.DefinitivColor?.MusicName)) return null;
       foreach (string file2 in Directory.GetFiles(folder))
@@ -23,7 +24,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Music
       return null;
     }
 
-    public override string Export(Map map, string folder, string file, Func<string, Tuple<string, string>> readAsset)
+    public override string Export(Map map, IPokemonStudioFolder project, string folder, string file, Func<string, Tuple<string, string>> readAsset)
     {
       if (string.IsNullOrEmpty(file)) return string.Empty;
       string music = map.DefinitivColor.MusicName;

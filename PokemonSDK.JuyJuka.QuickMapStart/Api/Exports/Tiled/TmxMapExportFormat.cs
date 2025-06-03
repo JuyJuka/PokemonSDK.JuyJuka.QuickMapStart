@@ -21,7 +21,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Tiled
 
     public override string ModifyTargetFolder(Map map, IPokemonStudioFolder folder) { return Path.Combine(string.Empty + Path.GetDirectoryName(folder?.Folder), Path.GetFileName(folder?.Folder) + this.StaticFilter); }
 
-    public override string Export(Map map, string folder, string file, string asset, string config)
+    public override string Export(Map map, IPokemonStudioFolder project, string folder, string file, string asset, string config)
     {
       //Draw(map, folder, file, asset, config);
       string re = asset;

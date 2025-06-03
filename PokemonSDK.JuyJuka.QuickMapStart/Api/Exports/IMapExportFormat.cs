@@ -7,8 +7,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports
   {
     string FileExtendsion { get; }
     string StaticFilter { get; }
-    string ModifyTargetFolder(Map map, IPokemonStudioFolder folder);
-    string ModifyTargetFile(Map map, string folder, string file);
-    string Export(Map map, string folder, string file, Func<string, Tuple<string, string>> readAsset);
+    string ModifyTargetFolder(Map map, IPokemonStudioFolder project);
+    string ModifyTargetFile(Map map, IPokemonStudioFolder project, string folder, string file);
+    string Export(Map map, IPokemonStudioFolder project, string folder, string file, Func<string, Tuple<string, string>> readAsset);
   }
 }

@@ -12,7 +12,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.BitMap
 
     public override string ModifyTargetFolder(Map map, IPokemonStudioFolder folder) { return Path.Combine(string.Empty + Path.GetDirectoryName(folder?.Folder), Path.GetFileName(folder?.Folder) + this.StaticFilter); }
 
-    public override string Export(Map map, string folder, string file, Func<string, Tuple<string, string>> readAsset)
+    public override string Export(Map map, IPokemonStudioFolder project, string folder, string file, Func<string, Tuple<string, string>> readAsset)
     {
       string file_ = Path.Combine(folder, this.StaticFilter + this.FileExtendsion);
       string file__ = Path.Combine(folder, this.StaticFilter + Map._0 + this.FileExtendsion);

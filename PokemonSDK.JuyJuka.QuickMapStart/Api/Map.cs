@@ -212,8 +212,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
         this.World.Logger.Write(this.Name + ".." + format.FileExtendsion);
         // keep order ModifyTargetFolder -> ModifyTargetFile -> Export
         string f2 = format.ModifyTargetFolder(this, folder);
-        string f3 = format.ModifyTargetFile(this, f2, Path.Combine(f2, this.Name + format.FileExtendsion));
-        string content = format.Export(this, f2, f3, s => this.ExportStaticsReadAsset(myFolder, s));
+        string f3 = format.ModifyTargetFile(this, folder, f2, Path.Combine(f2, this.Name + format.FileExtendsion));
+        string content = format.Export(this, folder, f2, f3, s => this.ExportStaticsReadAsset(myFolder, s));
         if (string.IsNullOrEmpty(content)) continue;
         if (!Directory.Exists(f2)) Directory.CreateDirectory(f2);
         if (!string.IsNullOrEmpty(format.StaticFilter)) this.ExportStatics(myFolder, format.StaticFilter, f2);

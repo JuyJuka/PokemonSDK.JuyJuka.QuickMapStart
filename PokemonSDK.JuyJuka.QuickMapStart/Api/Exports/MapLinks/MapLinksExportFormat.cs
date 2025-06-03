@@ -1,14 +1,15 @@
 namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.MapLinks
 {
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
 
   public class MapLinksExportFormat : SingleAssetMapExportFormat
   {
     public MapLinksExportFormat() : base("Data", "Studio", "maplinks", ".json") { }
 
-    public override string ModifyTargetFile(Map map, string folder, string file) { return Path.Combine(folder, "maplink_" + map.Id + this.FileExtendsion); }
+    public override string ModifyTargetFile(Map map, IPokemonStudioFolder project, string folder, string file) { return Path.Combine(folder, "maplink_" + map.Id + this.FileExtendsion); }
 
-    public override string Export(Map map, string folder, string file, string asset, string config)
+    public override string Export(Map map, IPokemonStudioFolder project, string folder, string file, string asset, string config)
     {
       asset = asset.Replace("{{lid}}", string.Empty + map.Id);
       asset = asset.Replace("{{mid}}", string.Empty + map.Id);
