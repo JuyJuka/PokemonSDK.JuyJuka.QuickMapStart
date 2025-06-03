@@ -6,9 +6,11 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
 
   using PokemonSDK.JuyJuka.QuickMapStart.Api;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Colors;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Logging;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.Wait;
 
-  public partial class Form1 : Form, ILogger
+  public partial class Form1 : Form, ILogger, IWaiter
   {
     public virtual WorldMap WorldMap { get; protected set; } = new WorldMap();
 
@@ -16,6 +18,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
     {
       this.InitializeComponent();
       this.WorldMap.Logger = this;
+      this.WorldMap.Waiter = this;
       foreach (TableLayoutPanel grid in new TableLayoutPanel[]{
         this.tableLayoutPanel1,
         this.tableLayoutPanel2,
@@ -133,7 +136,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
         {
           Button button = new Button();
           button.Size = bSize;
-          button.Text = m.DefinitivColor.ToString();
+          button.Text = string.Empty + m.Id;
           button.BackColor = m.DefinitivColor.Color;
           button.AutoSize = false;
           button.Tag = m;
@@ -323,14 +326,17 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
 
     private void button14_Click(object sender, EventArgs e)
     {
-      Dictionary<Form1ColorControl, DefinitivMapColor> cs = new Dictionary<Form1ColorControl, DefinitivMapColor>();
-      if (this.ShowADialog<DefinitivMapColor, Form1ColorControl>((d, c) =>
+      this.ShowADialogAndSaveOnOkay<DefinitivMapColor, Form1ColorControl>((d, c) =>
       {
         c.ColorDialog = this.colorDialog1;
         c.Name = d.Name;
         c.ReturnColor = d.Color;
-        cs.Add(c, d);
-      }, this.WorldMap.DefinitivMapColors)) foreach (var kvp in cs) kvp.Value.Color = kvp.Key.ReturnColor;
+      }
+      ,
+      (d, c) => d.Color = c.ReturnColor
+      ,
+      this.WorldMap.DefinitivMapColors
+      );
     }
 
     private void toolStripButton2_Click(object sender, EventArgs e)
@@ -429,6 +435,29 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       }
     }
 
+    private void button16_Click(object sender, EventArgs e)
+    {
+      using (Control x = new Form1ColorControl())
+        this.ShowADialogAndSaveOnOkay<IMapExportFormat, CheckBox>((d, c) => { c.Text = d.Name; c.Checked = d.IsEnabled; c.Height = x.Height; }, (d, c) => d.IsEnabled = c.Checked, this.WorldMap.Formats);
+    }
+
+    public virtual void ShowADialogAndSaveOnOkay<TData, TControl>(Action<TData, TControl> setup, Action<TData, TControl> onOkay, params TData[] objekts)
+      where TControl : Control, new()
+    {
+      this.ShowADialogAndSaveOnOkay<TData, TControl>(setup, onOkay, (IEnumerable<TData>)objekts);
+    }
+
+    public virtual void ShowADialogAndSaveOnOkay<TData, TControl>(Action<TData, TControl> setup, Action<TData, TControl> onOkay, IEnumerable<TData> objekts)
+      where TControl : Control, new()
+    {
+      Dictionary<TControl, TData> cs = new Dictionary<TControl, TData>();
+      if (this.ShowADialog<TData, TControl>((d, c) =>
+      {
+        if (setup != null) setup(d, c);
+        cs.Add(c, d);
+      }, objekts)) foreach (var kvp in cs) if (onOkay != null) onOkay(kvp.Value, kvp.Key);
+    }
+
     public virtual bool ShowADialog<TData, TControl>(Action<TData, TControl> setup, params TData[] objekts)
       where TControl : Control, new()
     {
@@ -466,6 +495,11 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       form.Controls.Add((Button)form.AcceptButton);
       form.Controls.Add((Button)form.CancelButton);
       return form.ShowDialog() == form.AcceptButton.DialogResult;
+    }
+
+    public virtual void Wait(WaitFor waitFor)
+    {
+      this.Invoke(() => { MessageBox.Show("Waiting for:" + waitFor, this.Text, MessageBoxButtons.OK); });
     }
   }
 }

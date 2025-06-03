@@ -5,6 +5,9 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports
 
   public interface IMapExportFormat
   {
+    bool IsPostPokemonStudioImport { get; }
+    bool IsEnabled { get; set; }
+    string Name { get; }
     string FileExtendsion { get; }
     string StaticFilter { get; }
     string ModifyTargetFolder(Map map, IPokemonStudioFolder project);

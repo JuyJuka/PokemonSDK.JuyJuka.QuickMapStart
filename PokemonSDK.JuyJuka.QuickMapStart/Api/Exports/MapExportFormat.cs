@@ -18,6 +18,9 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports
       }
     }
 
+    public virtual string Name { get { return this.GetType().Name; } }
+    public virtual bool IsPostPokemonStudioImport { get; set; } = false;
+    public virtual bool IsEnabled { get; set; } = true;
     public virtual string FileExtendsion { get; set; } = ".txt";
     public virtual string StaticFilter { get; set; } = string.Empty;
     private string[] _mod = [];

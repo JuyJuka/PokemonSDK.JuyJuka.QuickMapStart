@@ -209,6 +209,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
       string myFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly()?.Location) ?? string.Empty;
       foreach (IMapExportFormat format in this.World.Formats)
       {
+        if (format == null || !format.IsEnabled) continue;
         this.World.Logger.Write(this.Name + ".." + format.FileExtendsion);
         // keep order ModifyTargetFolder -> ModifyTargetFile -> Export
         string f2 = format.ModifyTargetFolder(this, folder);

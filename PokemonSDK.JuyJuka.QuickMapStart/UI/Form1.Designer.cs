@@ -52,6 +52,7 @@
       this.textBoxFolder = new TextBox();
       this.button3 = new Button();
       this.label16 = new Label();
+      this.button16 = new Button();
       this.folderBrowserDialog1 = new FolderBrowserDialog();
       this.openFileDialog1 = new OpenFileDialog();
       this.tabControl1 = new TabControl();
@@ -170,6 +171,7 @@
       this.tableLayoutPanel1.Controls.Add(this.textBoxFolder, 1, 2);
       this.tableLayoutPanel1.Controls.Add(this.button3, 2, 2);
       this.tableLayoutPanel1.Controls.Add(this.label16, 0, 1);
+      this.tableLayoutPanel1.Controls.Add(this.button16, 1, 4);
       this.tableLayoutPanel1.Dock = DockStyle.Fill;
       this.tableLayoutPanel1.Location = new Point(3, 3);
       this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -410,6 +412,16 @@
       this.label16.Size = new Size(140, 30);
       this.label16.TabIndex = 17;
       this.label16.Text = "List of Names";
+      // 
+      // button16
+      // 
+      this.button16.Location = new Point(344, 163);
+      this.button16.Name = "button16";
+      this.button16.Size = new Size(131, 34);
+      this.button16.TabIndex = 20;
+      this.button16.Text = "Specific";
+      this.button16.UseVisualStyleBackColor = true;
+      this.button16.Click += this.button16_Click;
       // 
       // openFileDialog1
       // 
@@ -1142,5 +1154,6 @@
     private Button buttonSetImportNames;
     private TextBox textBoxListOfNames;
     private Label label16;
+    private Button button16;
   }
 }

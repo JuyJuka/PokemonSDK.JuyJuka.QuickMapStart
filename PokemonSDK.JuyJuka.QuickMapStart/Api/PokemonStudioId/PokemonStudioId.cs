@@ -27,7 +27,7 @@
 
       string file = this.ToFile(folder);
       string[] txtContent = [];
-      if (File.Exists(file)) File.ReadAllLines(file);
+      if (File.Exists(file)) txtContent = File.ReadAllLines(file);
       re = txtContent.Length
         - Map._1 // 0 based index
         + Map._1 // header, languages

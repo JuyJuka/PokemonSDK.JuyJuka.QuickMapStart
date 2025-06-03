@@ -5,7 +5,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Music
 
   public class MusicMapExportFormat : MapExportFormat
   {
-    public MusicMapExportFormat() : base("Data", "Studio", "maps", ".json") { }
+    public MusicMapExportFormat() : base("Data", "Studio", "maps", ".json") { this.IsPostPokemonStudioImport = true; }
 
     public override string ModifyTargetFile(Map map, IPokemonStudioFolder project, string folder, string file)
     {

@@ -12,9 +12,21 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Logging;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.Wait;
 
   public class WorldMap
   {
+    public WorldMap()
+    {
+      this.Formats = new IMapExportFormat[] {
+          new TmxMapExportFormat(),
+          new MapLinksExportFormat(),
+          new ZoneExportFormat(),
+          this.BitMapExportFormat,
+          new MusicMapExportFormat(),
+        };
+    }
+    public virtual IWaiter? Waiter { get; set; } = null;
     public virtual List<Tuple<string, string>> ContigousNames { get; protected set; } = new List<Tuple<string, string>>();
     public virtual ILogger Logger { get; set; } = new Logger();
     public virtual BitMapExportFormat BitMapExportFormat { get; set; } = new BitMapExportFormat();
@@ -22,19 +34,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     public virtual Size Size { get; protected set; } = new Size(40, 30);
     public virtual int IdOffset { get; set; } = 22;
     public virtual List<Map> Maps { get; protected set; } = new List<Map>();
-    public virtual IMapExportFormat[] Formats
-    {
-      get
-      {
-        return new IMapExportFormat[] {
-          new TmxMapExportFormat(),
-          new MapLinksExportFormat(),
-          new ZoneExportFormat(),
-          this.BitMapExportFormat,
-          new MusicMapExportFormat(),
-        };
-      }
-    }
+    public virtual IMapExportFormat[] Formats { get; set; } = [];
 
     private List<DefinitivMapColor>? _DefinitivMapColors = null;
     public List<DefinitivMapColor> DefinitivMapColors
@@ -80,11 +80,21 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
 
     public virtual void Expor(IPokemonStudioFolder folder)
     {
+      List<IMapExportFormat> all = new List<IMapExportFormat>(this.Formats);
+      this.Formats = all.FindAll(x => !x.IsPostPokemonStudioImport).ToArray();
       foreach (Map map in this.Maps)
       {
         map.World = this;
         map.Export(folder);
       }
+      this.Formats = all.FindAll(x => x.IsPostPokemonStudioImport).ToArray();
+      if (this.Waiter != null) this.Waiter.Wait(Wait.WaitFor.PokemonStudioMapImport);
+      foreach (Map map in this.Maps)
+      {
+        map.World = this;
+        map.Export(folder);
+      }
+      this.Formats = all.ToArray();
     }
   }
 }

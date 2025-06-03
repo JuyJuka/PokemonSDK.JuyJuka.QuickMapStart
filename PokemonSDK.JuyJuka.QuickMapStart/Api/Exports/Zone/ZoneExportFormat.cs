@@ -20,6 +20,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone
       int _lid = Math.Max(StaticId.ZoneName.GuessFor(project, map, true), StaticId.ZoneDescription.GuessFor(project, map, true));
       PokemonStudioId.Cache[StaticId.ZoneName.Id][map] = _lid;
       PokemonStudioId.Cache[StaticId.ZoneDescription.Id][map] = _lid;
+      StaticId.ZoneName.WriteText(project, map, true, map.ContigousName);
+      StaticId.ZoneDescription.WriteText(project, map, true, map.Name + map.Description);
       asset = asset.Replace("{{lid}}", string.Empty + _lid);
       asset = asset.Replace("{{mid}}", string.Empty + map.Id);
       asset = asset.Replace("{{nid}}", string.Empty + map.IdNorth);
