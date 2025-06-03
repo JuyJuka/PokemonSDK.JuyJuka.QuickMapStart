@@ -23,7 +23,7 @@
     public virtual int GuessFor(IPokemonStudioFolder folder, object obj, bool withCache)
     {
       int re = Map._0;
-      if (!withCache && this.AC(null, this.Id, obj, out re)) return re;
+      if (withCache && this.AC(null, this.Id, obj, out re)) return re;
 
       string file = this.ToFile(folder);
       string[] txtContent = [];

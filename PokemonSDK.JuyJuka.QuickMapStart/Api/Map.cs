@@ -54,7 +54,9 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     #region Id
     private int MakeId(WorldMap w, int x, int y)
     {
-      return w.IdOffset
+      int hadBeen = 22;
+      hadBeen = StaticId.MapName.GuessFor(this.World.Folder, this.World, false);
+      return hadBeen
         + (Map.OverflowX(w, x) * w.Max.X/*does it need to be Max.Y ?*/)
         + Map.OverflowY(w, y)
         ;
@@ -200,10 +202,10 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
         if (hueDiff <= tollerance) re = reTollerenace;
       }
       // how to estimate a color?
-      return re ?? fallback;
+      return re ?? fallback ?? new DefinitivMapColor(string.Empty, System.Drawing.Color.Transparent);
     }
 
-    public virtual void Export(IPokemonStudioFolder folder)
+    public virtual void Export()
     {
       this.World.Logger.Write(this.Name + "...");
       string myFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly()?.Location) ?? string.Empty;
@@ -212,9 +214,9 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
         if (format == null || !format.IsEnabled) continue;
         this.World.Logger.Write(this.Name + ".." + format.FileExtendsion);
         // keep order ModifyTargetFolder -> ModifyTargetFile -> Export
-        string f2 = format.ModifyTargetFolder(this, folder);
-        string f3 = format.ModifyTargetFile(this, folder, f2, Path.Combine(f2, this.Name + format.FileExtendsion));
-        string content = format.Export(this, folder, f2, f3, s => this.ExportStaticsReadAsset(myFolder, s));
+        string f2 = format.ModifyTargetFolder(this, this.World.Folder);
+        string f3 = format.ModifyTargetFile(this, this.World.Folder, f2, Path.Combine(f2, this.Name + format.FileExtendsion));
+        string content = format.Export(this, this.World.Folder, f2, f3, s => this.ExportStaticsReadAsset(myFolder, s));
         if (string.IsNullOrEmpty(content)) continue;
         if (!Directory.Exists(f2)) Directory.CreateDirectory(f2);
         if (!string.IsNullOrEmpty(format.StaticFilter)) this.ExportStatics(myFolder, format.StaticFilter, f2);

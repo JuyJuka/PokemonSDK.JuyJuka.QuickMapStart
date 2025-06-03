@@ -8,6 +8,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Colors;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Logging;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Wait;
 
   public partial class Form1 : Form, ILogger, IWaiter
@@ -77,7 +78,20 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
         string name = Path.GetFileNameWithoutExtension(this.openFileDialog1.FileName);
         if (Directory.Exists(Path.Combine(folder, name)) && DialogResult.Yes == MessageBox.Show("Folder recogniced. We could set it as export folder.", "Folder recogniced.", MessageBoxButtons.YesNo))
         {
-          this.textBoxFolder.Text = Path.Combine(folder, name);
+          this.WorldMap.Folder.Folder = this.textBoxFolder.Text = Path.Combine(folder, name);
+        }
+        if (true
+          && (string.IsNullOrEmpty(this.WorldMap.Folder.Folder) || this.WorldMap.Folder.Folder== PokemonStudioFolder.Fallback)
+          && !string.IsNullOrEmpty(this.textBoxEmpty.Text) 
+          && Directory.Exists(this.textBoxEmpty.Text) 
+          && DialogResult.Yes == MessageBox.Show("No Folder. We could use a fallback?", "Folder fallbakc.", MessageBoxButtons.YesNo))
+        {
+          this.WorldMap.Folder.Folder = this.textBoxFolder.Text = Path.Combine(folder, name);
+          Directory.CreateDirectory(this.WorldMap.Folder.Folder);
+          this.Export(false
+          , () => this.WorldMap.Logger.Write("Copying empty...")
+          , () => Program.CopyFilesRecursively(this.textBoxEmpty.Text, this.textBoxFolder.Text, this.WorldMap.Logger)
+          );
         }
         if (File.Exists(Path.Combine(folder, name + ".csv")) && DialogResult.Yes == MessageBox.Show("CSV file recogniced. We could set it as importable Names.", "CSV/Names recogniced.", MessageBoxButtons.YesNo))
         {
@@ -88,11 +102,16 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
 
     private void button3_Click(object sender, EventArgs e)
     {
-      if (this.folderBrowserDialog1.ShowDialog() == DialogResult.OK) this.textBoxFolder.Text = this.folderBrowserDialog1.SelectedPath;
+      if (this.folderBrowserDialog1.ShowDialog() == DialogResult.OK) this.WorldMap.Folder.Folder = this.textBoxFolder.Text = this.folderBrowserDialog1.SelectedPath;
     }
 
     private void buttonImport_Click(object sender, EventArgs e)
     {
+      if (string.IsNullOrEmpty(this.textBoxImage.Text))
+      {
+        this.button1_Click(sender, e);
+        return;
+      }
       if (this.RequiredFailed(this.textBoxImage, null)) return;
       if (this.RequiredFailed(this.numericUpDownMaxX, null)) return;
       if (this.RequiredFailed(this.numericUpDownMaxY, null)) return;
@@ -178,7 +197,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
     {
       if (this.RequiredFailed(sender as Control, this.WorldMap?.Maps?.Count, "Maps")) return;
       if (this.RequiredFailed(this.textBoxFolder, null)) return;
-      this.Export(this.textBoxFolder.Text);
+      this.Export(true);
     }
 
     private void button8_Click(object sender, EventArgs e)
@@ -186,7 +205,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       if (this.RequiredFailed(sender as Control, this.WorldMap?.Maps?.Count, "Maps")) return;
       if (this.RequiredFailed(this.textBoxEmpty, null)) return;
       string folder = Path.Combine(Path.GetDirectoryName(this.textBoxImage.Text), Path.GetFileNameWithoutExtension(this.textBoxImage.Text));
-      this.textBoxFolder.Text = folder;
+      this.WorldMap.Folder.Folder = this.textBoxFolder.Text = folder;
       string empty = this.textBoxEmpty.Text;
       if (this.RequiredFailed(sender as Control, Directory.Exists(empty) ? decimal.One : decimal.Zero, "Empty Folder on HDD")) return;
       List<System.Action> todos = new List<System.Action>();
@@ -202,7 +221,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       }
       todos.Add(() => this.WorldMap.Logger.Write("Copying empty..."));
       todos.Add(() => Program.CopyFilesRecursively(empty, folder, this.WorldMap.Logger));
-      this.Export(folder, todos.ToArray());
+      this.Export(true, todos.ToArray());
     }
 
     private void button9_Click(object sender, EventArgs e)
@@ -210,7 +229,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       if (this.folderBrowserDialog1.ShowDialog() == DialogResult.OK) this.textBoxEmpty.Text = this.folderBrowserDialog1.SelectedPath;
     }
 
-    private void Export(string folder, params System.Action[] todos)
+    private void Export(bool expor, params System.Action[] todos)
     {
       this.log.Clear();
       this.tabControl1.Enabled = false;
@@ -219,7 +238,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       new Thread(() =>
       {
         if (todos != null) foreach (var todosItem in todos) if (todosItem != null) todosItem();
-        this.WorldMap.Expor(new Api.PokemonStudioId.PokemonStudioFolder() { Folder = folder });
+        if (expor) this.WorldMap.Expor();
         this.Invoke(() =>
         {
           this.tabControl1.Enabled = true;
@@ -269,8 +288,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
       {
         FileName = "explorer",
-        WorkingDirectory = this.textBoxFolder.Text,
-        Arguments = "\"" + Path.Combine(this.textBoxFolder.Text, ((Control)sender).Text) + "\"",
+        WorkingDirectory = this.WorldMap.Folder.Folder,
+        Arguments = "\"" + Path.Combine(this.WorldMap.Folder.Folder, ((Control)sender).Text) + "\"",
       });
     }
 

@@ -32,9 +32,9 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     public virtual BitMapExportFormat BitMapExportFormat { get; set; } = new BitMapExportFormat();
     public virtual Point Max { get; protected set; } = new Point(16, 16);
     public virtual Size Size { get; protected set; } = new Size(40, 30);
-    public virtual int IdOffset { get; set; } = 22;
     public virtual List<Map> Maps { get; protected set; } = new List<Map>();
     public virtual IMapExportFormat[] Formats { get; set; } = [];
+    public virtual IPokemonStudioFolder Folder { get; set; } = new PokemonStudioFolder();
 
     private List<DefinitivMapColor>? _DefinitivMapColors = null;
     public List<DefinitivMapColor> DefinitivMapColors
@@ -78,21 +78,21 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
       }
     }
 
-    public virtual void Expor(IPokemonStudioFolder folder)
+    public virtual void Expor()
     {
       List<IMapExportFormat> all = new List<IMapExportFormat>(this.Formats);
       this.Formats = all.FindAll(x => !x.IsPostPokemonStudioImport).ToArray();
       foreach (Map map in this.Maps)
       {
         map.World = this;
-        map.Export(folder);
+        map.Export();
       }
       this.Formats = all.FindAll(x => x.IsPostPokemonStudioImport).ToArray();
       if (this.Waiter != null) this.Waiter.Wait(Wait.WaitFor.PokemonStudioMapImport);
       foreach (Map map in this.Maps)
       {
         map.World = this;
-        map.Export(folder);
+        map.Export();
       }
       this.Formats = all.ToArray();
     }

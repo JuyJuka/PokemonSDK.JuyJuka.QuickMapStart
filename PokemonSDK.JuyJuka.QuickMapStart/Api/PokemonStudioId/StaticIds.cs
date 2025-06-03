@@ -13,7 +13,7 @@ export const ZONE_NAME_TEXT_ID = 100010;
      */
     #endregion Docu?
 
-    public static IPokemonStudioId MapName = new PokemonStudioId() { Id = "200002", Name = "MAP_NAME_TEXT_ID" };
+    public static IPokemonStudioId MapName = new MapIdShenanigangsPokemonStudioId(new PokemonStudioId() { Id = "200002", Name = "MAP_NAME_TEXT_ID" }, "Data", "Studio", "maps");
     public static IPokemonStudioId MapDescription = new PokemonStudioId() { Id = "200003", Name = "MAP_NAME_TEXT_ID" };
     public static IPokemonStudioId ZoneName = new PokemonStudioId() { Id = "100010", Name = "MAP_NAME_TEXT_ID" };
     public static IPokemonStudioId ZoneDescription = new PokemonStudioId() { Id = "100064", Name = "MAP_NAME_TEXT_ID" };
