@@ -4,10 +4,13 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone
 
   using PokemonSDK.JuyJuka.QuickMapStart.Api;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
 
   public class ZoneExportFormat : SingleAssetMapExportFormat
   {
     /*
+export const MAP_NAME_TEXT_ID = 200002;
+export const MAP_DESCRIPTION_TEXT_ID = 200003;
 export const ZONE_DESCRIPTION_TEXT_ID = 100064;
 export const ZONE_NAME_TEXT_ID = 100010;
      */
@@ -68,10 +71,10 @@ export const ZONE_NAME_TEXT_ID = 100010;
     public override string Export(Map map, string folder, string file, string asset, string config)
     {
       string folder2 = file;
-      for (int i = Map._0; i < _pathAndExtension.Length; i++) folder2 = Path.GetDirectoryName(folder2);
-      string n_d = this.Name.ModifyTargetFolder(map, folder2);
+      for (int i = Map._0; i < _pathAndExtension.Length; i++) folder2 = Path.GetDirectoryName(folder2) ?? ".";
+      string n_d = this.Name.ModifyTargetFolder(map, new PokemonStudioFolder() { Folder = folder2 });
       string n_f = this.Name.ModifyTargetFile(map, n_d, file);
-      string d_d = this.Description.ModifyTargetFolder(map, folder2);
+      string d_d = this.Description.ModifyTargetFolder(map, new PokemonStudioFolder() { Folder = folder2 });
       string d_f = this.Description.ModifyTargetFile(map, d_d, file);
       this.Description._lid = this.Name._lid = Math.Max(this.Name._lid, this.Description._lid);
       this.Name.Export(map, n_d, n_f, asset, config);

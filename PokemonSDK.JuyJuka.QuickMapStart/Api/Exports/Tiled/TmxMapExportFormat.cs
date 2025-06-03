@@ -5,6 +5,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Tiled
 
   using PokemonSDK.JuyJuka.QuickMapStart.Api;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
 
   public class TmxMapExportFormat : SingleAssetMapExportFormat
   {
@@ -18,7 +19,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Tiled
 
     public TmxMapExportFormat() : base(".tmx") { this.StaticFilter = "_tiled"; }
 
-    public override string ModifyTargetFolder(Map map, string folder) { return Path.Combine(string.Empty + Path.GetDirectoryName(folder), Path.GetFileName(folder) + this.StaticFilter); }
+    public override string ModifyTargetFolder(Map map, IPokemonStudioFolder folder) { return Path.Combine(string.Empty + Path.GetDirectoryName(folder?.Folder), Path.GetFileName(folder?.Folder) + this.StaticFilter); }
 
     public override string Export(Map map, string folder, string file, string asset, string config)
     {

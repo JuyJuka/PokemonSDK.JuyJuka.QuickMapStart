@@ -4,12 +4,13 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.BitMap
   using System.Drawing;
   using System.Drawing.Drawing2D;
   using System.Drawing.Imaging;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
 
   public class BitMapExportFormat : MapExportFormat
   {
     public BitMapExportFormat() : base(".bmp") { this.StaticFilter = "_bmp"; }
 
-    public override string ModifyTargetFolder(Map map, string folder) { return Path.Combine(string.Empty + Path.GetDirectoryName(folder), Path.GetFileName(folder) + this.StaticFilter); }
+    public override string ModifyTargetFolder(Map map, IPokemonStudioFolder folder) { return Path.Combine(string.Empty + Path.GetDirectoryName(folder?.Folder), Path.GetFileName(folder?.Folder) + this.StaticFilter); }
 
     public override string Export(Map map, string folder, string file, Func<string, Tuple<string, string>> readAsset)
     {

@@ -1,5 +1,7 @@
 namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports
 {
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
+
   public abstract class MapExportFormat : IMapExportFormat
   {
     public MapExportFormat() { }
@@ -18,16 +20,16 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports
 
     public virtual string FileExtendsion { get; set; } = ".txt";
     public virtual string StaticFilter { get; set; } = string.Empty;
-    private string[] _mod = null;
-    public virtual string ModifyTargetFolder(Map map, string folder)
+    private string[] _mod = [];
+    public virtual string ModifyTargetFolder(Map map, IPokemonStudioFolder folder)
     {
       if (this._mod != null && this._mod.Length > Map._0)
       {
-        return Path.Combine(folder, Path.Combine(this._mod));
+        return Path.Combine(folder?.Folder ?? ".", Path.Combine(this._mod));
       }
       else
       {
-        return folder;
+        return folder?.Folder ?? ".";
       }
     }
     public virtual string ModifyTargetFile(Map map, string folder, string file) { return file; }

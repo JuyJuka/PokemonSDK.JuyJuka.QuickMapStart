@@ -216,7 +216,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       new Thread(() =>
       {
         if (todos != null) foreach (var todosItem in todos) if (todosItem != null) todosItem();
-        this.WorldMap.Expor(folder);
+        this.WorldMap.Expor(new Api.PokemonStudioId.PokemonStudioFolder() { Folder = folder });
         this.Invoke(() =>
         {
           this.tabControl1.Enabled = true;

@@ -11,6 +11,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Tiled;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Logging;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
 
   public class WorldMap
   {
@@ -77,7 +78,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
       }
     }
 
-    public virtual void Expor(string folder)
+    public virtual void Expor(IPokemonStudioFolder folder)
     {
       foreach (Map map in this.Maps)
       {

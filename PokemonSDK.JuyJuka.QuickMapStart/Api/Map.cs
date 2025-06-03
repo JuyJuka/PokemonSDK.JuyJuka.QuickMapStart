@@ -5,6 +5,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
 
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Colors;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
 
   public class Map
   {
@@ -202,7 +203,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
       return re ?? fallback;
     }
 
-    public virtual void Export(string folder)
+    public virtual void Export(IPokemonStudioFolder folder)
     {
       this.World.Logger.Write(this.Name + "...");
       string myFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly()?.Location) ?? string.Empty;
