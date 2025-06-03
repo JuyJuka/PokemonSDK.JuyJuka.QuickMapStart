@@ -17,6 +17,8 @@
       this.Path = path ?? [];
     }
 
+    private List<string> countedAndIgnored = new List<string>();
+    private List<string> countedAndCounted = new List<string>();
     public virtual int GuessFor(IPokemonStudioFolder folder, object obj, bool withCache)
     {
       int re = this.Base.GuessFor(folder, obj, withCache);
@@ -25,8 +27,16 @@
       re = Map._1;
       foreach (string file in Directory.GetFiles(System.IO.Path.Combine(folder?.Folder ?? PokemonStudioFolder.Fallback, System.IO.Path.Combine(this.Path))))
       {
+        if (countedAndIgnored.Contains(file)) continue;
+        if (countedAndCounted.Contains(file)) re++;
+        if (countedAndCounted.Contains(file)) continue;
         if (File.ReadAllText(file).Contains("\"tiledFilename\": \"E_X"))
         {
+          countedAndIgnored.Add(file);
+        }
+        else
+        {
+          countedAndCounted.Add(file);
           re++;
         }
       }
