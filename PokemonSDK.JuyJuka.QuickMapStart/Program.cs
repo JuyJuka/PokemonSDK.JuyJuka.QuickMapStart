@@ -67,6 +67,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
           new MapLinksExportFormat(),
           new ZoneExportFormat(),
           this.BitMapExportFormat,
+          new MusicMapExportFormat(),
         };
       }
     }
@@ -128,6 +129,9 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
 
   public class Knowen
   {
+    public static readonly string MusicGrass = "route 30.ogg";
+    public static readonly string MusicUraban = "43 camphrier town.ogg";
+
     public static readonly object Nothing = 0;
     public static readonly object Grass = 1;
     public static readonly object Water = 151;
@@ -396,6 +400,12 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       this.DefinitivMapColor.Panel = tag ?? (string.Empty + Knowen.Nothing);
       return this;
     }
+
+    public DefinitivMapColorFluent Music(string name)
+    {
+      this.DefinitivMapColor.MusicName = name;
+      return this;
+    }
   }
 
   public class DefinitivMapColor : ICloneable
@@ -415,10 +425,12 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public static DefinitivMapColor DefinitivMapColors_Grassland =
       DefinitivMapColorFluent.New("Grassland", Color.Green, Knowen.Grass)
       .Panel(Knowen.PanelGrass)
+      .Music(Knowen.MusicGrass)
       .DefinitivMapColor;
     public static DefinitivMapColor DefinitivMapColors_Forest =
       DefinitivMapColorFluent.New("Forest", Color.FromArgb(0, 99, 20), Knowen.Grass)
       .Panel(Knowen.PanelForest)
+      .Music(Knowen.MusicGrass)
       .DefinitivMapColor;
     // public static DefinitivMapColor DefinitivMapColors_WatersEdge = new DefinitivMapColor("WatersEdge",Color.Blue);
     public static DefinitivMapColor DefinitivMapColors_Sea =
@@ -426,12 +438,14 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
       .DefaultSystemTagSea()
       .Panel(Knowen.PanelSea)
       .Border(Knowen.BorderSea)
+      .Music(Knowen.MusicGrass)
       .DefinitivMapColor;
     // public static DefinitivMapColor DefinitivMapColors_Cave = new DefinitivMapColor("Cave",Color.Black);
     public static DefinitivMapColor DefinitivMapColors_Mountain =
       DefinitivMapColorFluent.New("Mountain", Color.FromArgb(125, 125, 140), Knowen.Mointain)
       .Panel(Knowen.PanelMointain)
-      .Border(Knowen.BorderMountain)
+      .Border(TmxMapExportFormat.Layer1.Item2,Knowen.BorderMountain)
+      .Music(Knowen.MusicGrass)
       .Border(TmxMapExportFormat.LayerS, new Knowen.Border(
         Knowen.SystemTagClimb, Knowen.Nothing, Knowen.Nothing,
         Knowen.SystemTagClimb, Knowen.Nothing, Knowen.Nothing,
@@ -446,17 +460,20 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public static DefinitivMapColor DefinitivMapColors_RoughTerrain =
       DefinitivMapColorFluent.New("RoughTerrain", Color.Yellow, Knowen.RoughTerrain)
       .DefaultSystemTagSand()
+      .Music(Knowen.MusicGrass)
       .Panel(Knowen.PanelRoughTerrain)
       .DefinitivMapColor;
     public static DefinitivMapColor DefinitivMapColors_Urban =
       DefinitivMapColorFluent.New("Urban", Color.LightGray, Knowen.Uraban)
       .Panel(Knowen.PanelUrban)
       .Border(Knowen.BorderUrban)
+      .Music(Knowen.MusicUraban)
       .DefinitivMapColor;
     // public static DefinitivMapColor DefinitivMapColors_Rare = new DefinitivMapColor(Color.Red);
 
     public virtual string Panel { get; set; } = string.Empty + Knowen.Nothing;
     public virtual string Name { get; set; } = "";
+    public virtual string MusicName { get; set; } = "";
     public virtual Color Color { get; set; } = Color.Transparent;
     public virtual string ColorRGB
     {
@@ -859,54 +876,11 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     public static readonly string LayerTT = "{{tt}}";
     public static readonly Tuple<string, string> Layer3 = TmxMapExportFormat.X("{{3_3}}", "{{3_d_3}}");
     public static readonly Tuple<string, string> Layer2 = TmxMapExportFormat.X("{{2_2}}", "{{2_d_2}}");
-    public static readonly Tuple<string, string> Layer1 = TmxMapExportFormat.X("{{1_1}}", "{{1_d_1}}");
+    public static readonly Tuple<string, string>  Layer1 = TmxMapExportFormat.X("{{1_1}}", "{{1_d_1}}");
 
     public TmxMapExportFormat() : base(".tmx") { this.StaticFilter = "_tiled"; }
 
     public override string ModifyTargetFolder(Map map, string folder) { return Path.Combine(string.Empty + Path.GetDirectoryName(folder), Path.GetFileName(folder) + this.StaticFilter); }
-
-    /*private static void Draw(Map map, string folder, string file, string asset, string config)
-    {
-      List<string> output = new List<string>();
-      for (int y = 0; y < 42; y++)
-      {
-        string n_s = string.Empty;
-        string m_s = string.Empty;
-        string s_s = string.Empty;
-        for (int x = 0; x < 42; x++)
-        {
-          bool elSE = true;
-          Func<bool, string> IS = (bool b) =>
-          {
-            if (b) elSE = false;
-            return "|" + (b ? "*" : "-");
-          };
-          DefinitivMapColorFluent f = DefinitivMapColorFluent.New("", Color.Transparent, null);
-          DefinitivMapColor.FunctionParameters p = new DefinitivMapColor.FunctionParameters(map, 8, TmxMapExportFormat.Layer1.Item1, new Point(x, y));
-          string w = IS(f.BorderW(p));
-          string e = IS(f.BorderE(p));
-          string n = ""
-            + IS(f.BorderNW(p))
-            + IS(f.BorderN(p))
-            + IS(f.BorderNE(p))
-            + "|";
-          string s = ""
-            + IS(f.BorderSW(p))
-            + IS(f.BorderS(p))
-            + IS(f.BorderSE(p))
-            + "|";
-          string m = w + IS(elSE) + e + "|";
-          n_s += (n + " ");
-          m_s += (m + " ");
-          s_s += (s + " ");
-        }
-        output.Add(n_s);
-        output.Add(m_s);
-        output.Add(s_s);
-        output.Add(string.Empty);
-      }
-      System.IO.File.WriteAllLines(@"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart_examples\xxx.txt", output);
-    }*/
 
     public override string Export(Map map, string folder, string file, string asset, string config)
     {
@@ -1109,6 +1083,58 @@ export const ZONE_NAME_TEXT_ID = 100010;
         }
       }
       return destImage;
+    }
+  }
+
+  public class MusicMapExportFormat : MapExportFormat
+  {
+    public MusicMapExportFormat() : base("Data", "Studio", "maps", ".json") { }
+
+    public override string ModifyTargetFile(Map map, string folder, string file)
+    {
+      if (string.IsNullOrEmpty(map?.DefinitivColor?.MusicName)) return null;
+      foreach (string file2 in Directory.GetFiles(folder))
+      {
+        string content = File.ReadAllText(file2);
+        if (true
+          && content.Contains("\"tiledFilename\"")
+          && content.Contains("\"" + map.Name + "\"")
+        )
+        {
+          return file2;
+        }
+      }
+      return null;
+    }
+
+    public override string Export(Map map, string folder, string file, Func<string, Tuple<string, string>> readAsset)
+    {
+      if (string.IsNullOrEmpty(file)) return string.Empty;
+      string music = map.DefinitivColor.MusicName;
+      string content = File.ReadAllText(file);
+      // I do not want to read the JSON ... but perhaps I should.
+      const string s1 = "\"bgm\"";
+      const string s2 = "}";
+      const string s3 = "\"name\": \"";
+      const string s4 = "\"";
+      int index1 = content.IndexOf(s1);
+      if (index1 < 0) return string.Empty;
+      int index2 = content.Substring(index1).IndexOf(s2);
+      if (index2 < 0) return string.Empty;
+      index2 += index1;
+      int index3 = content.Substring(index1, index2 - index1).IndexOf(s3);
+      if (index3 < 0) return string.Empty;
+      index3 += (index1 + s3.Length);
+      int index4 = content.Substring(index3).IndexOf(s4);
+      if (index4 < 0) return string.Empty;
+      index4 += index3;
+      content = string.Empty
+        + content.Substring(0, index3)
+        + music
+        + content.Substring(index4, content.Length - index4)
+        ;
+      File.WriteAllText(file, content);
+      return string.Empty;
     }
   }
 }

@@ -1,0 +1,62 @@
+{
+  "klass": "Group",
+  "id": 28,
+  "dbSymbol": "group_28",
+  "encounters": [
+    {
+      "specie": "bulbasaur",
+      "form": 0,
+      "shinySetup": {
+        "kind": "automatic",
+        "rate": -1
+      },
+      "levelSetup": {
+        "kind": "minmax",
+        "level": {
+          "minimumLevel": 7,
+          "maximumLevel": 9
+        }
+      },
+      "randomEncounterChance": 61,
+      "expandPokemonSetup": [
+        {
+          "type": "evs",
+          "value": {
+            "hp": 0,
+            "atk": 0,
+            "dfe": 0,
+            "spd": 0,
+            "ats": 0,
+            "dfs": 0
+          }
+        },
+        {
+          "type": "loyalty",
+          "value": 70
+        },
+        {
+          "type": "moves",
+          "value": [
+            "__undef__",
+            "__undef__",
+            "__undef__",
+            "__undef__"
+          ]
+        }
+      ]
+    }
+  ],
+  "isDoubleBattle": false,
+  "systemTag": "Grass",
+  "terrainTag": 0,
+  "customConditions": [
+    {
+      "value": 12,
+      "type": "enabledSwitch",
+      "relationWithPreviousCondition": "AND"
+    }
+  ],
+  "tool": null,
+  "isHordeBattle": false,
+  "stepsAverage": 30
+}

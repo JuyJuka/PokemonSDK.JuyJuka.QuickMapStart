@@ -33,63 +33,67 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Form1Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Update="ZoneExportFormat,">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\ZoneExportFormat,">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="TmxMapExportFormat,">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\TmxMapExportFormat,">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="MapLinksExportFormat">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\MapLinksExportFormat">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="_tiled00Home.tsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\_tiled00Home.tsx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="_tiledborders.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\_tiledborders.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="_tiledborders.tsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\_tiledborders.tsx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="_tiledpassages.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\_tiledpassages.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="_tiledpassages.tsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\_tiledpassages.tsx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="_tiledprio_w.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\_tiledprio_w.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="_tiledset.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\_tiledset.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="_tiledsystemtags.tsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\_tiledsystemtags.tsx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="_tiledTECH-Lab-wall.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\_tiledTECH-Lab-wall.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="_tiledTECH-Lab-wall.tsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\_tiledTECH-Lab-wall.tsx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="_tiledTECH-Lab.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\_tiledTECH-Lab.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="_tiledTECH-Lab.tsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\_tiledTECH-Lab.tsx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="_tiledTECH-Misc.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\_tiledTECH-Misc.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="_tiledTECH-Misc.tsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\_tiledTECH-Misc.tsx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="_tiledterrain_tag.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\_tiledterrain_tag.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
-    <None Update="_tiledterrain_tag.tsx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="tocopy\_tiledterrain_tag.tsx">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="COPY /Y &quot;$(ProjectDir)\tocopy\*&quot; &quot;$(OutDir)&quot;" />
+  </Target>
 
 </Project>
