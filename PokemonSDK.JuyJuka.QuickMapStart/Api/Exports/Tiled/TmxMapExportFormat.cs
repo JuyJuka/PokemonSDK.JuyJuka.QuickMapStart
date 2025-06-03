@@ -16,6 +16,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Tiled
     public static readonly Tuple<string, string> Layer3 = X("{{3_3}}", "{{3_d_3}}");
     public static readonly Tuple<string, string> Layer2 = X("{{2_2}}", "{{2_d_2}}");
     public static readonly Tuple<string, string> Layer1 = X("{{1_1}}", "{{1_d_1}}");
+    public static readonly string Height = "{{height}}";
+    public static readonly string Widht = "{{width}}";
 
     public TmxMapExportFormat() : base(".tmx") { this.StaticFilter = "_tiled"; }
 
@@ -25,6 +27,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Tiled
     {
       //Draw(map, folder, file, asset, config);
       string re = asset;
+      re = re.Replace(TmxMapExportFormat.Height, string.Empty + map.World.Size.Height);
+      re = re.Replace(TmxMapExportFormat.Widht, string.Empty + map.World.Size.Width);
       string[] layers = [
         LayerP,
         LayerS,
