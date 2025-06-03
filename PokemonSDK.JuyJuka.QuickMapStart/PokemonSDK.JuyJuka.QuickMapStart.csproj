@@ -9,11 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Update="Form1Settings.Designer.cs">
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Form1Settings.settings</DependentUpon>
-    </Compile>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -29,10 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Form1Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Form1Settings.Designer.cs</LastGenOutput>
-    </None>
     <None Update="tocopy\ZoneExportFormat,">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </None>

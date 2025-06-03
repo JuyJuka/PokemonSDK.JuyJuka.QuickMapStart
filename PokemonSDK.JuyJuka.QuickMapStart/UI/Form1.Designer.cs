@@ -1,4 +1,4 @@
-﻿namespace PokemonSDK.JuyJuka.QuickMapStart
+﻿namespace PokemonSDK.JuyJuka.QuickMapStart.UI
 {
     partial class Form1
     {

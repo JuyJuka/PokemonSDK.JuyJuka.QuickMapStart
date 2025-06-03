@@ -1,0 +1,37 @@
+namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports
+{
+  public abstract class MapExportFormat : IMapExportFormat
+  {
+    public MapExportFormat() { }
+    public MapExportFormat(params string[] pathAndExtension)
+    {
+      if (pathAndExtension != null && pathAndExtension.Length > Map._0)
+      {
+        this.FileExtendsion = pathAndExtension[pathAndExtension.Length - Map._1];
+      }
+      if (pathAndExtension != null && pathAndExtension.Length > Map._1)
+      {
+        this._mod = new string[pathAndExtension.Length - Map._1];
+        for (int i = 0; i < this._mod.Length; i++) this._mod[i] = pathAndExtension[i];
+      }
+    }
+
+    public virtual string FileExtendsion { get; set; } = ".txt";
+    public virtual string StaticFilter { get; set; } = string.Empty;
+    private string[] _mod = null;
+    public virtual string ModifyTargetFolder(Map map, string folder)
+    {
+      if (this._mod != null && this._mod.Length > Map._0)
+      {
+        return Path.Combine(folder, Path.Combine(this._mod));
+      }
+      else
+      {
+        return folder;
+      }
+    }
+    public virtual string ModifyTargetFile(Map map, string folder, string file) { return file; }
+
+    public abstract string Export(Map map, string folder, string file, Func<string, Tuple<string, string>> readAsset);
+  }
+}

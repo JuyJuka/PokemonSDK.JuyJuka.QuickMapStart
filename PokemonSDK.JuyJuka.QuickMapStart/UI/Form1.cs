@@ -1,12 +1,17 @@
-namespace PokemonSDK.JuyJuka.QuickMapStart
+namespace PokemonSDK.JuyJuka.QuickMapStart.UI
 {
   using System.Collections.Generic;
   using System.Drawing;
   using System.Windows.Forms;
 
+  using PokemonSDK.JuyJuka.QuickMapStart.Api;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.Colors;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.Logging;
+
   public partial class Form1 : Form, ILogger
   {
     public virtual WorldMap WorldMap { get; protected set; } = new WorldMap();
+    
     public Form1()
     {
       this.InitializeComponent();
@@ -201,7 +206,6 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
     {
       if (this.folderBrowserDialog1.ShowDialog() == DialogResult.OK) this.textBoxEmpty.Text = this.folderBrowserDialog1.SelectedPath;
     }
-
 
     private void Export(string folder, params System.Action[] todos)
     {
