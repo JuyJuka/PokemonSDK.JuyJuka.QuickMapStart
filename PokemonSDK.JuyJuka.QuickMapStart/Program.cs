@@ -34,27 +34,6 @@ namespace PokemonSDK.JuyJuka.QuickMapStart
   }
 }
 /*
- * 
-      float x = 0;
-      int tries = 0;
-      XTEst.HSLColor hSL = new XTEst.HSLColor(100, x, x);
-      string html = "";
-      do
-      {
-        html = ColorTranslator.ToHtml(hSL.ToRGB());
-        x += 0.000011f;
-        //x++;
-        tries++;
-        if (tries % 100 == 0)
-        {
-          System.Console.WriteLine("TO {0} => {1}", x, html);
-          System.Console.ReadLine();
-        }
-      } while (html != "#6abf40");
-
-
- * 
- * 
     public static void CopyFilesRecursively(string sourcePath, string targetPath, Api.Logging.ILogger logger)
     {
       List<Thread> threads = new List<Thread>();
