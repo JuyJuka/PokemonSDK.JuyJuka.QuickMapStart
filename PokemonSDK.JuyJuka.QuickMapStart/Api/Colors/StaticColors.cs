@@ -38,7 +38,8 @@
       DefinitivMapColorFluent.New("Forest", Color.FromArgb(0, 99, 20), Knowen.Grass)
       .Panel(Knowen.PanelForest)
       .Music(Knowen.MusicGrass)
-      .AddShapeRandomly<StickPille1Shape>(4, 10, 0, 0)
+      .AddShapeRandomly<StickPille1Shape>(4, 10, 5, 7)
+      .AddShapeRandomly<StickPille2Shape>(5, 9, 10, 3)
       .DefinitivMapColor;
     #endregion Forest
 
