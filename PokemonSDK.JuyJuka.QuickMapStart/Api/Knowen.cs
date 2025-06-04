@@ -35,6 +35,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     public static readonly SingleShape Flower2 = new SingleShape(false, 1 + 3);
     public static readonly SingleShape Bolder = new SingleShape(true, 1 + 626);
     public static readonly SingleShape Rubble = new SingleShape(false, 1 + 4178);
+    public static readonly SingleShape SandGreenery = new SingleShape(false, 1 + 3259);
 
     /*
     N NE NW

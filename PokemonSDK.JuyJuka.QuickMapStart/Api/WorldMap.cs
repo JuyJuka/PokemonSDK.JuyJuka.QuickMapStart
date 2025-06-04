@@ -31,7 +31,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     public virtual List<Tuple<string, string>> ContigousNames { get; protected set; } = new List<Tuple<string, string>>();
     public virtual ILogger Logger { get; set; } = new Logger();
     public virtual BitMapExportFormat BitMapExportFormat { get; set; } = new BitMapExportFormat();
-    public virtual Point Max { get; protected set; } = new Point(8, 8);
+    public virtual Point Max { get; protected set; } = new Point(16,16);
     public virtual Size Size { get; protected set; } = new Size(40, 30);
     public virtual List<Map> Maps { get; protected set; } = new List<Map>();
     public virtual IMapExportFormat[] Formats { get; set; } = [];
@@ -59,13 +59,13 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
         return (this._DefinitivMapColors = (this._DefinitivMapColors ??
           [
             StaticColors.Grassland,
-            //StaticColors.DefinitivMapColors_Forest_Sothern,
             StaticColors.Forest,
+            StaticColors.Forest_Sothern,
             StaticColors.Sea,
-            //StaticColors.DefinitivMapColors_Mountain_Snowy,
             StaticColors.Mountain,
-            //StaticColors.DefinitivMapColors_RoughTerrain_Sandy,
+            StaticColors.Mountain_Snowy,
             StaticColors.RoughTerrain,
+            StaticColors.RoughTerrain_Sandy,
             //StaticColors.DefinitivMapColors_Urban_East,
             StaticColors.Urban,
           ]

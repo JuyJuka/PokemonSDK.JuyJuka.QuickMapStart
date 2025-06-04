@@ -2,6 +2,7 @@
 {
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Colors.Fluent;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Colors.Shapes;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Tiled;
 
   public static class StaticColors
   {
@@ -62,11 +63,14 @@
       .ToBackground(Knowen.Grass)
       .WithMapNamePanel(Knowen.PanelForest)
       .WithMusic(Knowen.MusicGrass)
-      .WithShape<PalmTreeShape>().SpreadRandomly(3, 9, 5, 7).Added()
-      .WithShape<TreeShape>().SpreadRandomly(4, 10, 5, 7).Added()
-      .WithShape<StickPille1Shape>().SpreadRandomly(4, 10, 5, 7).Added()
+      .WithShape<TreeShape>().SpreadRandomly(10, 6, 0, 0).Added()
+      .WithShape<PalmTreeShape>().SpreadRandomly(4, 1, 0, 0).Added()
+      .WithShape<GrassPatchShape>().SpreadRandomly(13, 7, 3, 3).Added()
       .WithShape<StickPille2Shape>().SpreadRandomly(5, 9, 10, 3).Added()
       .WithShape<StickPille3Shape>().SpreadRandomly(5, 7, 5, 9).Added()
+      .WithShape<GrassPatchShape>().SpreadRandomly(8, 4, 0, 0).Added()
+      .WithShape<PalmTreeShape>().SpreadRandomly(13, 7, 2, 1).Added()
+      .WithShape<StickPille1Shape>().SpreadRandomly(4, 10, 5, 7).Added()
       .LimitedTo().Southern(30).Percent()
       ;
     #endregion Forest
@@ -102,9 +106,11 @@
       .WithBorder(Knowen.BorderMountain.Item1.Item1, Knowen.BorderMountain.Item1.Item2)
       .WithBorder(Knowen.BorderMountain.Item2.Item1, Knowen.BorderMountain.Item2.Item2)
       .WithBorder(Knowen.BorderMountain.Item3.Item1, Knowen.BorderMountain.Item3.Item2)
-      .WithShape<SnowPatchShape>().SpreadRandomly(13, 7, 3, 3).Added()
-      .WithShape<SnowPatchShape>().SpreadRandomly(13, 7, 3, 3).Added()
-      .AllAroundTheWorld()
+      .WithShape<SnowPatch3x3Shape>().SpreadRandomly(13, 7, 3, 3).Added()
+      .WithShape<SnowPatch3x3Shape>().SpreadRandomly(8, 4, 0, 0).Added()
+      .WithShape<SnowPatch2x3Shape>().SpreadRandomly(5, 9, 10, 3).Added()
+      .WithShape<SnowPatch2x2Shape>().SpreadRandomly(9, 7, 5, 9).Added()
+      .LimitedTo().Northern(30).Percent()
       ;
     #endregion Mountain
 
@@ -117,8 +123,24 @@
       .WithMusic(Knowen.MusicGrass)
       .WithMapNamePanel(Knowen.PanelRoughTerrain)
 
-      .WithShape<PalmTreeShape>().SpreadRandomly(4, 2, 10, 10).Added()
-      .WithShape<CactusShape>().SpreadRandomly(13, 7, 3, 3).Added()
+      .WithShape<PalmTreeShape>().SpreadRandomly(13, 7, 3, 3).Added()
+      .WithShape<CactusShape>().SpreadRandomly(8, 4, 0, 0).Added()
+      .WithShape(new Shape(new string[] { TmxMapExportFormat.Layer1.Item2 }, new object[][,] {new object[,]{
+          { 1 + 3259, 1 + 3259 },
+          { 1 + 3259, 1 + 3259 },
+      }})).SpreadRandomly(13,7, 3,3).Added()
+      .WithShape(new Shape(new string[] { TmxMapExportFormat.Layer1.Item2 }, new object[][,] {new object[,]{
+          { Knowen.Nothing, Knowen.Nothing },
+          { Knowen.Nothing, Knowen.Nothing },
+      }})).SpreadRandomly(8, 1, 0, 0).Added()
+
+/*
+      .WithShape<GrassPatchShape>().SpreadRandomly(13, 7, 3, 3).Added()
+      .WithShape<GrassPatchShape>().SpreadRandomly(8, 4, 0, 0).Added()
+      .WithShape(Knowen.Flower1).SpreadRandomly(13, 7, 0, 0).Added()
+      .WithShape(Knowen.Flower2).SpreadRandomly(8, 1, 0, 0).Added()
+      .WithShape<BushShape>().SpreadRandomly(13, 7, 3, 3).Added()
+*/
 
       .LimitedTo().Southern(30).Percent()
       ;

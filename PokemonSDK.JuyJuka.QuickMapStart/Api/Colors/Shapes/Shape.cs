@@ -69,7 +69,7 @@
       this.Points = list.ToArray();
     }
 
-    public string ToLayer(X parameters)
+    public virtual string ToLayer(X parameters)
     {
       Point original = parameters.Point;
       int sizeMaxY = parameters.Map.World.Size.Height;

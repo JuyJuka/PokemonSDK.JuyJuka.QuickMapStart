@@ -552,8 +552,11 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       TmxMapExportFormat format = new TmxMapExportFormat();
       string file = null;
       var org4 = this.WorldMap.Waiter;
+      var org5 = new List<IDefinitivMapColor>(this.WorldMap.DefinitivMapColors);
       try
       {
+        this.WorldMap.DefinitivMapColors.Clear();
+        this.WorldMap.DefinitivMapColors.Add((IDefinitivMapColor)this.textBoxOneColor.Tag);
         this.WorldMap.Waiter = null;
         this.WorldMap.Formats = [format];
         this.WorldMap.Folder = new PokemonStudioFolder() { Folder = this.textBoxOneFolder.Text };
@@ -579,6 +582,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
         this.WorldMap.Folder = org2;
         this.WorldMap.Maps.Clear();
         this.WorldMap.Maps.AddRange(org);
+        this.WorldMap.DefinitivMapColors.Clear();
+        this.WorldMap.DefinitivMapColors.AddRange(org5);
       }
       try
       {

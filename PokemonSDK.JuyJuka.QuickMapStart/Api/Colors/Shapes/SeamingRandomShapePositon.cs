@@ -13,8 +13,8 @@
 
     public virtual bool IsStart(X parameters, Point start)
     {
-      int worldX = parameters.Map.WorldMapCoordinates.X % this.WorldMapCoordinatesXModulo;
-      int worldY = parameters.Map.WorldMapCoordinates.Y % this.WorldMapCoordinatesYModulo;
+      int worldX = (parameters.Map.WorldMapCoordinates.X + Map._1) % this.WorldMapCoordinatesXModulo;
+      int worldY = (parameters.Map.WorldMapCoordinates.Y + Map._1) % this.WorldMapCoordinatesYModulo;
       int fX = this.FrequencyX + worldX;
       int fY = this.FrequencyY + worldY;
       for (int x = worldX; x < parameters.Map.World.Size.Width; x += fX)
