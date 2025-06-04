@@ -35,8 +35,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
       {
         WorldMapCoordinatesXModulo = x,
         WorldMapCoordinatesYModulo = y,
-        FrequencyX = Math.Max(fx, Map._0) + Math.Abs(maxX) + 1,
-        FrequencyY = Math.Max(fy, Map._0) + Math.Abs(maxY) + 1,
+        FrequencyX = Math.Max(fx, Map._0) + Math.Abs(maxX)+1,
+        FrequencyY = Math.Max(fy, Map._0) + Math.Abs(maxY)+1,
       }, action);
     }
 
