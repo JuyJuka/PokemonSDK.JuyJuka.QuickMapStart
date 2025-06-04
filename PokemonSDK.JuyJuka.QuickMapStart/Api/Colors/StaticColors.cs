@@ -130,8 +130,12 @@
       .WithMusic(Knowen.MusicGrass)
       .WithMapNamePanel(Knowen.PanelRoughTerrain)
 
-      .WithShape(Knowen.Bolder).SpreadRandomly(4, 2, 10, 10).Added()
-      .WithShape(Knowen.Rubble).SpreadRandomly(13, 7, 3, 3).Added()
+      // .WithShape<CrumbeledMessShape>().SpreadRandomly(4, 2, 7, 2).Added()
+      .WithShape<CrumbeledMessShape>().SpreadRandomly(8, 4, 0, 0).Added()
+      .WithShape<CrumbeledMessShape>().SpreadRandomly(13, 7, 3, 3).Added()
+      .WithShape(Knowen.Rubble).SpreadRandomly(3, 7, 1, 2).Added()
+      .WithShape(Knowen.Bolder).SpreadRandomly(1, 2, 2, 1).Added()
+      .WithShape(Knowen.Rubble).SpreadRandomly(4, 7, 3, 3).Added()
 
       .AllAroundTheWorld()
       ;
