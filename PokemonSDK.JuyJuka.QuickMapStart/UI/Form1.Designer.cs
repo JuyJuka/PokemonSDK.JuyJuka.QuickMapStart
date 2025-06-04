@@ -84,6 +84,7 @@
       this.button4 = new Button();
       this.button5 = new Button();
       this.button6 = new Button();
+      this.button19 = new Button();
       this.label8 = new Label();
       this.tabPageSmall = new TabPage();
       this.pictureBoxSmall = new PictureBox();
@@ -703,6 +704,7 @@
       this.flowLayoutPanelZoom.Controls.Add(this.button4);
       this.flowLayoutPanelZoom.Controls.Add(this.button5);
       this.flowLayoutPanelZoom.Controls.Add(this.button6);
+      this.flowLayoutPanelZoom.Controls.Add(this.button19);
       this.flowLayoutPanelZoom.Dock = DockStyle.Fill;
       this.flowLayoutPanelZoom.Location = new Point(3, 33);
       this.flowLayoutPanelZoom.Name = "flowLayoutPanelZoom";
@@ -745,9 +747,19 @@
       this.button6.Name = "button6";
       this.button6.Size = new Size(131, 40);
       this.button6.TabIndex = 4;
-      this.button6.Tag = "200";
-      this.button6.Text = "2000%";
+      this.button6.Tag = "150";
+      this.button6.Text = "1500%";
       this.button6.UseVisualStyleBackColor = true;
+      // 
+      // button19
+      // 
+      this.button19.Location = new Point(551, 3);
+      this.button19.Name = "button19";
+      this.button19.Size = new Size(131, 40);
+      this.button19.TabIndex = 5;
+      this.button19.Tag = "200";
+      this.button19.Text = "2000%";
+      this.button19.UseVisualStyleBackColor = true;
       // 
       // label8
       // 
@@ -1320,5 +1332,6 @@
     private Button button17;
     private NumericUpDown numericUpDownOneY;
     private NumericUpDown numericUpDownOneX;
+    private Button button19;
   }
 }

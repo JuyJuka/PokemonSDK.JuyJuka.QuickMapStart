@@ -8,6 +8,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
   public interface IDefinitivMapColor : ICloneable
   {
     Color Color { get; set; }
+    float MinHue { get; set; }
+    float MaxHue { get; set; }
     string Panel { get; set; }
     string Name { get; set; }
     string MusicName { get; set; }

@@ -26,8 +26,25 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.ColorEstimations
           d2.Add(dColor);
       foreach (DefinitivMapColor dColor in d2)
       {
+        float min = dColor.MinHue;
+        float max = dColor.MaxHue;
+        if (min < colorHue && max > colorHue)
+        {
+          yield return new Tuple<IDefinitivMapColor, float>(dColor, Math.Max(Math.Abs(dColor.MinHue - colorHue), Math.Abs(dColor.MaxHue - colorHue)));
+        }
+        else
+        {
+          min -= this.Tollerance / 2;
+          max += this.Tollerance / 2;
+          if (min < colorHue && max > colorHue)
+          {
+            yield return new Tuple<IDefinitivMapColor, float>(dColor, Math.Max(Math.Abs(dColor.MinHue - colorHue), Math.Abs(dColor.MaxHue - colorHue)));
+          }
+        }
+        /*
         float hueDiff = Math.Abs(dColor.Color.GetHue() - colorHue);
         if (hueDiff <= tollerance) yield return new Tuple<IDefinitivMapColor, float>(dColor, Math.Abs(dColor.Color.GetHue() - colorHue));
+        */
       }
     }
   }

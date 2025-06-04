@@ -305,11 +305,13 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       if (this.saveFileDialogExportColors.ShowDialog() == DialogResult.OK)
       {
         System.IO.File.WriteAllLines(this.saveFileDialogExportColors.FileName, this.WorldMap.DefinitivMapColors.ConvertAll(color => string.Format(
-          "{0},{1:000},{2:000},{3:000}"
+          "{0}{6}{1:000}{6}{2:000}{6}{3:000}{6}{4}{6}{5}"
           , color?.Name
           , color?.Color.R
           , color?.Color.G
           , color?.Color.B
+          , color?.MinHue
+          , color?.MaxHue
           , _12_13
           )));
       }
@@ -330,6 +332,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
               string[] s = line.Split(_12_13);
               int i = Map._1;
               color.Color = Color.FromArgb(int.Parse(s[i++]), int.Parse(s[i++]), int.Parse(s[i++]));
+              color.MinHue = float.Parse(s[i++]);
+              color.MaxHue = float.Parse(s[i++]);
             }
             catch (Exception ex)
             {
@@ -354,11 +358,18 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       this.ShowADialogAndSaveOnOkay<IDefinitivMapColor, Form1ColorControl>((d, c) =>
       {
         c.ColorDialog = this.colorDialog1;
-        c.Name = d.Name;
+        c.MinHue = d.MinHue;
+        c.MaxHue = d.MaxHue;
+        c.Text = d.Name;
         c.ReturnColor = d.Color;
       }
       ,
-      (d, c) => d.Color = c.ReturnColor
+      (d, c) =>
+      {
+        d.MinHue = c.MinHue;
+        d.MaxHue = c.MaxHue;
+        d.Color = c.ReturnColor;
+      }
       ,
       this.WorldMap.DefinitivMapColors
       );
@@ -370,7 +381,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       if (map == null) return;
       Control button = null;
       foreach (Control control in this.tableLayoutPanelMapsPreview.Controls) if (control?.Tag == map) button = control;
-      map.Color = this.Next(map.DefinitivColor).Color;
+      map.DefinitivColor = this.Next(map.DefinitivColor);
       if (button != null)
       {
         button.BackColor = map.DefinitivColor.Color;
@@ -563,7 +574,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
         this.WorldMap.Maps.Clear();
         this.WorldMap.Maps.Add(x = new Map(this.WorldMap)
         {
-          Color = ((IDefinitivMapColor)this.textBoxOneColor.Tag).Color,
+          DefinitivColor = ((IDefinitivMapColor)this.textBoxOneColor.Tag),
           WorldMapCoordinates = new Point((int)this.numericUpDownOneX.Value, (int)this.numericUpDownOneY.Value)
         });
         this.WorldMap.Expor();

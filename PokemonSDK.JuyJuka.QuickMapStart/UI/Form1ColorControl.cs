@@ -13,15 +13,25 @@
     public virtual Color ReturnColor
     {
       get { return this.button1.BackColor; }
+      set { this.button1.BackColor = value; }
+    }
+
+    public override string Text
+    {
+      get
+      {
+        return base.Text;
+      }
+
       set
       {
-        this.button1.BackColor = value;
-        this.numericUpDown1.Value = value.R;
-        this.numericUpDown2.Value = value.G;
-        this.numericUpDown3.Value = value.B;
-        this._ValueChanged(null, null);
+        this.label1.Text = value;
+        base.Text = value;
       }
     }
+
+    public virtual float MinHue { get { return (float)this.numericUpDown1.Value; } set { this.numericUpDown1.Value = (decimal)value; } }
+    public virtual float MaxHue { get { return (float)this.numericUpDown2.Value; } set { this.numericUpDown2.Value = (decimal)value; } }
 
     public ColorDialog ColorDialog { get; set; }
 
@@ -29,18 +39,12 @@
     {
       int r = (int)this.numericUpDown1.Value;
       int g = (int)this.numericUpDown2.Value;
-      int b = (int)this.numericUpDown3.Value;
       if (sender == this.numericUpDown1) r = (int)this.numericUpDown1.Value;
       if (sender == this.trackBar1) r = (int)this.trackBar1.Value;
       if (sender == this.numericUpDown2) g = (int)this.numericUpDown2.Value;
       if (sender == this.trackBar2) g = (int)this.trackBar2.Value;
-      if (sender == this.numericUpDown3) b = (int)this.numericUpDown3.Value;
-      if (sender == this.trackBar3) b = (int)this.trackBar3.Value;
       this.numericUpDown1.Value = this.trackBar1.Value = r;
       this.numericUpDown2.Value = this.trackBar2.Value = g;
-      this.numericUpDown3.Value = this.trackBar3.Value = b;
-      this.button1.BackColor = Color.FromArgb(r, g, b);
-      this.button1.Text = string.Empty + this.button1.BackColor.GetHue();
       this.label1.Text = this.Name;
     }
 

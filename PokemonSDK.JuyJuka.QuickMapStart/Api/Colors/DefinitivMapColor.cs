@@ -12,6 +12,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
     public virtual string Name { get; set; } = "";
     public virtual string MusicName { get; set; } = "";
     public virtual Color Color { get; set; } = Color.Transparent;
+    public float MinHue { get; set; } = Map._1;
+    public float MaxHue { get; set; } = Map._0;
     public PointF? WorldMapCoordinatsPercentageMin { get; set; } = null;
     public PointF? WorldMapCoordinatsPercentageMax { get; set; } = null;
     public virtual string ColorRGB
@@ -27,7 +29,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
       return this.Name ?? base.ToString();
     }
 
-    public DefinitivMapColor(string name, Color color
+    public DefinitivMapColor(string name, Color color, float minHue, float maxHue
       , object? default11 = null
       , object? defaultS = null
 
@@ -67,6 +69,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
           this._Defaults.Add(layers[i], values[i]);
       this.Name = name;
       this.Color = color;
+      this.MinHue = minHue;
+      this.MaxHue = maxHue;
     }
 
     public class FunctionParameters
@@ -101,7 +105,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
 
     public virtual object Clone()
     {
-      DefinitivMapColor re = new DefinitivMapColor(this.Name, this.Color);
+      DefinitivMapColor re = new DefinitivMapColor(this.Name, this.Color, this.MinHue, this.MaxHue);
       foreach (string k in this._Defaults.Keys) re._Defaults.Add(k, this._Defaults[k]);
       re._Functions.Clear();
       re._Functions.AddRange(this._Functions);

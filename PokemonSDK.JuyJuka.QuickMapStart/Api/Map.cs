@@ -191,6 +191,16 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     }
 
     public Color? Color { get; set; } = null;
+    public string ColorHue
+    {
+      get
+      {
+        if (this.Color == null) return string.Empty;
+        if (!this.Color.HasValue) return string.Empty;
+        return string.Empty + this.Color.Value.GetHue();
+      }
+    }
+
     private Color? _color = null;
     private IDefinitivMapColor _DefinitivColor = null;
 
@@ -206,6 +216,11 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
           this._color = c;
         }
         return this._DefinitivColor;
+      }
+      set
+      {
+        this._DefinitivColor = value;
+        if (value == null) this._color = null;
       }
     }
 
@@ -227,7 +242,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
             re = tuple.Item1;
           }
 
-      return re ?? fallback ?? new DefinitivMapColor(string.Empty, System.Drawing.Color.Transparent);
+      return re ?? fallback ?? new DefinitivMapColor(string.Empty, System.Drawing.Color.Transparent, 0, 0);
     }
 
     public virtual void Export()
