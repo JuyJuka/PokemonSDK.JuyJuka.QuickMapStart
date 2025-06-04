@@ -12,11 +12,13 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
     public virtual string Name { get; set; } = "";
     public virtual string MusicName { get; set; } = "";
     public virtual Color Color { get; set; } = Color.Transparent;
+    public PointF? WorldMapCoordinatsPercentageMin { get; set; } = null;
+    public PointF? WorldMapCoordinatsPercentageMax { get; set; } = null;
     public virtual string ColorRGB
     {
       get
       {
-        return string.Format("R={0:000} G={0:000} B={0:000}", this.Color.R, this.Color.G, this.Color.B);
+        return string.Format("R={0:000} G={1:000} B={2:000}", this.Color.R, this.Color.G, this.Color.B);
       }
     }
 
@@ -97,10 +99,12 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
       return string.IsNullOrEmpty(re) ? string.Empty + Knowen.Nothing : re;
     }
 
-    public object Clone()
+    public virtual object Clone()
     {
       DefinitivMapColor re = new DefinitivMapColor(this.Name, this.Color);
       foreach (string k in this._Defaults.Keys) re._Defaults.Add(k, this._Defaults[k]);
+      re._Functions.Clear();
+      re._Functions.AddRange(this._Functions);
       return re;
     }
   }

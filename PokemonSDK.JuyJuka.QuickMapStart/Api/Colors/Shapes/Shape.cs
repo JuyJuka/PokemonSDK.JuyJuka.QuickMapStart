@@ -6,12 +6,12 @@
   using Y = Tuple<string, Point, string>;
   public class Shape : IShape
   {
-    public static Point Max(IEnumerable<Y> points)
+    public static Point Max(IEnumerable<Y>? points)
     {
       int x, y;
       return Shape.Max(points, out x, out y);
     }
-    public static Point Max(IEnumerable<Y> points, out int maxX, out int maxY)
+    public static Point Max(IEnumerable<Y>? points, out int maxX, out int maxY)
     {
       maxY = Map._0;
       maxX = Map._0;
@@ -25,6 +25,7 @@
 
     public virtual IShapePositon? Position { get; set; } = null;
     public virtual Y[] Points { get; set; } = [];
+    public virtual string? Name { get; set; } = string.Empty;
 
     public static string[] DefaultLayers { get { return TmxMapExportFormat.Layers; } }
     public static string[] SensibleLayers

@@ -1,8 +1,10 @@
 namespace PokemonSDK.JuyJuka.QuickMapStart.Api
 {
   using System;
+  using System.ComponentModel;
   using System.Drawing;
 
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.ColorEstimations;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Colors;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
@@ -119,6 +121,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
           if (next != null && next.DefinitivColor == map.DefinitivColor) map = next;
           else next = null;
         } while (next != null && next != this);
+        map = this;
         do
         {
           next = this.World.Maps.Find(x => x.Name == map.NameWest);
@@ -189,42 +192,41 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
 
     public Color? Color { get; set; } = null;
     private Color? _color = null;
-    private DefinitivMapColor _DefinitivColor = null;
-    public virtual DefinitivMapColor DefinitivColor
+    private IDefinitivMapColor _DefinitivColor = null;
+
+    [TypeConverter(typeof(ExpandableObjectConverter))]
+    public virtual IDefinitivMapColor DefinitivColor
     {
       get
       {
-        if (this._color != this.Color) this._DefinitivColor = this.EstimateColor(this.Color);
+        if (this._color != this.Color)
+        {
+          var c = this.Color;
+          this._DefinitivColor = this.EstimateColor(c);
+          this._color = c;
+        }
         return this._DefinitivColor;
       }
     }
 
-    private DefinitivMapColor EstimateColor(Color? color)
+    private IDefinitivMapColor EstimateColor(Color? color)
     {
-      DefinitivMapColor? fallback = null;
-      DefinitivMapColor? re = null;
-      foreach (DefinitivMapColor dColor in this.World.DefinitivMapColors) fallback = fallback ?? dColor;
-      if (color != null && color.HasValue && re == null)
-        foreach (DefinitivMapColor dColor in this.World.DefinitivMapColors)
-          if (dColor?.Color != null && dColor.Color.R == color.Value.R && dColor.Color.G == color.Value.G && dColor.Color.B == color.Value.B)
-            re = dColor;
-      if (color != null && color.HasValue && re == null)
-      {
-        float hueDiff = float.MaxValue;
-        DefinitivMapColor? reTollerenace = null;
-        foreach (DefinitivMapColor dColor in this.World.DefinitivMapColors)
-        {
-          float dif = Math.Abs(dColor.Color.GetHue() - color.Value.GetHue());
-          if (hueDiff > dif)
+      IColorEstimation? e = this.World?.ColorEstimation;
+      if (e == null) throw new SystemException();
+
+      IDefinitivMapColor? fallback = null;
+      IDefinitivMapColor? re = null;
+      foreach (DefinitivMapColor dColor in this.World?.DefinitivMapColors ?? new List<DefinitivMapColor>()) fallback = fallback ?? dColor;
+
+      float hueDiff = float.MaxValue;
+      if (color != null && color.HasValue)
+        foreach (var tuple in e.Estimate(this, color.Value, this?.World?.DefinitivMapColors))
+          if (hueDiff > tuple.Item2)
           {
-            hueDiff = dif;
-            reTollerenace = dColor;
+            hueDiff = tuple.Item2;
+            re = tuple.Item1;
           }
-        }
-        float tollerance = 100;
-        if (hueDiff <= tollerance) re = reTollerenace;
-      }
-      // how to estimate a color?
+
       return re ?? fallback ?? new DefinitivMapColor(string.Empty, System.Drawing.Color.Transparent);
     }
 

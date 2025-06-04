@@ -1,6 +1,7 @@
 namespace PokemonSDK.JuyJuka.QuickMapStart.UI
 {
   using System.Collections.Generic;
+  using System.ComponentModel;
   using System.Drawing;
   using System.Windows.Forms;
 
@@ -81,9 +82,9 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
           this.WorldMap.Folder.Folder = this.textBoxFolder.Text = Path.Combine(folder, name);
         }
         if (true
-          && (string.IsNullOrEmpty(this.WorldMap.Folder.Folder) || this.WorldMap.Folder.Folder== PokemonStudioFolder.Fallback)
-          && !string.IsNullOrEmpty(this.textBoxEmpty.Text) 
-          && Directory.Exists(this.textBoxEmpty.Text) 
+          && (string.IsNullOrEmpty(this.WorldMap.Folder.Folder) || this.WorldMap.Folder.Folder == PokemonStudioFolder.Fallback)
+          && !string.IsNullOrEmpty(this.textBoxEmpty.Text)
+          && Directory.Exists(this.textBoxEmpty.Text)
           && DialogResult.Yes == MessageBox.Show("No Folder. We could use a fallback?", "Folder fallbakc.", MessageBoxButtons.YesNo))
         {
           this.WorldMap.Folder.Folder = this.textBoxFolder.Text = Path.Combine(folder, name);
@@ -169,9 +170,9 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
 
     private void tableLayoutPanelMapsPreview_button_click(object? sender, EventArgs e)
     {
-      Map m = (sender as Control)?.Tag as Map;
-      if (this.propertyGrid1.SelectedObject == m) this.propertyGrid1.SelectedObject = m?.DefinitivColor;
-      else this.propertyGrid1.SelectedObject = m;
+      object? m = (sender as Control)?.Tag;
+      if (m != null) TypeDescriptor.AddAttributes(m, new Attribute[] { new ReadOnlyAttribute(true) });
+      this.propertyGrid1.SelectedObject = m;
     }
 
     private void tabControl1_SelectedIndexChanged_Bind(PictureBox? pb, Image? img, bool noZoom)
@@ -197,6 +198,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
     {
       if (this.RequiredFailed(sender as Control, this.WorldMap?.Maps?.Count, "Maps")) return;
       if (this.RequiredFailed(this.textBoxFolder, null)) return;
+      this.tabControl1.SelectedTab = this.tabPagePreview;
       this.Export(true);
     }
 

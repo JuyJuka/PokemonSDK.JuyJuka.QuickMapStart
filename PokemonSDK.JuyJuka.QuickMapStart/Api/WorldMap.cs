@@ -3,6 +3,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
   using System;
   using System.Drawing;
 
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.ColorEstimations;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Colors;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.BitMap;
@@ -36,6 +37,20 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     public virtual IMapExportFormat[] Formats { get; set; } = [];
     public virtual IPokemonStudioFolder Folder { get; set; } = new PokemonStudioFolder();
 
+    private IColorEstimation? _ColorEstimation1 = null;
+    private IColorEstimation? _ColorEstimation2 = null;
+    public virtual IColorEstimation ColorEstimation
+    {
+      get
+      {
+        return this._ColorEstimation1 ?? this._ColorEstimation2 ?? (this._ColorEstimation2 = new ColorEstimation());
+      }
+      set
+      {
+        this._ColorEstimation1 = value;
+      }
+    }
+
     private List<DefinitivMapColor>? _DefinitivMapColors = null;
     public List<DefinitivMapColor> DefinitivMapColors
     {
@@ -43,12 +58,16 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
       {
         return (this._DefinitivMapColors = (this._DefinitivMapColors ??
           [
-            StaticColors.DefinitivMapColors_Grassland,
-            StaticColors.DefinitivMapColors_Forest,
-            StaticColors.DefinitivMapColors_Sea,
-            StaticColors.DefinitivMapColors_Mountain,
-            StaticColors.DefinitivMapColors_RoughTerrain,
-            StaticColors.DefinitivMapColors_Urban,
+            StaticColors.Grassland,
+            //StaticColors.DefinitivMapColors_Forest_Sothern,
+            StaticColors.Forest,
+            StaticColors.Sea,
+            //StaticColors.DefinitivMapColors_Mountain_Snowy,
+            StaticColors.Mountain,
+            //StaticColors.DefinitivMapColors_RoughTerrain_Sandy,
+            StaticColors.RoughTerrain,
+            //StaticColors.DefinitivMapColors_Urban_East,
+            StaticColors.Urban,
           ]
         ));
       }

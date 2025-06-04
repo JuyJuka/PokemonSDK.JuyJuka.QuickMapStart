@@ -12,5 +12,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
     string Name { get; set; }
     string MusicName { get; set; }
     string ToLayer(Map map, int layerIndex, string layerName, Point point);
+    PointF? WorldMapCoordinatsPercentageMin { get; set; }
+    PointF? WorldMapCoordinatsPercentageMax { get; set; }
   }
 }

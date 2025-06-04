@@ -6,5 +6,6 @@
   {
     IShapePositon? Position { get; set; }
     string ToLayer(X parameters);
+    string? Name { get; set; }
   }
 }

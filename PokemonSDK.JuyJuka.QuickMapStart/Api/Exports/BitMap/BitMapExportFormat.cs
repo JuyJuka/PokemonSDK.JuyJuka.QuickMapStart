@@ -4,6 +4,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.BitMap
   using System.Drawing;
   using System.Drawing.Drawing2D;
   using System.Drawing.Imaging;
+
   using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
 
   public class BitMapExportFormat : MapExportFormat
@@ -49,6 +50,18 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.BitMap
       )
     {
       Func<int?, int, int> alt = (x, y) => { if (x != null && x.HasValue) return x.Value; return y; };
+
+      if (true
+        && alt(srcX, 0) == 0
+        && alt(srcY, 0) == 0
+        && alt(srcW, width) == image.Width
+        && alt(srcH, height) == image.Height
+        )
+        if (image is Bitmap)
+          return (Bitmap)image;
+        else
+          return new Bitmap(image);
+
       Rectangle destRect = new Rectangle(0, 0, width, height);
       Bitmap destImage = new Bitmap(width, height);
       destImage.SetResolution(HorizontalResolution, VerticalResolution);

@@ -1,9 +1,9 @@
-namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
+namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors.Fluent
 {
   using PokemonSDK.JuyJuka.QuickMapStart.Api;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Tiled;
 
-  public sealed partial class DefinitivMapColorFluent
+  partial class DefinitivMapColorFluent
   {
     private DefinitivMapColorFluent DefaultSystemTag(string tag)
     {

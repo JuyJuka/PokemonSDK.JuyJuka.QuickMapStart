@@ -1,18 +1,18 @@
-namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
+namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors.Fluent
 {
   using System;
 
   using PokemonSDK.JuyJuka.QuickMapStart.Api;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Tiled;
 
-  public sealed partial class DefinitivMapColorFluent
+  partial class DefinitivMapColorFluent
   {
-    public DefinitivMapColorFluent Border(string differentLayer, Knowen.Border border)
+    public DefinitivMapColorFluent WithBorder(string differentLayer, Knowen.Border border)
     {
-      return this.Border(border, differentLayer);
+      return this.WithBorder(border, differentLayer);
     }
 
-    public DefinitivMapColorFluent Border(Knowen.Border border, string? differentLayer = null)
+    public DefinitivMapColorFluent WithBorder(Knowen.Border border, string? differentLayer = null)
     {
       this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderN, a, border.North, differentLayer));
       this.DefinitivMapColor._Functions.Add((a) => this.Border(this.BorderNE, a, border.NorthEast, differentLayer));
