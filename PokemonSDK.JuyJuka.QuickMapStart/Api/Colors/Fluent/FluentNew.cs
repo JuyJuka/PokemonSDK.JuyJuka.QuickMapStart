@@ -33,7 +33,6 @@
 
       public FluentNewTo From(float minHue, float maxHue)
       {
-        if (this._color == System.Drawing.Color.Transparent) this._color = new XTEst.HSLColor(minHue + ((maxHue - minHue) / 2), 127, 127).ToRGB();
         return new FluentNewTo(this._new, this._name, this._color, this._bg, minHue, maxHue);
       }
 

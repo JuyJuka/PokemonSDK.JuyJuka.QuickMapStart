@@ -286,8 +286,16 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
         if (!name.StartsWith(filter)) continue;
         name = name.Substring(filter.Length);
         name = Path.Combine(folder, name);
-        if (File.Exists(name)) File.Delete(name);
-        File.Copy(file, name);
+        try
+        {
+          if (File.Exists(name)) File.Delete(name);
+          File.Copy(file, name);
+        }
+        catch(Exception ex)
+        {
+          this.World.Logger.Write("Statics might not be up to date.");
+          this.World.Logger.Write(string.Empty + ex);
+        }
       }
     }
   }
