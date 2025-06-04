@@ -25,21 +25,23 @@
       if (re != decimal.Zero) return re;
       // I have no freaking idea how to generate a 
       re = Map._1;
-      foreach (string file in Directory.GetFiles(System.IO.Path.Combine(folder?.Folder ?? PokemonStudioFolder.Fallback, System.IO.Path.Combine(this.Path))))
-      {
-        if (countedAndIgnored.Contains(file)) continue;
-        if (countedAndCounted.Contains(file)) re++;
-        if (countedAndCounted.Contains(file)) continue;
-        if (File.ReadAllText(file).Contains("\"tiledFilename\": \"E_X"))
+      string f = System.IO.Path.Combine(folder?.Folder ?? PokemonStudioFolder.Fallback, System.IO.Path.Combine(this.Path));
+      if (Directory.Exists(f))
+        foreach (string file in Directory.GetFiles(f))
         {
-          countedAndIgnored.Add(file);
+          if (countedAndIgnored.Contains(file)) continue;
+          if (countedAndCounted.Contains(file)) re++;
+          if (countedAndCounted.Contains(file)) continue;
+          if (File.ReadAllText(file).Contains("\"tiledFilename\": \"E_X"))
+          {
+            countedAndIgnored.Add(file);
+          }
+          else
+          {
+            countedAndCounted.Add(file);
+            re++;
+          }
         }
-        else
-        {
-          countedAndCounted.Add(file);
-          re++;
-        }
-      }
       return re;
     }
 

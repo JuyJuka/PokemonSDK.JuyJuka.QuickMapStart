@@ -108,6 +108,18 @@
       this.label14 = new Label();
       this.button12 = new Button();
       this.button13 = new Button();
+      this.tabPage3 = new TabPage();
+      this.tableLayoutPanel3 = new TableLayoutPanel();
+      this.numericUpDownOneY = new NumericUpDown();
+      this.buttonOneRun = new Button();
+      this.button18 = new Button();
+      this.textBoxOneColor = new TextBox();
+      this.label17 = new Label();
+      this.label18 = new Label();
+      this.label19 = new Label();
+      this.textBoxOneFolder = new TextBox();
+      this.button17 = new Button();
+      this.numericUpDownOneX = new NumericUpDown();
       this.statusStrip1 = new StatusStrip();
       this.toolStripStatusLabel1 = new ToolStripStatusLabel();
       this.toolStripProgressBar1 = new ToolStripProgressBar();
@@ -143,6 +155,10 @@
       ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxY).BeginInit();
       ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeWidht).BeginInit();
       ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeHeight).BeginInit();
+      this.tabPage3.SuspendLayout();
+      this.tableLayoutPanel3.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownOneY).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownOneX).BeginInit();
       this.statusStrip1.SuspendLayout();
       this.SuspendLayout();
       // 
@@ -433,6 +449,7 @@
       this.tabControl1.Controls.Add(this.tabPageContiguesNames);
       this.tabControl1.Controls.Add(this.tabPagePreview);
       this.tabControl1.Controls.Add(this.tabPage2);
+      this.tabControl1.Controls.Add(this.tabPage3);
       this.tabControl1.Dock = DockStyle.Fill;
       this.tabControl1.Location = new Point(0, 0);
       this.tabControl1.Name = "tabControl1";
@@ -984,6 +1001,132 @@
       this.button13.UseVisualStyleBackColor = true;
       this.button13.Click += this.button13_Click;
       // 
+      // tabPage3
+      // 
+      this.tabPage3.Controls.Add(this.tableLayoutPanel3);
+      this.tabPage3.Location = new Point(4, 39);
+      this.tabPage3.Name = "tabPage3";
+      this.tabPage3.Padding = new Padding(3);
+      this.tabPage3.Size = new Size(1030, 818);
+      this.tabPage3.TabIndex = 4;
+      this.tabPage3.Text = "One Map";
+      this.tabPage3.UseVisualStyleBackColor = true;
+      // 
+      // tableLayoutPanel3
+      // 
+      this.tableLayoutPanel3.ColumnCount = 3;
+      this.tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333321F));
+      this.tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333359F));
+      this.tableLayoutPanel3.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333359F));
+      this.tableLayoutPanel3.Controls.Add(this.numericUpDownOneY, 2, 1);
+      this.tableLayoutPanel3.Controls.Add(this.buttonOneRun, 2, 3);
+      this.tableLayoutPanel3.Controls.Add(this.button18, 2, 2);
+      this.tableLayoutPanel3.Controls.Add(this.textBoxOneColor, 1, 0);
+      this.tableLayoutPanel3.Controls.Add(this.label17, 0, 0);
+      this.tableLayoutPanel3.Controls.Add(this.label18, 0, 1);
+      this.tableLayoutPanel3.Controls.Add(this.label19, 0, 2);
+      this.tableLayoutPanel3.Controls.Add(this.textBoxOneFolder, 1, 2);
+      this.tableLayoutPanel3.Controls.Add(this.button17, 2, 0);
+      this.tableLayoutPanel3.Controls.Add(this.numericUpDownOneX, 1, 1);
+      this.tableLayoutPanel3.Dock = DockStyle.Fill;
+      this.tableLayoutPanel3.Location = new Point(3, 3);
+      this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+      this.tableLayoutPanel3.RowCount = 5;
+      this.tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+      this.tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+      this.tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+      this.tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+      this.tableLayoutPanel3.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+      this.tableLayoutPanel3.Size = new Size(1024, 812);
+      this.tableLayoutPanel3.TabIndex = 0;
+      // 
+      // numericUpDownOneY
+      // 
+      this.numericUpDownOneY.Location = new Point(685, 43);
+      this.numericUpDownOneY.Name = "numericUpDownOneY";
+      this.numericUpDownOneY.Size = new Size(210, 35);
+      this.numericUpDownOneY.TabIndex = 13;
+      // 
+      // buttonOneRun
+      // 
+      this.buttonOneRun.Location = new Point(685, 123);
+      this.buttonOneRun.Name = "buttonOneRun";
+      this.buttonOneRun.Size = new Size(131, 34);
+      this.buttonOneRun.TabIndex = 11;
+      this.buttonOneRun.Text = "Test";
+      this.buttonOneRun.UseVisualStyleBackColor = true;
+      this.buttonOneRun.Click += this.buttonOneRun_Click;
+      // 
+      // button18
+      // 
+      this.button18.Location = new Point(685, 83);
+      this.button18.Name = "button18";
+      this.button18.Size = new Size(131, 34);
+      this.button18.TabIndex = 10;
+      this.button18.Text = "...";
+      this.button18.UseVisualStyleBackColor = true;
+      this.button18.Click += this.button18_Click;
+      // 
+      // textBoxOneColor
+      // 
+      this.textBoxOneColor.Location = new Point(344, 3);
+      this.textBoxOneColor.Name = "textBoxOneColor";
+      this.textBoxOneColor.ReadOnly = true;
+      this.textBoxOneColor.Size = new Size(175, 35);
+      this.textBoxOneColor.TabIndex = 6;
+      // 
+      // label17
+      // 
+      this.label17.AutoSize = true;
+      this.label17.Location = new Point(3, 0);
+      this.label17.Name = "label17";
+      this.label17.Size = new Size(62, 30);
+      this.label17.TabIndex = 0;
+      this.label17.Text = "Color";
+      // 
+      // label18
+      // 
+      this.label18.AutoSize = true;
+      this.label18.Location = new Point(3, 40);
+      this.label18.Name = "label18";
+      this.label18.Size = new Size(233, 30);
+      this.label18.TabIndex = 1;
+      this.label18.Text = "World Map Coordinates";
+      // 
+      // label19
+      // 
+      this.label19.AutoSize = true;
+      this.label19.Location = new Point(3, 80);
+      this.label19.Name = "label19";
+      this.label19.Size = new Size(70, 30);
+      this.label19.TabIndex = 2;
+      this.label19.Text = "Folder";
+      // 
+      // textBoxOneFolder
+      // 
+      this.textBoxOneFolder.Location = new Point(344, 83);
+      this.textBoxOneFolder.Name = "textBoxOneFolder";
+      this.textBoxOneFolder.ReadOnly = true;
+      this.textBoxOneFolder.Size = new Size(175, 35);
+      this.textBoxOneFolder.TabIndex = 7;
+      // 
+      // button17
+      // 
+      this.button17.Location = new Point(685, 3);
+      this.button17.Name = "button17";
+      this.button17.Size = new Size(131, 34);
+      this.button17.TabIndex = 9;
+      this.button17.Text = "Next >>";
+      this.button17.UseVisualStyleBackColor = true;
+      this.button17.Click += this.button17_Click;
+      // 
+      // numericUpDownOneX
+      // 
+      this.numericUpDownOneX.Location = new Point(344, 43);
+      this.numericUpDownOneX.Name = "numericUpDownOneX";
+      this.numericUpDownOneX.Size = new Size(210, 35);
+      this.numericUpDownOneX.TabIndex = 12;
+      // 
       // statusStrip1
       // 
       this.statusStrip1.ImageScalingSize = new Size(28, 28);
@@ -1062,6 +1205,11 @@
       ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxY).EndInit();
       ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeWidht).EndInit();
       ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeHeight).EndInit();
+      this.tabPage3.ResumeLayout(false);
+      this.tableLayoutPanel3.ResumeLayout(false);
+      this.tableLayoutPanel3.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownOneY).EndInit();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownOneX).EndInit();
       this.statusStrip1.ResumeLayout(false);
       this.statusStrip1.PerformLayout();
       this.ResumeLayout(false);
@@ -1093,6 +1241,7 @@
     private NumericUpDown numericUpDownSizeWidht;
     private NumericUpDown numericUpDownSizeHeight;
     private TextBox textBoxFolder;
+    private TextBox textBoxOneFolder;
     private Button button3;
     private Button buttonImport;
     private TabPage tabPagePreview;
@@ -1155,5 +1304,21 @@
     private TextBox textBoxListOfNames;
     private Label label16;
     private Button button16;
+    private TabPage tabPage3;
+    private TableLayoutPanel tableLayoutPanel3;
+    private TextBox textBoxOneColor;
+    private Label label17;
+    private Label label18;
+    private Label label19;
+    private Label label20;
+    private TextBox textBoxOneX;
+    private TextBox textBoxOneY;
+    private Button buttonOneRun;
+    private Button button18;
+    private TextBox textBox4;
+    private TextBox textBox5;
+    private Button button17;
+    private NumericUpDown numericUpDownOneY;
+    private NumericUpDown numericUpDownOneX;
   }
 }

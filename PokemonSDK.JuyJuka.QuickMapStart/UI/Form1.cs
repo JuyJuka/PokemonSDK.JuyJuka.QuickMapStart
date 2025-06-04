@@ -8,9 +8,12 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
   using PokemonSDK.JuyJuka.QuickMapStart.Api;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Colors;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Tiled;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Logging;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Wait;
+
+  using static System.Windows.Forms.DataFormats;
 
   public partial class Form1 : Form, ILogger, IWaiter
   {
@@ -24,6 +27,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       foreach (TableLayoutPanel grid in new TableLayoutPanel[]{
         this.tableLayoutPanel1,
         this.tableLayoutPanel2,
+        this.tableLayoutPanel3,
       })
       {
         grid.ColumnStyles[0].SizeType = SizeType.AutoSize;
@@ -336,7 +340,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       }
     }
 
-    private DefinitivMapColor Next(object current)
+    private IDefinitivMapColor Next(object current)
     {
       int i = Map._0;
       if (current != null) i = this.WorldMap.DefinitivMapColors.IndexOf(current as DefinitivMapColor);
@@ -347,7 +351,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
 
     private void button14_Click(object sender, EventArgs e)
     {
-      this.ShowADialogAndSaveOnOkay<DefinitivMapColor, Form1ColorControl>((d, c) =>
+      this.ShowADialogAndSaveOnOkay<IDefinitivMapColor, Form1ColorControl>((d, c) =>
       {
         c.ColorDialog = this.colorDialog1;
         c.Name = d.Name;
@@ -423,7 +427,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
 
     private void toolStripButtonNextNames_Click(object sender, EventArgs e)
     {
-      DefinitivMapColor next = this.Next(this.textBoxNames.Tag);
+      IDefinitivMapColor next = this.Next(this.textBoxNames.Tag);
       this.textBoxNames.Enabled = false;
       this.textBoxNames.Text = null;
       this.textBoxNames.Tag = next;
@@ -521,6 +525,69 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
     public virtual void Wait(WaitFor waitFor)
     {
       this.Invoke(() => { MessageBox.Show("Waiting for:" + waitFor, this.Text, MessageBoxButtons.OK); });
+    }
+
+    private void button17_Click(object sender, EventArgs e)
+    {
+      IDefinitivMapColor next = this.Next(this.textBoxOneColor.Tag);
+      this.textBoxOneColor.Text = next.Name;
+      this.textBoxOneColor.Tag = next;
+    }
+
+    private void button18_Click(object sender, EventArgs e)
+    {
+      if (this.folderBrowserDialog1.ShowDialog() == DialogResult.OK) this.textBoxOneFolder.Text = this.folderBrowserDialog1.SelectedPath; ;
+    }
+
+    private void buttonOneRun_Click(object sender, EventArgs e)
+    {
+      if (this.textBoxOneColor.Tag == null) this.button17_Click(sender, e);
+      if (string.IsNullOrEmpty(this.textBoxOneFolder.Text)) this.textBoxOneFolder.Text = Environment.CurrentDirectory;
+      if (this.RequiredFailed(this.textBoxOneColor, null)) return;
+      if (this.RequiredFailed(this.textBoxOneFolder, Directory.Exists(this.textBoxOneFolder.Text) ? 1 : 0, null)) return;
+      List<Map> org = new List<Map>(this.WorldMap.Maps);
+      var org2 = this.WorldMap.Folder;
+      Map? x = null;
+      IMapExportFormat[] org3 = this.WorldMap.Formats;
+      TmxMapExportFormat format = new TmxMapExportFormat();
+      string file = null;
+      var org4 = this.WorldMap.Waiter;
+      try
+      {
+        this.WorldMap.Waiter = null;
+        this.WorldMap.Formats = [format];
+        this.WorldMap.Folder = new PokemonStudioFolder() { Folder = this.textBoxOneFolder.Text };
+        this.WorldMap.Maps.Clear();
+        this.WorldMap.Maps.Add(x = new Map(this.WorldMap)
+        {
+          Color = ((IDefinitivMapColor)this.textBoxOneColor.Tag).Color,
+          WorldMapCoordinates = new Point((int)this.numericUpDownOneX.Value, (int)this.numericUpDownOneY.Value)
+        });
+        this.WorldMap.Expor();
+        string f2 = format.ModifyTargetFolder(x, x.World.Folder);
+        file = format.ModifyTargetFile(x, x.World.Folder, f2, Path.Combine(f2, x.Name + format.FileExtendsion));
+        this.numericUpDownOneX.Value += Map._1;
+        this.numericUpDownOneY.Value += Map._1;
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(string.Empty + ex, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+      }
+      finally
+      {
+        this.WorldMap.Formats = org3;
+        this.WorldMap.Folder = org2;
+        this.WorldMap.Maps.Clear();
+        this.WorldMap.Maps.AddRange(org);
+      }
+      try
+      {
+        if (x != null) System.Diagnostics.Process.Start("explorer", file);
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(string.Empty + ex, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+      }
     }
   }
 }

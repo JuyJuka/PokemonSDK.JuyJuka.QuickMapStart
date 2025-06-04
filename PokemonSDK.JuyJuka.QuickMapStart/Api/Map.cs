@@ -216,7 +216,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
 
       IDefinitivMapColor? fallback = null;
       IDefinitivMapColor? re = null;
-      foreach (DefinitivMapColor dColor in this.World?.DefinitivMapColors ?? new List<DefinitivMapColor>()) fallback = fallback ?? dColor;
+      foreach (DefinitivMapColor dColor in this.World?.DefinitivMapColors ?? new List<IDefinitivMapColor>()) fallback = fallback ?? dColor;
 
       float hueDiff = float.MaxValue;
       if (color != null && color.HasValue)

@@ -51,8 +51,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
       }
     }
 
-    private List<DefinitivMapColor>? _DefinitivMapColors = null;
-    public List<DefinitivMapColor> DefinitivMapColors
+    private List<IDefinitivMapColor>? _DefinitivMapColors = null;
+    public List<IDefinitivMapColor> DefinitivMapColors
     {
       get
       {
