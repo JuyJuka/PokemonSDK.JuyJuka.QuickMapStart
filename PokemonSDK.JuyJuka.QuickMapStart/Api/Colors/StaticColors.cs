@@ -28,7 +28,7 @@
       DefinitivMapColorFluent.New("Grassland", Color.Green, Knowen.Grass)
       .Panel(Knowen.PanelGrass)
       .Music(Knowen.MusicGrass)
-      .AddShapeRandomly<GrassPatchShape>(2, 1, 3, 1)
+      .AddShapeRandomly<GrassPatchShape>(5, 4, 2, 2)
       .DefinitivMapColor;
     #endregion Grassland
 
@@ -37,6 +37,7 @@
       DefinitivMapColorFluent.New("Forest", Color.FromArgb(0, 99, 20), Knowen.Grass)
       .Panel(Knowen.PanelForest)
       .Music(Knowen.MusicGrass)
+      .AddShapeRandomly<StickPille1Shape>(4, 10, 0, 0)
       .DefinitivMapColor;
     #endregion Forest
 

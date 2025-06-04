@@ -164,6 +164,29 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     public virtual Point WorldMapCoordinates { get; set; } = new Point();
     public virtual Bitmap? Image { get; set; } = null;
 
+    private Dictionary<string, string> _TestOverlapMe = new Dictionary<string, string>();
+    public virtual bool TestOverlap(string me, Point[] points)
+    {
+      if (points == null || points.Length <= Map._0) return true;
+
+      HashSet<string> x = new HashSet<string>();
+      List<string> y = new List<string>();
+      string taken;
+
+      lock (this._TestOverlapMe)
+      {
+        foreach (Point p in points)
+        {
+          string pp = p.X + "x" + p.Y;
+          if (!x.Add(pp)) continue;
+          if (!this._TestOverlapMe.TryGetValue(pp, out taken)) y.Add(pp);
+          else if (taken != me) return false;
+        }
+        foreach (string pp in y) this._TestOverlapMe.Add(pp, me);
+        return true;
+      }
+    }
+
     public Color? Color { get; set; } = null;
     private Color? _color = null;
     private DefinitivMapColor _DefinitivColor = null;
@@ -207,12 +230,12 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
 
     public virtual void Export()
     {
-      this.World.Logger.Write(this.Name + "...");
+      this._TestOverlapMe.Clear();
       string myFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly()?.Location) ?? string.Empty;
       foreach (IMapExportFormat format in this.World.Formats)
       {
         if (format == null || !format.IsEnabled) continue;
-        this.World.Logger.Write(this.Name + ".." + format.FileExtendsion);
+        this.World.Logger.Write(this.Name + "..." + format.Name);
         // keep order ModifyTargetFolder -> ModifyTargetFile -> Export
         string f2 = format.ModifyTargetFolder(this, this.World.Folder);
         string f3 = format.ModifyTargetFile(this, this.World.Folder, f2, Path.Combine(f2, this.Name + format.FileExtendsion));

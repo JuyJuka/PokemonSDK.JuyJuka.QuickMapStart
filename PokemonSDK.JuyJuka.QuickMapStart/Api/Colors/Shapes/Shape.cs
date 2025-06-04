@@ -15,7 +15,7 @@
     {
       maxY = Map._0;
       maxX = Map._0;
-      foreach (var x in points??[])
+      foreach (var x in points ?? [])
       {
         maxY = Math.Max(maxY, x.Item2.Y);
         maxX = Math.Max(maxX, x.Item2.X);
@@ -61,7 +61,7 @@
           for (int x = Map._0; x < maxX; x++)
             for (int y = Map._0; y < maxY; y++)
             {
-              list.Add(new Y(layer, new Point(y,x), string.Empty + points[i][x, y]));
+              list.Add(new Y(layer, new Point(y, x), string.Empty + points[i][x, y]));
             }
         }
       }
@@ -95,6 +95,14 @@
       if (shapeStart.X < sizeMinX || shapeStart.Y < sizeMinX) return string.Empty;
       if (shapeStart.X + maxX >= sizeMaxX || shapeStart.Y + maxY >= sizeMaxY) return string.Empty;
       Point pointInShape = new Point(original.X - shapeStart.X, original.Y - shapeStart.Y);
+
+      Point[] points = new Point[(++maxX) * (++maxY)];
+      int i = 0;
+      for (int y = 0; y < maxY; y++)
+        for (int x = 0; x < maxX; x++)
+          points[i++] = new Point(shapeStart.X + x, shapeStart.Y + y);
+      if (!parameters.Map.TestOverlap(this.GetHashCode() + "Y" + shapeStart.X + "X" + shapeStart.Y, points))
+        return string.Empty;
 
       foreach (Y point in this.Points ?? [])
         if (point.Item1 == parameters.LayerName && pointInShape.Y == point.Item2.Y && pointInShape.X == point.Item2.X)

@@ -31,7 +31,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     public virtual ILogger Logger { get; set; } = new Logger();
     public virtual BitMapExportFormat BitMapExportFormat { get; set; } = new BitMapExportFormat();
     public virtual Point Max { get; protected set; } = new Point(8, 8);
-    public virtual Size Size { get; protected set; } = new Size(8, 6);
+    public virtual Size Size { get; protected set; } = new Size(40, 30);
     public virtual List<Map> Maps { get; protected set; } = new List<Map>();
     public virtual IMapExportFormat[] Formats { get; set; } = [];
     public virtual IPokemonStudioFolder Folder { get; set; } = new PokemonStudioFolder();
