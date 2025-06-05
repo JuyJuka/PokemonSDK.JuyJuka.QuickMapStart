@@ -1,0 +1,19 @@
+{
+  "klass": "Group",
+  "id": "{{lid}}",
+  "dbSymbol": "group_{{lid}}",
+  "encounters": [ [ [] ] ],
+  "isDoubleBattle": false,
+  "systemTag": "Grass",
+  "terrainTag": 0,
+  "customConditions": [
+    {
+      "type": "enabledSwitch",
+      "value": 11,
+      "relationWithPreviousCondition": "AND"
+    }
+  ],
+  "tool": null,
+  "isHordeBattle": false,
+  "stepsAverage": 30
+}

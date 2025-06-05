@@ -10,6 +10,7 @@ export const MAP_NAME_TEXT_ID = 200002;
 export const MAP_DESCRIPTION_TEXT_ID = 200003;
 export const ZONE_DESCRIPTION_TEXT_ID = 100064;
 export const ZONE_NAME_TEXT_ID = 100010;
+export const GROUP_NAME_TEXT_ID = 100061;
      */
     #endregion Docu?
 
@@ -17,5 +18,6 @@ export const ZONE_NAME_TEXT_ID = 100010;
     public static IPokemonStudioId MapDescription = new PokemonStudioId() { Id = "200003", Name = "MAP_NAME_TEXT_ID" };
     public static IPokemonStudioId ZoneName = new PokemonStudioId() { Id = "100010", Name = "MAP_NAME_TEXT_ID" };
     public static IPokemonStudioId ZoneDescription = new PokemonStudioId() { Id = "100064", Name = "MAP_NAME_TEXT_ID" };
-  }
+    public static IPokemonStudioId GroupName = new PokemonStudioId() { Id = "100061", Name = "GROUP_NAME_TEXT_ID" };
+    }
 }

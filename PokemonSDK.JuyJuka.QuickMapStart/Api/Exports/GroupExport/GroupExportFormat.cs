@@ -1,0 +1,138 @@
+namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone
+{
+  using System;
+
+  using PokemonSDK.JuyJuka.QuickMapStart.Api;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
+
+  public abstract class GroupExport : SingleAssetMapExportFormat
+  {
+    protected GroupExport() : base("Data", "Studio", "groups", ".json") { this._Style = this.GetType().Name.Replace(typeof(GroupExport).Name, string.Empty); }
+    protected GroupExport(string style) : this() { this._Style = style; }
+
+    private string _Style;
+
+    public override string ModifyTargetFile(Map map, IPokemonStudioFolder project, string folder, string file)
+    {
+      return Path.Combine(folder, "group_" + map.Id + "_" + this._Style + this.FileExtendsion);
+    }
+
+    public override string Export(Map map, IPokemonStudioFolder project, string folder, string file, string asset, string config)
+    {
+      int _lid = StaticId.GroupName.GuessFor(project, this, true);
+      asset = asset.Replace("{{lid}}", string.Empty + _lid);
+      asset = asset.Replace("{{mid}}", string.Empty + map.Id);
+      asset = asset.Replace("[ [] ]", string.Empty /* TODO Encounter*/);
+      return asset;
+    }
+  }
+
+  public class Day_Surfing_Ocean_GroupExport : GroupExport { }
+  public class Night_Surfing_Ocean_GroupExport : GroupExport { }
+  public class Day_OldRod_Ocean_GroupExport : GroupExport { }
+  public class Night_OldRod_Ocean_GroupExport : GroupExport { }
+  public class Day_GoodRod_Ocean_GroupExport : GroupExport { }
+  public class Night_GoodRod_Ocean_GroupExport : GroupExport { }
+  public class Day_SuperRod_Ocean_GroupExport : GroupExport { }
+  public class Night_SuperRod_Ocean_GroupExport : GroupExport { }
+  public class Day_Grass_GroupExport : GroupExport { }
+  public class Night_Grass_GroupExport : GroupExport { }
+  public class Day_Sand_GroupExport : GroupExport { }
+  public class Night_Sand_GroupExport : GroupExport { }
+}
+
+
+//public class GroupStyle
+//{
+//  /*  
+//systemTag: GROUP_SYSTEM_TAG_VALIDATOR,
+//terrainTag: POSITIVE_OR_ZERO_INT,
+//tool: GROUP_TOOL_VALIDATOR.default(null),
+//   */
+//  /* GROUP_SYSTEM_TAG_VALIDATOR = z.union([
+//z.literal('RegularGround'),
+//z.literal('Grass'),
+//z.literal('TallGrass'),
+//z.literal('Cave'),
+//z.literal('Mountain'),
+//z.literal('Sand'),
+//z.literal('Pond'),
+//z.literal('Ocean'),
+//z.literal('UnderWater'),
+//z.literal('Snow'),
+//z.literal('Ice'),
+//z.literal('HeadButt'),
+//  */
+//  /*
+//  // NACHT
+//     "customConditions": [
+//  {
+//    "type": "enabledSwitch",
+//    "value": 12,
+//    "relationWithPreviousCondition": "AND"
+//  }
+//],
+//  // TAG
+//      {
+//    "type": "enabledSwitch",
+//    "value": 11,
+//    "relationWithPreviousCondition": "AND"
+//  }
+//   */
+//  /*
+//   GROUP_TOOL_VALIDATOR = z.union([z.null(), z.literal('OldRod'), z.literal('GoodRod'), z.literal('SuperRod'), z.literal('RockSmash')]);
+//   */
+
+//  private static string SystemTag_Grass = "Grass";
+//  private static string SystemTag_Sand = "Sand";
+//  private static string SystemTag_Sea = "Ocean";
+//  private static string?[] Time = ["Day", "Night"];
+//  private static string?[] Tool = ["Surfing", "OldRod", "GoodRod", "SuperRod"];
+
+//  private static IEnumerable<string?[]> For(int i, string systemTag)
+//  {
+//    string[] re = new string[i + Map._1];
+//    re[i] = systemTag;
+//    yield return re;
+//  }
+//  private static IEnumerable<string?[]> ForEach(IEnumerable<string?> others, int i, IEnumerable<string?[]> re)
+//  {
+//    foreach (string?[] o in re)
+//      foreach (string? s in others)
+//      {
+//        o[i] = s;
+//        yield return o;
+//      }
+//  }
+//  private static int AddRange(List<GroupStyle>? s, IEnumerable<string?[]>? re)
+//  {
+//    if (s != null && re != null) foreach (string?[] ss in re) s.Add(new GroupStyle(ss));
+//    return Map._0;
+//  }
+
+//  static GroupStyle()
+//  {
+//    List<GroupStyle> list = new List<GroupStyle>();
+//    int i = AddRange(null, null);
+//    i = AddRange(list, ForEach(Time, i++, ForEach(Tool, i++, For(i++, SystemTag_Sea))));
+//    i = AddRange(list, ForEach(Time, i++, For(i++, SystemTag_Grass)));
+//    i = AddRange(list, ForEach(Time, i++, For(i++, SystemTag_Sand)));
+//    // List<string> l = GroupStyle.Styles.ConvertAll(x => x.ToString()+"_"+nameof(GroupExport));
+//    System.Console.WriteLine(list);
+//    GroupStyle.Styles = list;
+//  }
+
+//  public static readonly List<GroupStyle> Styles;
+
+//  public GroupStyle(string name) { this._name = name; }
+//  public GroupStyle(params string?[] name) : this(string.Join('_', name)) { }
+//  // public GroupStyle(string systemTag, string dayNight, string tool) : this([systemTag, dayNight, tool]) { }
+
+//  private string _name;
+
+//  public override string ToString()
+//  {
+//    return this._name;
+//  }
+//}
