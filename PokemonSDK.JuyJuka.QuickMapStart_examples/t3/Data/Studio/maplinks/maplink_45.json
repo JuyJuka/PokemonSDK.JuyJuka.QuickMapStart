@@ -1,0 +1,46 @@
+{
+"klass": "MapLink",
+"id": 45,
+"dbSymbol": "maplink_45",
+"mapId": 45,
+"northMaps": [
+{
+"mapId": 38,
+"offset": -40
+},
+{
+"mapId": 44,
+"offset": 0
+},
+{
+"mapId": 50,
+"offset": 40
+}
+],
+"eastMaps": [
+{
+"mapId": 51,
+"offset": 0
+}
+],
+"southMaps": [
+{
+"mapId": 34,
+"offset": -40
+},
+{
+"mapId": 40,
+"offset": 0
+},
+{
+"mapId": 46,
+"offset": 40
+}
+],
+"westMaps": [
+{
+"mapId": 39,
+"offset": 0
+}
+]
+}

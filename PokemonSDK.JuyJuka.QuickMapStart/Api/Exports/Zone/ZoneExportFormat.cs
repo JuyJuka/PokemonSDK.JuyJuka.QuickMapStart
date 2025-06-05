@@ -29,6 +29,18 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone
       asset = asset.Replace("{{sid}}", string.Empty + map.IdSouth);
       asset = asset.Replace("{{wid}}", string.Empty + map.IdWest);
       asset = asset.Replace("{{panel}}", map.DefinitivColor.Panel ?? (string.Empty + Knowen.Nothing));
+      asset = asset.Replace("{{g-0}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Day_Surfing_Ocean_GroupExport>(map), true));
+      asset = asset.Replace("{{g-1}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Night_Surfing_Ocean_GroupExport>(map), true));
+      asset = asset.Replace("{{g-2}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Day_OldRod_Ocean_GroupExport>(map), true));
+      asset = asset.Replace("{{g-3}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Night_OldRod_Ocean_GroupExport>(map), true));
+      asset = asset.Replace("{{g-4}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Day_GoodRod_Ocean_GroupExport>(map), true));
+      asset = asset.Replace("{{g-5}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Night_GoodRod_Ocean_GroupExport>(map), true));
+      asset = asset.Replace("{{g-6}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Day_SuperRod_Ocean_GroupExport>(map), true));
+      asset = asset.Replace("{{g-7}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Night_SuperRod_Ocean_GroupExport>(map), true));
+      asset = asset.Replace("{{g-8}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Day_Grass_GroupExport>(map), true));
+      asset = asset.Replace("{{g-9}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Night_Grass_GroupExport>(map), true));
+      asset = asset.Replace("{{g-a}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Day_Sand_GroupExport>(map), true));
+      asset = asset.Replace("{{g-b}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Night_Sand_GroupExport>(map), true));
       return asset;
     }
   }

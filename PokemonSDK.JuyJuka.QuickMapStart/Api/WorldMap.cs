@@ -22,9 +22,21 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
       this.Formats = new IMapExportFormat[] {
           new TmxMapExportFormat(),
           new MapLinksExportFormat(),
-          new ZoneExportFormat(),
           this.BitMapExportFormat,
           new MusicMapExportFormat(),
+          new Day_Surfing_Ocean_GroupExport(),
+          new Night_Surfing_Ocean_GroupExport(),
+          new Day_OldRod_Ocean_GroupExport(),
+          new Night_OldRod_Ocean_GroupExport(),
+          new Day_GoodRod_Ocean_GroupExport(),
+          new Night_GoodRod_Ocean_GroupExport(),
+          new Day_SuperRod_Ocean_GroupExport(),
+          new Night_SuperRod_Ocean_GroupExport(),
+          new Day_Grass_GroupExport(),
+          new Night_Grass_GroupExport(),
+          new Day_Sand_GroupExport(),
+          new Night_Sand_GroupExport(),
+          new ZoneExportFormat(),
         };
     }
     public virtual IWaiter? Waiter { get; set; } = null;

@@ -1,0 +1,13 @@
+{
+  "klass": "Group",
+  "id": 27,
+  "dbSymbol": "group_27",
+  "encounters": [],
+  "isDoubleBattle": false,
+  "systemTag": "Grass",
+  "terrainTag": 0,
+  "customConditions": [],
+  "tool": null,
+  "isHordeBattle": false,
+  "stepsAverage": 30
+}

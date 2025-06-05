@@ -18,5 +18,18 @@
   "isFlyAllowed": true,
   "isWarpDisallowed": false,
   "forcedWeather": null,
-  "wildGroups": []
+  "wildGroups": [
+    "group_{{g-0}}",
+    "group_{{g-1}}",
+    "group_{{g-2}}",
+    "group_{{g-3}}",
+    "group_{{g-4}}",
+    "group_{{g-5}}",
+    "group_{{g-6}}",
+    "group_{{g-7}}",
+    "group_{{g-8}}",
+    "group_{{g-9}}",
+    "group_{{g-a}}",
+    "group_{{g-b}}"
+  ]
 }

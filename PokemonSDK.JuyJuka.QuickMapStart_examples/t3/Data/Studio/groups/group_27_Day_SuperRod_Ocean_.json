@@ -1,0 +1,24 @@
+{
+  "klass": "Group",
+  "id": 29,
+  "dbSymbol": "group_29",
+  "encounters": [  ],
+  "isDoubleBattle": false,
+  "systemTag": "Ocean",
+  "terrainTag": 0,
+  "customConditions": [
+    {
+      "type": "mapId",
+      "relationWithPreviousCondition": "OR",
+      "value": 27
+    },
+    {
+      "type": "enabledSwitch",
+      "value": 11,
+      "relationWithPreviousCondition": "AND"
+    }
+  ],
+  "tool": "SuperRod",
+  "isHordeBattle": false,
+  "stepsAverage": 30
+}

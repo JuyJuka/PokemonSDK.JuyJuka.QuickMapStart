@@ -1,0 +1,35 @@
+{
+  "klass": "Zone",
+  "id": 360,
+  "dbSymbol": "zone_360",
+  "maps": [
+    26
+  ],
+  "worldmaps": [],
+  "panelId": 5,
+  "warp": {
+    "x": null,
+    "y": null
+  },
+  "position": {
+    "x": null,
+    "y": null
+  },
+  "isFlyAllowed": true,
+  "isWarpDisallowed": false,
+  "forcedWeather": null,
+  "wildGroups": [
+    "group_29",
+    "group_29",
+    "group_29",
+    "group_29",
+    "group_29",
+    "group_29",
+    "group_29",
+    "group_29",
+    "group_29",
+    "group_29",
+    "group_29",
+    "group_29"
+  ]
+}

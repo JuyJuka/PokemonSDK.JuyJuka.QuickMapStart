@@ -1,19 +1,24 @@
 {
   "klass": "Group",
-  "id": "{{lid}}",
+  "id": [ [ "lid" ] ],
   "dbSymbol": "group_{{lid}}",
-  "encounters": [ [ [] ] ],
+  "encounters": [ [ [ "enc" ] ] ],
   "isDoubleBattle": false,
-  "systemTag": "Grass",
+  "systemTag": "Ocean",
   "terrainTag": 0,
   "customConditions": [
     {
+      "type": "mapId",
+      "relationWithPreviousCondition": "OR",
+      "value": [ [ "mid" ] ]
+    },
+    {
       "type": "enabledSwitch",
-      "value": 11,
+      "value": 12,
       "relationWithPreviousCondition": "AND"
     }
   ],
-  "tool": null,
+  "tool": "SuperRod",
   "isHordeBattle": false,
   "stepsAverage": 30
 }

@@ -505,6 +505,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
     {
       Form form = new Form();
       form.Text = this.Text;
+      form.AutoScroll = true;
       if (objekts != null)
         foreach (TData data in objekts)
         {

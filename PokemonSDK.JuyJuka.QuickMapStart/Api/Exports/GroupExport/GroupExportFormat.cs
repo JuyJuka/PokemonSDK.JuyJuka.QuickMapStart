@@ -1,13 +1,16 @@
 namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone
 {
-  using System;
-
   using PokemonSDK.JuyJuka.QuickMapStart.Api;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
 
   public abstract class GroupExport : SingleAssetMapExportFormat
   {
+    public static object GuessObject<T>(Map map)
+    {
+      return map.Image + typeof(T).Name;
+    }
+
     protected GroupExport() : base("Data", "Studio", "groups", ".json") { this._Style = this.GetType().Name.Replace(typeof(GroupExport).Name, string.Empty); }
     protected GroupExport(string style) : this() { this._Style = style; }
 
@@ -20,10 +23,14 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone
 
     public override string Export(Map map, IPokemonStudioFolder project, string folder, string file, string asset, string config)
     {
-      int _lid = StaticId.GroupName.GuessFor(project, this, true);
+      int _lid = StaticId.GroupName.GuessFor(project, map.Id + this.GetType().Name, true);
+      StaticId.GroupName.WriteText(project, map, true, map.Name + this.GetType().Name);
       asset = asset.Replace("{{lid}}", string.Empty + _lid);
+      asset = asset.Replace("[ [ \"lid\" ] ]", string.Empty + _lid);
       asset = asset.Replace("{{mid}}", string.Empty + map.Id);
-      asset = asset.Replace("[ [] ]", string.Empty /* TODO Encounter*/);
+      asset = asset.Replace("[ [ \"mid\" ] ]", string.Empty + map.Id);
+      asset = asset.Replace("{{enc}}", string.Empty /* TODO Encounter*/);
+      asset = asset.Replace("[ [ \"enc\" ] ]", string.Empty /* TODO Encounter*/);
       return asset;
     }
   }
@@ -42,6 +49,50 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone
   public class Night_Sand_GroupExport : GroupExport { }
 }
 
+/*
+ 
+      string folder = @"C:\Users\nicolasb\Downloads\PSDK\T2\PokemonSDK.JuyJuka.QuickMapStart\tocopy";
+      string _json1 = @"{
+  ""klass"": ""Group"",
+  ""id"": ""{{lid}}"",
+  ""dbSymbol"": ""group_{{lid}}"",
+  ""encounters"": [ [ [] ] ],
+  ""isDoubleBattle"": false,
+  ""systemTag"": """; string _json2 = @""",
+  ""terrainTag"": 0,
+  ""customConditions"": [
+    {
+      ""type"": ""enabledSwitch"",
+      ""value"": "; string _json3 = @",
+      ""relationWithPreviousCondition"": ""AND""
+    }
+  ],
+  ""tool"": "; string _json4 = @",
+  ""isHordeBattle"": false,
+  ""stepsAverage"": 30
+}";
+      foreach (var tpl in new[] {
+ new Tuple<Type,string,string?>(typeof(Day_Surfing_Ocean_GroupExport),"Ocean",null),
+ new Tuple<Type,string,string?>(typeof(Night_Surfing_Ocean_GroupExport),"Ocean",null),
+ new Tuple<Type,string,string?>(typeof(Day_OldRod_Ocean_GroupExport),"Ocean","OldRod"),
+ new Tuple<Type,string,string?>(typeof(Night_OldRod_Ocean_GroupExport),"Ocean","OldRod"),
+ new Tuple<Type,string,string?>(typeof(Day_GoodRod_Ocean_GroupExport),"Ocean","GoodRod"),
+ new Tuple<Type,string,string?>(typeof(Night_GoodRod_Ocean_GroupExport),"Ocean","GoodRod"),
+ new Tuple<Type,string,string?>(typeof(Day_SuperRod_Ocean_GroupExport),"Ocean","SuperRod"),
+ new Tuple<Type,string,string?>(typeof(Night_SuperRod_Ocean_GroupExport),"Ocean","SuperRod"),
+ new Tuple<Type,string,string?>(typeof(Day_Grass_GroupExport),"Grass",null),
+ new Tuple<Type,string,string?>(typeof(Night_Grass_GroupExport),"Grass",null),
+ new Tuple<Type,string,string?>(typeof(Day_Sand_GroupExport),"Sand",null),
+ new Tuple<Type,string,string?>(typeof(Night_Sand_GroupExport),"Sand",null),
+      })
+        System.IO.File.WriteAllText(Path.Combine(folder, tpl.Item1.Name), string.Empty
+          + _json1 + tpl.Item2
+          + _json2 + (tpl.Item1.Name.StartsWith("Night") ? "12" : "11")
+          + _json3 + (tpl.Item3 == null ? "null" : "\"" + tpl.Item3 + "\"")
+          + _json4);
+
+
+ */
 
 //public class GroupStyle
 //{
