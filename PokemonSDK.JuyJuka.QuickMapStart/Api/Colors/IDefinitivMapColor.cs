@@ -16,5 +16,6 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
     string ToLayer(Map map, int layerIndex, string layerName, Point point);
     PointF? WorldMapCoordinatsPercentageMin { get; set; }
     PointF? WorldMapCoordinatsPercentageMax { get; set; }
+    Habitats.Habitat[] Habitats { get; set; }
   }
 }

@@ -29,6 +29,9 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
       return this.Name ?? base.ToString();
     }
 
+    public virtual Habitats.Habitat[] Habitats { get; set; } = [];
+    public virtual IDictionary<Habitats.Habitat, IEnumerable<string>>? Inhabitants { get; set; } = null;
+
     public DefinitivMapColor(string name, Color color, float minHue, float maxHue
       , object? default11 = null
       , object? defaultS = null

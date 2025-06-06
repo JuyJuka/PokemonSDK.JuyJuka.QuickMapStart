@@ -23,7 +23,7 @@
 
     #region Grassland
     public static DefinitivMapColor Grassland =
-      FluentNew.Color(nameof(Grassland))
+      FluentNew.NewColor(nameof(Grassland))
       .WithUserColor(Color.Green).From(78, 122)
       .ToBackground(Knowen.Grass)
 
@@ -41,7 +41,7 @@
 
     #region Forest
     public static DefinitivMapColor Forest =
-      FluentNew.Color(nameof(Forest))
+      FluentNew.NewColor(nameof(Forest))
       .WithUserColor(Color.DarkGreen).From(123, 143)
       .ToBackground(Knowen.Grass)
       .WithMapNamePanel(Knowen.PanelForest)
@@ -58,7 +58,7 @@
       ;
 
     public static DefinitivMapColor Forest_Sothern =
-      FluentNew.Color(nameof(Forest_Sothern))
+      FluentNew.NewColor(nameof(Forest_Sothern))
       .WithUserColor(Color.GreenYellow).From(123, 143)
       .ToBackground(Knowen.Grass)
       .WithMapNamePanel(Knowen.PanelForest)
@@ -77,7 +77,7 @@
 
     #region Sea
     public static DefinitivMapColor Sea =
-      FluentNew.Color(nameof(Sea))
+      FluentNew.NewColor(nameof(Sea))
       .WithUserColor(Color.Blue).From(144, 249)
       .ToBackground(Knowen.Water)
       .DefaultSystemTagSea()
@@ -90,7 +90,7 @@
 
     #region Mountain
     public static DefinitivMapColor Mountain =
-      FluentNew.Color(nameof(Mountain))
+      FluentNew.NewColor(nameof(Mountain))
       .WithUserColor(Color.DarkGray).From(0, 21)
       .ToBackground(Knowen.Mointain)
       .WithBorder(Knowen.BorderMountain.Item1.Item1, Knowen.BorderMountain.Item1.Item2)
@@ -100,7 +100,7 @@
       ;
 
     public static DefinitivMapColor Mountain_Snowy =
-      FluentNew.Color(nameof(Mountain_Snowy))
+      FluentNew.NewColor(nameof(Mountain_Snowy))
       .WithUserColor(Color.WhiteSmoke).From(0, 21)
       .ToBackground(Knowen.Mointain)
       .WithBorder(Knowen.BorderMountain.Item1.Item1, Knowen.BorderMountain.Item1.Item2)
@@ -116,7 +116,7 @@
 
     #region RoughTerrain
     public static DefinitivMapColor RoughTerrain_Sandy =
-      FluentNew.Color(nameof(RoughTerrain_Sandy))
+      FluentNew.NewColor(nameof(RoughTerrain_Sandy))
       .WithUserColor(Color.Yellow).From(22, 78)
       .ToBackground(Knowen.RoughTerrainSandy)
       .DefaultSystemTagSand()
@@ -138,7 +138,7 @@
       ;
 
     public static DefinitivMapColor RoughTerrain =
-      FluentNew.Color(nameof(RoughTerrain))
+      FluentNew.NewColor(nameof(RoughTerrain))
       .WithUserColor(Color.OrangeRed).From(22, 78)
       .ToBackground(Knowen.RoughTerrainRocky)
       .WithMusic(Knowen.MusicGrass)
@@ -157,7 +157,7 @@
 
     #region Urban
     public static DefinitivMapColor Urban =
-      FluentNew.Color(nameof(Urban))
+      FluentNew.NewColor(nameof(Urban))
       .WithUserColor(Color.Purple).From(250, 360)
       .ToBackground(Knowen.Uraban)
       .WithMapNamePanel(Knowen.PanelUrban)
@@ -168,7 +168,7 @@
       ;
 
     public static DefinitivMapColor Urban_East =
-      FluentNew.Color(nameof(Urban_East))
+      FluentNew.NewColor(nameof(Urban_East))
       .WithUserColor(Color.Purple).From(250, 360)
       .ToBackground(Knowen.Uraban)
       .WithMapNamePanel(Knowen.PanelUrban)

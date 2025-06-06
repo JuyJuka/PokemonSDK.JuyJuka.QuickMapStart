@@ -168,6 +168,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     public virtual bool IsExterior { get; protected set; } = true;
     public virtual Point WorldMapCoordinates { get; set; } = new Point();
     public virtual Bitmap? Image { get; set; } = null;
+    public virtual IDictionary<Habitats.Habitat, string[]>? Specis { get; set; } = null;
 
     private Dictionary<string, string> _TestOverlapMe = new Dictionary<string, string>();
     public virtual bool TestOverlap(string me, Point[] points)
@@ -293,7 +294,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
           if (File.Exists(name)) File.Delete(name);
           File.Copy(file, name);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
           this.World.Logger.Write("Statics might not be up to date.");
           this.World.Logger.Write(string.Empty + ex);

@@ -31,28 +31,40 @@
       this.components = new System.ComponentModel.Container();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
       this.tableLayoutPanel1 = new TableLayoutPanel();
-      this.buttonSetImportNames = new Button();
-      this.textBoxListOfNames = new TextBox();
+      this.buttonHabitat = new Button();
+      this.labelHabitat = new Label();
+      this.textBoxDex = new TextBox();
+      this.label7 = new Label();
       this.label1 = new Label();
-      this.label3 = new Label();
-      this.label5 = new Label();
       this.textBoxImage = new TextBox();
       this.button1 = new Button();
-      this.button7 = new Button();
-      this.button8 = new Button();
-      this.label12 = new Label();
-      this.buttonDelete = new Button();
-      this.label13 = new Label();
-      this.flowLayoutPanel1 = new FlowLayoutPanel();
-      this.button11 = new Button();
-      this.button10 = new Button();
-      this.label4 = new Label();
-      this.buttonImport = new Button();
       this.label2 = new Label();
       this.textBoxFolder = new TextBox();
       this.button3 = new Button();
-      this.label16 = new Label();
+      this.button9 = new Button();
+      this.textBoxEmpty = new TextBox();
+      this.label11 = new Label();
+      this.label3 = new Label();
+      this.button8 = new Button();
+      this.button7 = new Button();
       this.button16 = new Button();
+      this.label5 = new Label();
+      this.label16 = new Label();
+      this.textBoxListOfNames = new TextBox();
+      this.buttonSetImportNames = new Button();
+      this.buttonImport = new Button();
+      this.button14 = new Button();
+      this.button13 = new Button();
+      this.label4 = new Label();
+      this.label15 = new Label();
+      this.label9 = new Label();
+      this.numericUpDownSizeWidht = new NumericUpDown();
+      this.numericUpDownSizeHeight = new NumericUpDown();
+      this.label6 = new Label();
+      this.numericUpDownMaxX = new NumericUpDown();
+      this.numericUpDownMaxY = new NumericUpDown();
+      this.buttonDex = new Button();
+      this.textBoxHabitat = new TextBox();
       this.folderBrowserDialog1 = new FolderBrowserDialog();
       this.openFileDialog1 = new OpenFileDialog();
       this.tabControl1 = new TabControl();
@@ -90,25 +102,6 @@
       this.pictureBoxSmall = new PictureBox();
       this.tabPageBig = new TabPage();
       this.pictureBoxBig = new PictureBox();
-      this.tabPage2 = new TabPage();
-      this.tableLayoutPanel2 = new TableLayoutPanel();
-      this.label6 = new Label();
-      this.label7 = new Label();
-      this.label9 = new Label();
-      this.label10 = new Label();
-      this.numericUpDownMaxX = new NumericUpDown();
-      this.numericUpDownMaxY = new NumericUpDown();
-      this.numericUpDownSizeWidht = new NumericUpDown();
-      this.numericUpDownSizeHeight = new NumericUpDown();
-      this.label11 = new Label();
-      this.textBoxEmpty = new TextBox();
-      this.button9 = new Button();
-      this.label15 = new Label();
-      this.button14 = new Button();
-      this.button15 = new Button();
-      this.label14 = new Label();
-      this.button12 = new Button();
-      this.button13 = new Button();
       this.tabPage3 = new TabPage();
       this.tableLayoutPanel3 = new TableLayoutPanel();
       this.numericUpDownOneY = new NumericUpDown();
@@ -128,8 +121,12 @@
       this.saveFileDialogExportColors = new SaveFileDialog();
       this.openFileDialogImportColors = new OpenFileDialog();
       this.colorDialog1 = new ColorDialog();
+      this.label10 = new Label();
       this.tableLayoutPanel1.SuspendLayout();
-      this.flowLayoutPanel1.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeWidht).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeHeight).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxX).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxY).BeginInit();
       this.tabControl1.SuspendLayout();
       this.tabPage1.SuspendLayout();
       this.tabPageContiguesNames.SuspendLayout();
@@ -150,12 +147,6 @@
       ((System.ComponentModel.ISupportInitialize)this.pictureBoxSmall).BeginInit();
       this.tabPageBig.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)this.pictureBoxBig).BeginInit();
-      this.tabPage2.SuspendLayout();
-      this.tableLayoutPanel2.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxX).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxY).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeWidht).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeHeight).BeginInit();
       this.tabPage3.SuspendLayout();
       this.tableLayoutPanel3.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)this.numericUpDownOneY).BeginInit();
@@ -169,30 +160,45 @@
       this.tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33333F));
       this.tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333359F));
       this.tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333359F));
-      this.tableLayoutPanel1.Controls.Add(this.buttonSetImportNames, 2, 1);
-      this.tableLayoutPanel1.Controls.Add(this.textBoxListOfNames, 1, 1);
+      this.tableLayoutPanel1.Controls.Add(this.label10, 0, 4);
+      this.tableLayoutPanel1.Controls.Add(this.buttonHabitat, 2, 3);
+      this.tableLayoutPanel1.Controls.Add(this.labelHabitat, 0, 3);
+      this.tableLayoutPanel1.Controls.Add(this.textBoxDex, 1, 2);
+      this.tableLayoutPanel1.Controls.Add(this.label7, 0, 2);
       this.tableLayoutPanel1.Controls.Add(this.label1, 0, 0);
-      this.tableLayoutPanel1.Controls.Add(this.label3, 0, 5);
-      this.tableLayoutPanel1.Controls.Add(this.label5, 0, 4);
       this.tableLayoutPanel1.Controls.Add(this.textBoxImage, 1, 0);
       this.tableLayoutPanel1.Controls.Add(this.button1, 2, 0);
-      this.tableLayoutPanel1.Controls.Add(this.button7, 2, 4);
-      this.tableLayoutPanel1.Controls.Add(this.button8, 2, 5);
-      this.tableLayoutPanel1.Controls.Add(this.label12, 0, 6);
-      this.tableLayoutPanel1.Controls.Add(this.buttonDelete, 2, 6);
-      this.tableLayoutPanel1.Controls.Add(this.label13, 0, 7);
-      this.tableLayoutPanel1.Controls.Add(this.flowLayoutPanel1, 1, 7);
-      this.tableLayoutPanel1.Controls.Add(this.label4, 0, 3);
-      this.tableLayoutPanel1.Controls.Add(this.buttonImport, 2, 3);
-      this.tableLayoutPanel1.Controls.Add(this.label2, 0, 2);
-      this.tableLayoutPanel1.Controls.Add(this.textBoxFolder, 1, 2);
-      this.tableLayoutPanel1.Controls.Add(this.button3, 2, 2);
-      this.tableLayoutPanel1.Controls.Add(this.label16, 0, 1);
-      this.tableLayoutPanel1.Controls.Add(this.button16, 1, 4);
+      this.tableLayoutPanel1.Controls.Add(this.label2, 0, 1);
+      this.tableLayoutPanel1.Controls.Add(this.textBoxFolder, 1, 1);
+      this.tableLayoutPanel1.Controls.Add(this.button3, 2, 1);
+      this.tableLayoutPanel1.Controls.Add(this.buttonDex, 2, 2);
+      this.tableLayoutPanel1.Controls.Add(this.textBoxHabitat, 1, 3);
+      this.tableLayoutPanel1.Controls.Add(this.button9, 2, 12);
+      this.tableLayoutPanel1.Controls.Add(this.textBoxEmpty, 1, 12);
+      this.tableLayoutPanel1.Controls.Add(this.label11, 0, 12);
+      this.tableLayoutPanel1.Controls.Add(this.label3, 0, 11);
+      this.tableLayoutPanel1.Controls.Add(this.button8, 2, 11);
+      this.tableLayoutPanel1.Controls.Add(this.button7, 2, 10);
+      this.tableLayoutPanel1.Controls.Add(this.button16, 1, 10);
+      this.tableLayoutPanel1.Controls.Add(this.label5, 0, 10);
+      this.tableLayoutPanel1.Controls.Add(this.label16, 0, 9);
+      this.tableLayoutPanel1.Controls.Add(this.textBoxListOfNames, 1, 9);
+      this.tableLayoutPanel1.Controls.Add(this.buttonSetImportNames, 2, 9);
+      this.tableLayoutPanel1.Controls.Add(this.buttonImport, 2, 8);
+      this.tableLayoutPanel1.Controls.Add(this.label4, 0, 8);
+      this.tableLayoutPanel1.Controls.Add(this.label15, 0, 7);
+      this.tableLayoutPanel1.Controls.Add(this.button13, 1, 7);
+      this.tableLayoutPanel1.Controls.Add(this.button14, 2, 7);
+      this.tableLayoutPanel1.Controls.Add(this.numericUpDownSizeHeight, 2, 6);
+      this.tableLayoutPanel1.Controls.Add(this.numericUpDownMaxY, 2, 5);
+      this.tableLayoutPanel1.Controls.Add(this.numericUpDownSizeWidht, 1, 6);
+      this.tableLayoutPanel1.Controls.Add(this.numericUpDownMaxX, 1, 5);
+      this.tableLayoutPanel1.Controls.Add(this.label9, 0, 6);
+      this.tableLayoutPanel1.Controls.Add(this.label6, 0, 5);
       this.tableLayoutPanel1.Dock = DockStyle.Fill;
       this.tableLayoutPanel1.Location = new Point(3, 3);
       this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-      this.tableLayoutPanel1.RowCount = 13;
+      this.tableLayoutPanel1.RowCount = 15;
       this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
       this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
       this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
@@ -206,48 +212,46 @@
       this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
       this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
       this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+      this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
       this.tableLayoutPanel1.Size = new Size(1024, 812);
       this.tableLayoutPanel1.TabIndex = 0;
       // 
-      // buttonSetImportNames
+      // buttonHabitat
       // 
-      this.buttonSetImportNames.Location = new Point(685, 43);
-      this.buttonSetImportNames.Name = "buttonSetImportNames";
-      this.buttonSetImportNames.Size = new Size(131, 34);
-      this.buttonSetImportNames.TabIndex = 19;
-      this.buttonSetImportNames.Text = "...";
-      this.buttonSetImportNames.UseVisualStyleBackColor = true;
-      this.buttonSetImportNames.Click += this.buttonSetImportNames_Click;
+      this.buttonHabitat.Location = new Point(685, 123);
+      this.buttonHabitat.Name = "buttonHabitat";
+      this.buttonHabitat.Size = new Size(131, 34);
+      this.buttonHabitat.TabIndex = 26;
+      this.buttonHabitat.Text = "...";
+      this.buttonHabitat.UseVisualStyleBackColor = true;
+      this.buttonHabitat.Click += this.button10_Click;
       // 
-      // textBoxListOfNames
+      // labelHabitat
       // 
-      this.textBoxListOfNames.Location = new Point(344, 43);
-      this.textBoxListOfNames.Name = "textBoxListOfNames";
-      this.textBoxListOfNames.ReadOnly = true;
-      this.textBoxListOfNames.Size = new Size(250, 35);
-      this.textBoxListOfNames.TabIndex = 18;
+      this.labelHabitat.AutoSize = true;
+      this.labelHabitat.Location = new Point(3, 120);
+      this.labelHabitat.Name = "labelHabitat";
+      this.labelHabitat.Size = new Size(131, 30);
+      this.labelHabitat.TabIndex = 25;
+      this.labelHabitat.Text = "Habitat Data";
+      // 
+      // textBoxDex
+      // 
+      this.textBoxDex.Location = new Point(344, 83);
+      this.textBoxDex.Name = "textBoxDex";
+      this.textBoxDex.ReadOnly = true;
+      this.textBoxDex.Size = new Size(250, 35);
+      this.textBoxDex.TabIndex = 22;
+      // 
+      // label7
+      // 
+      this.label7.AutoSize = true;
+      this.label7.Location = new Point(3, 80);
+      this.label7.Name = "label7";
+      this.label7.Size = new Size(49, 30);
+      this.label7.TabIndex = 21;
+      this.label7.Text = "Dex";
       // 
       // label1
       // 
@@ -258,24 +262,6 @@
       this.label1.Size = new Size(335, 40);
       this.label1.TabIndex = 0;
       this.label1.Text = "World Image";
-      // 
-      // label3
-      // 
-      this.label3.AutoSize = true;
-      this.label3.Location = new Point(3, 200);
-      this.label3.Name = "label3";
-      this.label3.Size = new Size(161, 30);
-      this.label3.TabIndex = 2;
-      this.label3.Text = "Create && Export";
-      // 
-      // label5
-      // 
-      this.label5.AutoSize = true;
-      this.label5.Location = new Point(3, 160);
-      this.label5.Name = "label5";
-      this.label5.Size = new Size(72, 30);
-      this.label5.TabIndex = 4;
-      this.label5.Text = "Export";
       // 
       // textBoxImage
       // 
@@ -295,109 +281,10 @@
       this.button1.UseVisualStyleBackColor = true;
       this.button1.Click += this.button1_Click;
       // 
-      // button7
-      // 
-      this.button7.Location = new Point(685, 163);
-      this.button7.Name = "button7";
-      this.button7.Size = new Size(131, 34);
-      this.button7.TabIndex = 11;
-      this.button7.Text = "Export";
-      this.button7.UseVisualStyleBackColor = true;
-      this.button7.Click += this.button7_Click;
-      // 
-      // button8
-      // 
-      this.button8.Location = new Point(685, 203);
-      this.button8.Name = "button8";
-      this.button8.Size = new Size(131, 34);
-      this.button8.TabIndex = 12;
-      this.button8.Text = "Create && Export";
-      this.button8.UseVisualStyleBackColor = true;
-      this.button8.Click += this.button8_Click;
-      // 
-      // label12
-      // 
-      this.label12.AutoSize = true;
-      this.label12.Location = new Point(3, 240);
-      this.label12.Name = "label12";
-      this.label12.Size = new Size(250, 30);
-      this.label12.TabIndex = 13;
-      this.label12.Text = "Delete && Create && Export";
-      // 
-      // buttonDelete
-      // 
-      this.buttonDelete.Location = new Point(685, 243);
-      this.buttonDelete.Name = "buttonDelete";
-      this.buttonDelete.Size = new Size(131, 34);
-      this.buttonDelete.TabIndex = 14;
-      this.buttonDelete.Tag = "Delete";
-      this.buttonDelete.Text = "Delete && Create && Export";
-      this.buttonDelete.UseVisualStyleBackColor = true;
-      this.buttonDelete.Click += this.button8_Click;
-      // 
-      // label13
-      // 
-      this.label13.AutoSize = true;
-      this.label13.Location = new Point(3, 280);
-      this.label13.Name = "label13";
-      this.label13.Size = new Size(135, 30);
-      this.label13.TabIndex = 15;
-      this.label13.Text = "Quick Access";
-      // 
-      // flowLayoutPanel1
-      // 
-      this.tableLayoutPanel1.SetColumnSpan(this.flowLayoutPanel1, 2);
-      this.flowLayoutPanel1.Controls.Add(this.button11);
-      this.flowLayoutPanel1.Controls.Add(this.button10);
-      this.flowLayoutPanel1.Dock = DockStyle.Fill;
-      this.flowLayoutPanel1.Location = new Point(344, 283);
-      this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-      this.flowLayoutPanel1.Size = new Size(677, 34);
-      this.flowLayoutPanel1.TabIndex = 16;
-      // 
-      // button11
-      // 
-      this.button11.Location = new Point(3, 3);
-      this.button11.Name = "button11";
-      this.button11.Size = new Size(164, 40);
-      this.button11.TabIndex = 1;
-      this.button11.Text = "project.studio";
-      this.button11.UseVisualStyleBackColor = true;
-      this.button11.Click += this.button10_Click;
-      // 
-      // button10
-      // 
-      this.button10.Location = new Point(173, 3);
-      this.button10.Name = "button10";
-      this.button10.Size = new Size(164, 40);
-      this.button10.TabIndex = 0;
-      this.button10.Text = "Game_RMXP_1.05.rxproj";
-      this.button10.UseVisualStyleBackColor = true;
-      this.button10.Click += this.button10_Click;
-      // 
-      // label4
-      // 
-      this.label4.AutoSize = true;
-      this.label4.Location = new Point(3, 120);
-      this.label4.Name = "label4";
-      this.label4.Size = new Size(75, 30);
-      this.label4.TabIndex = 3;
-      this.label4.Text = "Import";
-      // 
-      // buttonImport
-      // 
-      this.buttonImport.Location = new Point(685, 123);
-      this.buttonImport.Name = "buttonImport";
-      this.buttonImport.Size = new Size(131, 34);
-      this.buttonImport.TabIndex = 10;
-      this.buttonImport.Text = "Import";
-      this.buttonImport.UseVisualStyleBackColor = true;
-      this.buttonImport.Click += this.buttonImport_Click;
-      // 
       // label2
       // 
       this.label2.AutoSize = true;
-      this.label2.Location = new Point(3, 80);
+      this.label2.Location = new Point(3, 40);
       this.label2.Name = "label2";
       this.label2.Size = new Size(140, 30);
       this.label2.TabIndex = 1;
@@ -405,7 +292,7 @@
       // 
       // textBoxFolder
       // 
-      this.textBoxFolder.Location = new Point(344, 83);
+      this.textBoxFolder.Location = new Point(344, 43);
       this.textBoxFolder.Name = "textBoxFolder";
       this.textBoxFolder.ReadOnly = true;
       this.textBoxFolder.Size = new Size(250, 35);
@@ -413,7 +300,7 @@
       // 
       // button3
       // 
-      this.button3.Location = new Point(685, 83);
+      this.button3.Location = new Point(685, 43);
       this.button3.Name = "button3";
       this.button3.Size = new Size(131, 34);
       this.button3.TabIndex = 8;
@@ -421,24 +308,223 @@
       this.button3.UseVisualStyleBackColor = true;
       this.button3.Click += this.button3_Click;
       // 
-      // label16
+      // button9
       // 
-      this.label16.AutoSize = true;
-      this.label16.Location = new Point(3, 40);
-      this.label16.Name = "label16";
-      this.label16.Size = new Size(140, 30);
-      this.label16.TabIndex = 17;
-      this.label16.Text = "List of Names";
+      this.button9.Location = new Point(685, 483);
+      this.button9.Name = "button9";
+      this.button9.Size = new Size(131, 34);
+      this.button9.TabIndex = 11;
+      this.button9.Text = "...";
+      this.button9.UseVisualStyleBackColor = true;
+      this.button9.Click += this.button9_Click;
+      // 
+      // textBoxEmpty
+      // 
+      this.textBoxEmpty.Location = new Point(344, 483);
+      this.textBoxEmpty.Name = "textBoxEmpty";
+      this.textBoxEmpty.Size = new Size(175, 35);
+      this.textBoxEmpty.TabIndex = 10;
+      this.textBoxEmpty.Text = "C:\\Users\\nicolasb\\Downloads\\PSDK\\T2\\PokemonSDK.JuyJuka.QuickMapStart\\empty";
+      // 
+      // label11
+      // 
+      this.label11.AutoSize = true;
+      this.label11.Location = new Point(3, 480);
+      this.label11.Name = "label11";
+      this.label11.Size = new Size(71, 30);
+      this.label11.TabIndex = 9;
+      this.label11.Text = "Empty";
+      // 
+      // label3
+      // 
+      this.label3.AutoSize = true;
+      this.label3.Location = new Point(3, 440);
+      this.label3.Name = "label3";
+      this.label3.Size = new Size(161, 30);
+      this.label3.TabIndex = 2;
+      this.label3.Text = "Create && Export";
+      // 
+      // button8
+      // 
+      this.button8.Location = new Point(685, 443);
+      this.button8.Name = "button8";
+      this.button8.Size = new Size(302, 34);
+      this.button8.TabIndex = 12;
+      this.button8.Text = "Create && Export";
+      this.button8.UseVisualStyleBackColor = true;
+      this.button8.Click += this.button8_Click;
+      // 
+      // button7
+      // 
+      this.button7.Location = new Point(685, 403);
+      this.button7.Name = "button7";
+      this.button7.Size = new Size(131, 34);
+      this.button7.TabIndex = 11;
+      this.button7.Text = "Export";
+      this.button7.UseVisualStyleBackColor = true;
+      this.button7.Click += this.button7_Click;
       // 
       // button16
       // 
-      this.button16.Location = new Point(344, 163);
+      this.button16.Location = new Point(344, 403);
       this.button16.Name = "button16";
       this.button16.Size = new Size(131, 34);
       this.button16.TabIndex = 20;
       this.button16.Text = "Specific";
       this.button16.UseVisualStyleBackColor = true;
       this.button16.Click += this.button16_Click;
+      // 
+      // label5
+      // 
+      this.label5.AutoSize = true;
+      this.label5.Location = new Point(3, 400);
+      this.label5.Name = "label5";
+      this.label5.Size = new Size(72, 30);
+      this.label5.TabIndex = 4;
+      this.label5.Text = "Export";
+      // 
+      // label16
+      // 
+      this.label16.AutoSize = true;
+      this.label16.Location = new Point(3, 360);
+      this.label16.Name = "label16";
+      this.label16.Size = new Size(140, 30);
+      this.label16.TabIndex = 17;
+      this.label16.Text = "List of Names";
+      // 
+      // textBoxListOfNames
+      // 
+      this.textBoxListOfNames.Location = new Point(344, 363);
+      this.textBoxListOfNames.Name = "textBoxListOfNames";
+      this.textBoxListOfNames.ReadOnly = true;
+      this.textBoxListOfNames.Size = new Size(250, 35);
+      this.textBoxListOfNames.TabIndex = 18;
+      // 
+      // buttonSetImportNames
+      // 
+      this.buttonSetImportNames.Location = new Point(685, 363);
+      this.buttonSetImportNames.Name = "buttonSetImportNames";
+      this.buttonSetImportNames.Size = new Size(131, 34);
+      this.buttonSetImportNames.TabIndex = 19;
+      this.buttonSetImportNames.Text = "...";
+      this.buttonSetImportNames.UseVisualStyleBackColor = true;
+      this.buttonSetImportNames.Click += this.buttonSetImportNames_Click;
+      // 
+      // buttonImport
+      // 
+      this.buttonImport.Location = new Point(685, 323);
+      this.buttonImport.Name = "buttonImport";
+      this.buttonImport.Size = new Size(131, 34);
+      this.buttonImport.TabIndex = 10;
+      this.buttonImport.Text = "Import";
+      this.buttonImport.UseVisualStyleBackColor = true;
+      this.buttonImport.Click += this.buttonImport_Click;
+      // 
+      // button14
+      // 
+      this.button14.Location = new Point(685, 283);
+      this.button14.Name = "button14";
+      this.button14.Size = new Size(131, 34);
+      this.button14.TabIndex = 16;
+      this.button14.Text = "Edit Colors";
+      this.button14.UseVisualStyleBackColor = true;
+      this.button14.Click += this.button14_Click;
+      // 
+      // button13
+      // 
+      this.button13.Location = new Point(344, 283);
+      this.button13.Name = "button13";
+      this.button13.Size = new Size(131, 34);
+      this.button13.TabIndex = 14;
+      this.button13.Text = "Import Colors";
+      this.button13.UseVisualStyleBackColor = true;
+      this.button13.Click += this.button13_Click;
+      // 
+      // label4
+      // 
+      this.label4.AutoSize = true;
+      this.label4.Location = new Point(3, 320);
+      this.label4.Name = "label4";
+      this.label4.Size = new Size(75, 30);
+      this.label4.TabIndex = 3;
+      this.label4.Text = "Import";
+      // 
+      // label15
+      // 
+      this.label15.AutoSize = true;
+      this.label15.Location = new Point(3, 280);
+      this.label15.Name = "label15";
+      this.label15.Size = new Size(71, 30);
+      this.label15.TabIndex = 15;
+      this.label15.Text = "Colors";
+      // 
+      // label9
+      // 
+      this.label9.AutoSize = true;
+      this.label9.Location = new Point(3, 240);
+      this.label9.Name = "label9";
+      this.label9.Size = new Size(199, 30);
+      this.label9.TabIndex = 3;
+      this.label9.Text = "Map Width / Height";
+      // 
+      // numericUpDownSizeWidht
+      // 
+      this.numericUpDownSizeWidht.Location = new Point(344, 243);
+      this.numericUpDownSizeWidht.Name = "numericUpDownSizeWidht";
+      this.numericUpDownSizeWidht.Size = new Size(210, 35);
+      this.numericUpDownSizeWidht.TabIndex = 7;
+      // 
+      // numericUpDownSizeHeight
+      // 
+      this.numericUpDownSizeHeight.Location = new Point(685, 243);
+      this.numericUpDownSizeHeight.Name = "numericUpDownSizeHeight";
+      this.numericUpDownSizeHeight.Size = new Size(210, 35);
+      this.numericUpDownSizeHeight.TabIndex = 8;
+      // 
+      // label6
+      // 
+      this.label6.AutoSize = true;
+      this.label6.Location = new Point(3, 200);
+      this.label6.Name = "label6";
+      this.label6.Size = new Size(212, 30);
+      this.label6.TabIndex = 0;
+      this.label6.Text = "World Width / Height";
+      // 
+      // numericUpDownMaxX
+      // 
+      this.numericUpDownMaxX.Location = new Point(344, 203);
+      this.numericUpDownMaxX.Minimum = new decimal(new int[] { 3, 0, 0, 0 });
+      this.numericUpDownMaxX.Name = "numericUpDownMaxX";
+      this.numericUpDownMaxX.Size = new Size(210, 35);
+      this.numericUpDownMaxX.TabIndex = 5;
+      this.numericUpDownMaxX.Value = new decimal(new int[] { 3, 0, 0, 0 });
+      // 
+      // numericUpDownMaxY
+      // 
+      this.numericUpDownMaxY.Location = new Point(685, 203);
+      this.numericUpDownMaxY.Minimum = new decimal(new int[] { 3, 0, 0, 0 });
+      this.numericUpDownMaxY.Name = "numericUpDownMaxY";
+      this.numericUpDownMaxY.Size = new Size(210, 35);
+      this.numericUpDownMaxY.TabIndex = 6;
+      this.numericUpDownMaxY.Value = new decimal(new int[] { 3, 0, 0, 0 });
+      // 
+      // buttonDex
+      // 
+      this.buttonDex.Location = new Point(685, 83);
+      this.buttonDex.Name = "buttonDex";
+      this.buttonDex.Size = new Size(131, 34);
+      this.buttonDex.TabIndex = 23;
+      this.buttonDex.Text = "...";
+      this.buttonDex.UseVisualStyleBackColor = true;
+      this.buttonDex.Click += this.buttonDex_Click;
+      // 
+      // textBoxHabitat
+      // 
+      this.textBoxHabitat.Location = new Point(344, 123);
+      this.textBoxHabitat.Name = "textBoxHabitat";
+      this.textBoxHabitat.ReadOnly = true;
+      this.textBoxHabitat.Size = new Size(250, 35);
+      this.textBoxHabitat.TabIndex = 24;
       // 
       // openFileDialog1
       // 
@@ -449,7 +535,6 @@
       this.tabControl1.Controls.Add(this.tabPage1);
       this.tabControl1.Controls.Add(this.tabPageContiguesNames);
       this.tabControl1.Controls.Add(this.tabPagePreview);
-      this.tabControl1.Controls.Add(this.tabPage2);
       this.tabControl1.Controls.Add(this.tabPage3);
       this.tabControl1.Dock = DockStyle.Fill;
       this.tabControl1.Location = new Point(0, 0);
@@ -812,207 +897,6 @@
       this.pictureBoxBig.TabIndex = 1;
       this.pictureBoxBig.TabStop = false;
       // 
-      // tabPage2
-      // 
-      this.tabPage2.Controls.Add(this.tableLayoutPanel2);
-      this.tabPage2.Location = new Point(4, 39);
-      this.tabPage2.Name = "tabPage2";
-      this.tabPage2.Padding = new Padding(3);
-      this.tabPage2.Size = new Size(1030, 818);
-      this.tabPage2.TabIndex = 1;
-      this.tabPage2.Text = "Configuration";
-      this.tabPage2.UseVisualStyleBackColor = true;
-      // 
-      // tableLayoutPanel2
-      // 
-      this.tableLayoutPanel2.ColumnCount = 3;
-      this.tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33333F));
-      this.tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333359F));
-      this.tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333359F));
-      this.tableLayoutPanel2.Controls.Add(this.label6, 0, 0);
-      this.tableLayoutPanel2.Controls.Add(this.label7, 0, 1);
-      this.tableLayoutPanel2.Controls.Add(this.label9, 0, 2);
-      this.tableLayoutPanel2.Controls.Add(this.label10, 0, 3);
-      this.tableLayoutPanel2.Controls.Add(this.numericUpDownMaxX, 1, 0);
-      this.tableLayoutPanel2.Controls.Add(this.numericUpDownMaxY, 1, 1);
-      this.tableLayoutPanel2.Controls.Add(this.numericUpDownSizeWidht, 1, 2);
-      this.tableLayoutPanel2.Controls.Add(this.numericUpDownSizeHeight, 1, 3);
-      this.tableLayoutPanel2.Controls.Add(this.label11, 0, 4);
-      this.tableLayoutPanel2.Controls.Add(this.textBoxEmpty, 1, 4);
-      this.tableLayoutPanel2.Controls.Add(this.button9, 2, 4);
-      this.tableLayoutPanel2.Controls.Add(this.label15, 0, 5);
-      this.tableLayoutPanel2.Controls.Add(this.button14, 2, 5);
-      this.tableLayoutPanel2.Controls.Add(this.button15, 1, 5);
-      this.tableLayoutPanel2.Controls.Add(this.label14, 0, 6);
-      this.tableLayoutPanel2.Controls.Add(this.button12, 1, 6);
-      this.tableLayoutPanel2.Controls.Add(this.button13, 2, 6);
-      this.tableLayoutPanel2.Dock = DockStyle.Fill;
-      this.tableLayoutPanel2.Location = new Point(3, 3);
-      this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-      this.tableLayoutPanel2.RowCount = 9;
-      this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-      this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-      this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-      this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-      this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-      this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-      this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-      this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-      this.tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
-      this.tableLayoutPanel2.Size = new Size(1024, 812);
-      this.tableLayoutPanel2.TabIndex = 1;
-      // 
-      // label6
-      // 
-      this.label6.AutoSize = true;
-      this.label6.Dock = DockStyle.Fill;
-      this.label6.Location = new Point(3, 0);
-      this.label6.Name = "label6";
-      this.label6.Size = new Size(335, 40);
-      this.label6.TabIndex = 0;
-      this.label6.Text = "World Width";
-      // 
-      // label7
-      // 
-      this.label7.AutoSize = true;
-      this.label7.Dock = DockStyle.Fill;
-      this.label7.Location = new Point(3, 40);
-      this.label7.Name = "label7";
-      this.label7.Size = new Size(335, 40);
-      this.label7.TabIndex = 1;
-      this.label7.Text = "World Height";
-      // 
-      // label9
-      // 
-      this.label9.AutoSize = true;
-      this.label9.Location = new Point(3, 80);
-      this.label9.Name = "label9";
-      this.label9.Size = new Size(117, 30);
-      this.label9.TabIndex = 3;
-      this.label9.Text = "Map Width";
-      // 
-      // label10
-      // 
-      this.label10.AutoSize = true;
-      this.label10.Location = new Point(3, 120);
-      this.label10.Name = "label10";
-      this.label10.Size = new Size(123, 30);
-      this.label10.TabIndex = 4;
-      this.label10.Text = "Map Height";
-      // 
-      // numericUpDownMaxX
-      // 
-      this.numericUpDownMaxX.Location = new Point(344, 3);
-      this.numericUpDownMaxX.Name = "numericUpDownMaxX";
-      this.numericUpDownMaxX.Size = new Size(210, 35);
-      this.numericUpDownMaxX.TabIndex = 5;
-      // 
-      // numericUpDownMaxY
-      // 
-      this.numericUpDownMaxY.Location = new Point(344, 43);
-      this.numericUpDownMaxY.Name = "numericUpDownMaxY";
-      this.numericUpDownMaxY.Size = new Size(210, 35);
-      this.numericUpDownMaxY.TabIndex = 6;
-      // 
-      // numericUpDownSizeWidht
-      // 
-      this.numericUpDownSizeWidht.Location = new Point(344, 83);
-      this.numericUpDownSizeWidht.Name = "numericUpDownSizeWidht";
-      this.numericUpDownSizeWidht.Size = new Size(210, 35);
-      this.numericUpDownSizeWidht.TabIndex = 7;
-      // 
-      // numericUpDownSizeHeight
-      // 
-      this.numericUpDownSizeHeight.Location = new Point(344, 123);
-      this.numericUpDownSizeHeight.Name = "numericUpDownSizeHeight";
-      this.numericUpDownSizeHeight.Size = new Size(210, 35);
-      this.numericUpDownSizeHeight.TabIndex = 8;
-      // 
-      // label11
-      // 
-      this.label11.AutoSize = true;
-      this.label11.Location = new Point(3, 160);
-      this.label11.Name = "label11";
-      this.label11.Size = new Size(71, 30);
-      this.label11.TabIndex = 9;
-      this.label11.Text = "Empty";
-      // 
-      // textBoxEmpty
-      // 
-      this.textBoxEmpty.Location = new Point(344, 163);
-      this.textBoxEmpty.Name = "textBoxEmpty";
-      this.textBoxEmpty.Size = new Size(175, 35);
-      this.textBoxEmpty.TabIndex = 10;
-      this.textBoxEmpty.Text = "C:\\Users\\nicolasb\\Downloads\\PSDK\\T2\\PokemonSDK.JuyJuka.QuickMapStart\\empty";
-      // 
-      // button9
-      // 
-      this.button9.Location = new Point(685, 163);
-      this.button9.Name = "button9";
-      this.button9.Size = new Size(131, 34);
-      this.button9.TabIndex = 11;
-      this.button9.Text = "...";
-      this.button9.UseVisualStyleBackColor = true;
-      this.button9.Click += this.button9_Click;
-      // 
-      // label15
-      // 
-      this.label15.AutoSize = true;
-      this.label15.Location = new Point(3, 200);
-      this.label15.Name = "label15";
-      this.label15.Size = new Size(62, 30);
-      this.label15.TabIndex = 15;
-      this.label15.Text = "Color";
-      // 
-      // button14
-      // 
-      this.button14.Location = new Point(685, 203);
-      this.button14.Name = "button14";
-      this.button14.Size = new Size(131, 34);
-      this.button14.TabIndex = 16;
-      this.button14.Text = "Edit Colors";
-      this.button14.UseVisualStyleBackColor = true;
-      this.button14.Click += this.button14_Click;
-      // 
-      // button15
-      // 
-      this.button15.Location = new Point(344, 203);
-      this.button15.Name = "button15";
-      this.button15.Size = new Size(131, 34);
-      this.button15.TabIndex = 19;
-      this.button15.Text = "Log Colors";
-      this.button15.UseVisualStyleBackColor = true;
-      this.button15.Click += this.button15_Click;
-      // 
-      // label14
-      // 
-      this.label14.AutoSize = true;
-      this.label14.Location = new Point(3, 240);
-      this.label14.Name = "label14";
-      this.label14.Size = new Size(71, 30);
-      this.label14.TabIndex = 12;
-      this.label14.Text = "Colors";
-      // 
-      // button12
-      // 
-      this.button12.Location = new Point(344, 243);
-      this.button12.Name = "button12";
-      this.button12.Size = new Size(131, 34);
-      this.button12.TabIndex = 13;
-      this.button12.Text = "Export Colors";
-      this.button12.UseVisualStyleBackColor = true;
-      this.button12.Click += this.button12_Click;
-      // 
-      // button13
-      // 
-      this.button13.Location = new Point(685, 243);
-      this.button13.Name = "button13";
-      this.button13.Size = new Size(131, 34);
-      this.button13.TabIndex = 14;
-      this.button13.Text = "Import Colors";
-      this.button13.UseVisualStyleBackColor = true;
-      this.button13.Click += this.button13_Click;
-      // 
       // tabPage3
       // 
       this.tabPage3.Controls.Add(this.tableLayoutPanel3);
@@ -1172,6 +1056,15 @@
       // 
       this.openFileDialogImportColors.FileName = "openFileDialog2";
       // 
+      // label10
+      // 
+      this.label10.AutoSize = true;
+      this.label10.Location = new Point(3, 160);
+      this.label10.Name = "label10";
+      this.label10.Size = new Size(131, 30);
+      this.label10.TabIndex = 27;
+      this.label10.Text = "Habitat Data";
+      // 
       // Form1
       // 
       this.AutoScaleDimensions = new SizeF(12F, 30F);
@@ -1184,7 +1077,10 @@
       this.WindowState = FormWindowState.Maximized;
       this.tableLayoutPanel1.ResumeLayout(false);
       this.tableLayoutPanel1.PerformLayout();
-      this.flowLayoutPanel1.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeWidht).EndInit();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeHeight).EndInit();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxX).EndInit();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxY).EndInit();
       this.tabControl1.ResumeLayout(false);
       this.tabPage1.ResumeLayout(false);
       this.tabPageContiguesNames.ResumeLayout(false);
@@ -1210,13 +1106,6 @@
       ((System.ComponentModel.ISupportInitialize)this.pictureBoxSmall).EndInit();
       this.tabPageBig.ResumeLayout(false);
       ((System.ComponentModel.ISupportInitialize)this.pictureBoxBig).EndInit();
-      this.tabPage2.ResumeLayout(false);
-      this.tableLayoutPanel2.ResumeLayout(false);
-      this.tableLayoutPanel2.PerformLayout();
-      ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxX).EndInit();
-      ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxY).EndInit();
-      ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeWidht).EndInit();
-      ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeHeight).EndInit();
       this.tabPage3.ResumeLayout(false);
       this.tableLayoutPanel3.ResumeLayout(false);
       this.tableLayoutPanel3.PerformLayout();
@@ -1240,12 +1129,8 @@
     private OpenFileDialog openFileDialog1;
     private TabControl tabControl1;
     private TabPage tabPage1;
-    private TabPage tabPage2;
-    private TableLayoutPanel tableLayoutPanel2;
     private Label label6;
-    private Label label7;
     private Label label9;
-    private Label label10;
     private TextBox textBoxImage;
     private Button button1;
     private NumericUpDown numericUpDownMaxX;
@@ -1276,8 +1161,6 @@
     private Label label11;
     private TextBox textBoxEmpty;
     private Button button9;
-    private Label label12;
-    private Button buttonDelete;
     private StatusStrip statusStrip1;
     private ToolStripProgressBar toolStripProgressBar1;
     private ToolStripStatusLabel toolStripStatusLabel1;
@@ -1286,12 +1169,6 @@
     private TableLayoutPanel tableLayoutPanelMapsPreview;
     private PropertyGrid propertyGrid1;
     private SplitContainer splitContainer1;
-    private Label label13;
-    private FlowLayoutPanel flowLayoutPanel1;
-    private Button button10;
-    private Button button11;
-    private Label label14;
-    private Button button12;
     private Button button13;
     private SaveFileDialog saveFileDialogExportColors;
     private OpenFileDialog openFileDialogImportColors;
@@ -1301,7 +1178,6 @@
     private ToolStrip toolStrip1;
     private ToolStripButton toolStripButton1;
     private ToolStripButton toolStripButton2;
-    private Button button15;
     private TabPage tabPageContiguesNames;
     private TextBox textBoxNames;
     private ToolStrip toolStrip2;
@@ -1333,5 +1209,12 @@
     private NumericUpDown numericUpDownOneY;
     private NumericUpDown numericUpDownOneX;
     private Button button19;
+    private Button buttonDex;
+    private TextBox textBoxDex;
+    private Label label7;
+    private Button buttonHabitat;
+    private Label labelHabitat;
+    private TextBox textBoxHabitat;
+    private Label label10;
   }
 }

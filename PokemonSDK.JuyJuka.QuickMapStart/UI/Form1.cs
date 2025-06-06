@@ -26,7 +26,6 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       this.WorldMap.Waiter = this;
       foreach (TableLayoutPanel grid in new TableLayoutPanel[]{
         this.tableLayoutPanel1,
-        this.tableLayoutPanel2,
         this.tableLayoutPanel3,
       })
       {
@@ -74,6 +73,16 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       return !re;
     }
 
+    private bool AskYesNo(string text, string caption, bool isBad)
+    {
+      return DialogResult.Yes == MessageBox.Show(
+        text,
+        caption ?? this.Text,
+        MessageBoxButtons.YesNo,
+        (isBad ? MessageBoxIcon.Exclamation : MessageBoxIcon.Question)
+        );
+    }
+
     private void button1_Click(object sender, EventArgs e)
     {
       if (this.openFileDialog1.ShowDialog() == DialogResult.OK)
@@ -81,15 +90,30 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
         this.textBoxImage.Text = this.openFileDialog1.FileName;
         string folder = Path.GetDirectoryName(this.openFileDialog1.FileName);
         string name = Path.GetFileNameWithoutExtension(this.openFileDialog1.FileName);
-        if (Directory.Exists(Path.Combine(folder, name)) && DialogResult.Yes == MessageBox.Show("Folder recogniced. We could set it as export folder.", "Folder recogniced.", MessageBoxButtons.YesNo))
+        if (true
+          && Directory.Exists(Path.Combine(folder, name))
+          && this.AskYesNo("Folder recogniced. We could set it as export folder.", "Folder recogniced.", false)
+          )
         {
           this.WorldMap.Project.Folder = this.textBoxFolder.Text = Path.Combine(folder, name);
+          string dexFolder = Path.Combine(folder, "Data", "Studio", "dex");
+          string dexFallback = "regional.json";
+          string[] dexes;
+          if (true
+            && Directory.Exists(dexFolder)
+            && ((dexes = Directory.GetFiles(dexFolder)).Length == Map._1 || Array.IndexOf(dexes, dexFallback) >= Map._0)
+            && this.AskYesNo("Dex Recogniced. We could set it as dex.", "Dex recogniced.", false)
+            )
+          {
+            this.textBoxDex.Text = Path.Combine(dexFolder, dexes.Length > Map._1 ? dexFallback : dexes[0]);
+          }
+
         }
         if (true
           && (string.IsNullOrEmpty(this.WorldMap.Project.Folder) || this.WorldMap.Project.Folder == PokemonStudioFolder.Fallback)
           && !string.IsNullOrEmpty(this.textBoxEmpty.Text)
           && Directory.Exists(this.textBoxEmpty.Text)
-          && DialogResult.Yes == MessageBox.Show("No Folder. We could use a fallback?", "Folder fallbakc.", MessageBoxButtons.YesNo))
+          && this.AskYesNo("No Folder. We could use a fallback?", "Folder fallback.", true))
         {
           this.WorldMap.Project.Folder = this.textBoxFolder.Text = Path.Combine(folder, name);
           Directory.CreateDirectory(this.WorldMap.Project.Folder);
@@ -98,7 +122,9 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
           , () => Program.CopyFilesRecursively(this.textBoxEmpty.Text, this.textBoxFolder.Text, this.WorldMap.Logger)
           );
         }
-        if (File.Exists(Path.Combine(folder, name + ".csv")) && DialogResult.Yes == MessageBox.Show("CSV file recogniced. We could set it as importable Names.", "CSV/Names recogniced.", MessageBoxButtons.YesNo))
+        if (true
+          && File.Exists(Path.Combine(folder, name + ".csv"))
+          && this.AskYesNo("CSV file recogniced. We could set it as importable Names.", "CSV/Names recogniced.", false))
         {
           this.textBoxListOfNames.Text = Path.Combine(folder, name + ".csv");
         }
@@ -122,7 +148,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       if (this.RequiredFailed(this.numericUpDownMaxY, null)) return;
       if (this.RequiredFailed(this.numericUpDownSizeWidht, null)) return;
       if (this.RequiredFailed(this.numericUpDownSizeHeight, null)) return;
-      this.WorldMap.SkaleImage(this.textBoxImage.Text
+      if (this.RequiredFailed(this.textBoxDex, null)) return;
+      this.WorldMap.SkaleImage(this.textBoxImage.Text, this.textBoxDex.Text
         , new Point((int)this.numericUpDownMaxX.Value, (int)this.numericUpDownMaxY.Value)
         , new Size((int)this.numericUpDownSizeWidht.Value, (int)this.numericUpDownSizeHeight.Value)
         );
@@ -214,20 +241,10 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       this.WorldMap.Project.Folder = this.textBoxFolder.Text = folder;
       string empty = this.textBoxEmpty.Text;
       if (this.RequiredFailed(sender as Control, Directory.Exists(empty) ? decimal.One : decimal.Zero, "Empty Folder on HDD")) return;
-      List<System.Action> todos = new List<System.Action>();
-      if (string.IsNullOrEmpty(string.Empty + (sender as Control)?.Tag) /*not delete*/ && Directory.Exists(folder))
-      {
-        this.RequiredFailed(this.buttonDelete, decimal.Zero, null);
-        return;
-      }
-      else if (Directory.Exists(folder))
-      {
-        todos.Add(() => this.WorldMap.Logger.Write("Deleting old..."));
-        todos.Add(() => Directory.Delete(folder, true));
-      }
-      todos.Add(() => this.WorldMap.Logger.Write("Copying empty..."));
-      todos.Add(() => Program.CopyFilesRecursively(empty, folder, this.WorldMap.Logger));
-      this.Export(true, todos.ToArray());
+      this.Export(true
+        , () => this.WorldMap.Logger.Write("Copying empty...")
+        , () => Program.CopyFilesRecursively(empty, folder, this.WorldMap.Logger)
+        );
     }
 
     private void button9_Click(object sender, EventArgs e)
@@ -288,34 +305,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
         string.Join(Environment.NewLine, this.log));
     }
 
-    private void button10_Click(object sender, EventArgs e)
-    {
-      if (this.RequiredFailed(this.textBoxFolder, null)) return;
-      System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
-      {
-        FileName = "explorer",
-        WorkingDirectory = this.WorldMap.Project.Folder,
-        Arguments = "\"" + Path.Combine(this.WorldMap.Project.Folder, ((Control)sender).Text) + "\"",
-      });
-    }
-
     private static string _12_13 = ","; // = Thread.CurrentThread.CurrentUICulture.NumberFormat.NumberDecimalSeparator;
-    private void button12_Click(object sender, EventArgs e)
-    {
-      if (this.saveFileDialogExportColors.ShowDialog() == DialogResult.OK)
-      {
-        System.IO.File.WriteAllLines(this.saveFileDialogExportColors.FileName, this.WorldMap.DefinitivMapColors.ConvertAll(color => string.Format(
-          "{0}{6}{1:000}{6}{2:000}{6}{3:000}{6}{4}{6}{5}"
-          , color?.Name
-          , color?.Color.R
-          , color?.Color.G
-          , color?.Color.B
-          , color?.MinHue
-          , color?.MaxHue
-          , _12_13
-          )));
-      }
-    }
 
     private void button13_Click(object sender, EventArgs e)
     {
@@ -373,6 +363,20 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       ,
       this.WorldMap.DefinitivMapColors
       );
+
+      if (this.saveFileDialogExportColors.ShowDialog() == DialogResult.OK)
+      {
+        System.IO.File.WriteAllLines(this.saveFileDialogExportColors.FileName, this.WorldMap.DefinitivMapColors.ConvertAll(color => string.Format(
+          "{0}{6}{1:000}{6}{2:000}{6}{3:000}{6}{4}{6}{5}"
+          , color?.Name
+          , color?.Color.R
+          , color?.Color.G
+          , color?.Color.B
+          , color?.MinHue
+          , color?.MaxHue
+          , _12_13
+          )));
+      }
     }
 
     private void toolStripButton2_Click(object sender, EventArgs e)
@@ -389,22 +393,6 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
         this.propertyGrid1.SelectedObject = null;
         this.propertyGrid1.SelectedObject = map;
       }
-    }
-
-    private void button15_Click(object sender, EventArgs e)
-    {
-      int maxdmcnl = Map._0;
-      foreach (var x in this.WorldMap.DefinitivMapColors) if (x.Name.Length > maxdmcnl) maxdmcnl = x.Name.Length;
-      this.log.Clear();
-      this.WorldMap.DefinitivMapColors.ForEach(x => this.Write(string.Format("{0}{1}\t{2:000}x{3:000}x{4:000}\t{5}"
-      , x.Name
-      , new string(' ', (maxdmcnl - x.Name.Length) + 1)
-      , x.Color.R
-      , x.Color.G
-      , x.Color.B
-      , x.Color.GetHue()
-      )));
-      this.toolStripStatusLabel1_Click(sender, e);
     }
 
     private static string _NamesImEx = ",";
@@ -605,6 +593,16 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       {
         MessageBox.Show(string.Empty + ex, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
       }
+    }
+
+    private void buttonDex_Click(object sender, EventArgs e)
+    {
+      if (this.openFileDialog1.ShowDialog() == DialogResult.OK) this.textBoxDex.Text = this.openFileDialog1.FileName;
+    }
+
+    private void button10_Click(object sender, EventArgs e)
+    {
+      if (this.openFileDialog1.ShowDialog() == DialogResult.OK) this.textBoxHabitat.Text = this.openFileDialog1.FileName;
     }
   }
 }

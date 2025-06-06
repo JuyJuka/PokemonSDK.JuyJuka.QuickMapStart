@@ -4,7 +4,7 @@
 
   public sealed class FluentNew
   {
-    public static FluentNewFrom Color(string name)
+    public static FluentNewFrom NewColor(string name)
     {
       return new FluentNewFrom(new FluentNew(), name, System.Drawing.Color.Transparent, null, Map._1, Map._0);
     }
@@ -101,7 +101,7 @@ namespace XTEst
     {
       IDefinitivMapColor forest =
 
-        FluentNew.Color("Forest")
+        FluentNew.NewColor("Forest")
         .WithUserColor(Color.Green).From(0,0)
         .ToBackground(Knowen.Grass)
 

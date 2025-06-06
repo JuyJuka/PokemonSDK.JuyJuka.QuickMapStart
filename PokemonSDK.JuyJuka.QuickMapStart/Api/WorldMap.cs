@@ -11,6 +11,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Music;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Tiled;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.Habitats;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Logging;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Wait;
@@ -43,7 +44,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     public virtual List<Tuple<string, string>> ContigousNames { get; protected set; } = new List<Tuple<string, string>>();
     public virtual ILogger Logger { get; set; } = new Logger();
     public virtual BitMapExportFormat BitMapExportFormat { get; set; } = new BitMapExportFormat();
-    public virtual Point Max { get; protected set; } = new Point(3,3);
+    public virtual Point Max { get; protected set; } = new Point(3, 3);
     public virtual Size Size { get; protected set; } = new Size(40, 30);
     public virtual List<Map> Maps { get; protected set; } = new List<Map>();
     public virtual IMapExportFormat[] Formats { get; set; } = [];
@@ -85,14 +86,16 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
       }
     }
 
-    public virtual void SkaleImage(string fileName, Point? max = null, Size? size = null)
+    public virtual IAssignment Assignment { get; set; } = new Assignment();
+
+    public virtual void SkaleImage(string mapFileName, string dexFileName, Point? max = null, Size? size = null)
     {
       this.Logger.Write("Reading world...");
       this.Maps.Clear();
       this.Logger.Write("Sizing map...");
       if (max != null && max.HasValue) this.Max = new Point(Math.Abs(max.Value.X), Math.Abs(max.Value.Y));
       if (size != null && size.HasValue) this.Size = new Size(Math.Abs(size.Value.Width), Math.Abs(size.Value.Height));
-      Bitmap world = new Bitmap(Image.FromFile(fileName));
+      Bitmap world = new Bitmap(Image.FromFile(mapFileName));
       this.BitMapExportFormat.TinnyImage = BitMapExportFormat.ResizeImage1(world, this.Max.X, this.Max.Y, this.Max.X, this.Max.Y);
       this.BitMapExportFormat.FullImage = BitMapExportFormat.ResizeImage1(world, this.Max.X * this.Size.Width, this.Max.Y * this.Size.Height, this.Max.X * this.Size.Width, this.Max.Y * this.Size.Height);
       this.BitMapExportFormat.OriginalImage = world;
@@ -106,6 +109,12 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
         };
         m.Image = this.BitMapExportFormat.Export2(m);
         this.Maps.Add(m);
+      }
+      foreach (var re in this.Assignment.Read(this.Maps, dexFileName))
+      {
+        if (re?.Item1?.Specis == null || re.Item2 == null) continue;
+        Dictionary<Habitats.Habitat, string[]> s = new Dictionary<Habitat, string[]>();
+        foreach (var kvp in re.Item2) if (kvp.Value != null) s.Add(kvp.Key, new List<string>(kvp.Value).ToArray());
       }
     }
 
