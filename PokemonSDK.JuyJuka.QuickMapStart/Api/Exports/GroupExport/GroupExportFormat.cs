@@ -8,7 +8,12 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone
   {
     public static object GuessObject<T>(Map map)
     {
-      return map.Image + typeof(T).Name;
+      return GroupExport.GuessObject(map, typeof(T), null);
+    }
+
+    private static object GuessObject(Map map, Type t, object o)
+    {
+      return map.Id + (o == null ? t.Name : o.GetType().Name);
     }
 
     protected GroupExport() : base("Data", "Studio", "groups", ".json") { this._Style = this.GetType().Name.Replace(typeof(GroupExport).Name, string.Empty); }
@@ -18,13 +23,16 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone
 
     public override string ModifyTargetFile(Map map, IPokemonStudioFolder project, string folder, string file)
     {
-      return Path.Combine(folder, "group_" + map.Id + "_" + this._Style + this.FileExtendsion);
+      object _lid_key = GroupExport.GuessObject(map, null, this);
+      int _lid = StaticId.GroupName.GuessFor(project, _lid_key, true);
+      StaticId.GroupName.WriteText(project, _lid_key, true, string.Format("Map {0} - Style: {1}", map.Id, this._Style));
+      return Path.Combine(folder, "group_" + _lid + this.FileExtendsion);
     }
 
     public override string Export(Map map, IPokemonStudioFolder project, string folder, string file, string asset, string config)
     {
-      int _lid = StaticId.GroupName.GuessFor(project, map.Id + this.GetType().Name, true);
-      StaticId.GroupName.WriteText(project, map, true, map.Name + this.GetType().Name);
+      object _lid_key = GroupExport.GuessObject(map, null, this);
+      int _lid = StaticId.GroupName.GuessFor(project, _lid_key, true);
       asset = asset.Replace("{{lid}}", string.Empty + _lid);
       asset = asset.Replace("[ [ \"lid\" ] ]", string.Empty + _lid);
       asset = asset.Replace("{{mid}}", string.Empty + map.Id);

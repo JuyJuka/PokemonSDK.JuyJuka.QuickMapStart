@@ -58,10 +58,12 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     {
       int hadBeen = 22;
       hadBeen = StaticId.MapName.GuessFor(this.World.Folder, this.World, false);
-      return hadBeen
+      int re = hadBeen
         + (Map.OverflowX(w, x) * w.Max.X/*does it need to be Max.Y ?*/)
         + Map.OverflowY(w, y)
         ;
+      if (re < decimal.Zero) throw new SystemException();
+      return re;
     }
 
     public virtual int Id { get { return this.MakeId(this.World, this.WorldMapCoordinates.X + Map._0, this.WorldMapCoordinates.Y + Map._0); } }

@@ -31,11 +31,11 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     public static readonly object PanelRoughTerrain = 5;
     public static readonly object PanelUrban = 3;
 
-    public static readonly SingleShape Flower1 = new SingleShape(false, 1 + 1);
-    public static readonly SingleShape Flower2 = new SingleShape(false, 1 + 3);
-    public static readonly SingleShape Bolder = new SingleShape(true, 1 + 626);
-    public static readonly SingleShape Rubble = new SingleShape(false, 1 + 4178);
-    public static readonly SingleShape SandGreenery = new SingleShape(false, 1 + 3259);
+    public static readonly IShape Flower1 = new SingleShape(false, 1 + 1);
+    public static readonly IShape Flower2 = new SingleShape(false, 1 + 3);
+    public static readonly IShape Bolder = new SingleSurroundedShape(true, 1 + 626);
+    public static readonly IShape Rubble = new SingleSurroundedShape(false, 1 + 4178);
+    public static readonly IShape SandGreenery = new SingleShape(false, 1 + 3259);
 
     /*
     N NE NW

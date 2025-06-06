@@ -22,7 +22,7 @@
     public virtual int GuessFor(IPokemonStudioFolder folder, object obj, bool withCache)
     {
       int re = this.Base.GuessFor(folder, obj, withCache);
-      if (re != decimal.Zero) return re;
+      if (re > decimal.Zero) return re;
       // I have no freaking idea how to generate a 
       re = Map._1;
       string f = System.IO.Path.Combine(folder?.Folder ?? PokemonStudioFolder.Fallback, System.IO.Path.Combine(this.Path));
@@ -42,6 +42,7 @@
             re++;
           }
         }
+      PokemonStudioId.Cache[this.Id][obj] = re;
       return re;
     }
 

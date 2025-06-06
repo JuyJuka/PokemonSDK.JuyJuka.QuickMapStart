@@ -28,10 +28,8 @@
       string file = this.ToFile(folder);
       string[] txtContent = [];
       if (File.Exists(file)) txtContent = File.ReadAllLines(file);
-      re = txtContent.Length
-        - Map._1 // 0 based index
-        + Map._1 // header, languages
-        ;
+      // I have no idea how IDs are created :-(
+      re = txtContent.Length - Map._1;
       AC(re, this.Id, obj, out re);
       return re;
     }
@@ -43,6 +41,7 @@
 
     public virtual void WriteText(IPokemonStudioFolder folder, int id, string text)
     {
+      id++;// I have fucking no idea how IDs work! Fuck it!;
       List<string> txtContent = new List<string>();
       string file = this.ToFile(folder);
       if (File.Exists(file)) txtContent.AddRange(File.ReadAllLines(file));

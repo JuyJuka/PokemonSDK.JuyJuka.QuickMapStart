@@ -43,7 +43,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     public virtual List<Tuple<string, string>> ContigousNames { get; protected set; } = new List<Tuple<string, string>>();
     public virtual ILogger Logger { get; set; } = new Logger();
     public virtual BitMapExportFormat BitMapExportFormat { get; set; } = new BitMapExportFormat();
-    public virtual Point Max { get; protected set; } = new Point(16,16);
+    public virtual Point Max { get; protected set; } = new Point(3,3);
     public virtual Size Size { get; protected set; } = new Size(40, 30);
     public virtual List<Map> Maps { get; protected set; } = new List<Map>();
     public virtual IMapExportFormat[] Formats { get; set; } = [];
