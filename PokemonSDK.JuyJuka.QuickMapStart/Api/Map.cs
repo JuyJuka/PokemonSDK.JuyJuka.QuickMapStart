@@ -57,7 +57,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     private int MakeId(WorldMap w, int x, int y)
     {
       int hadBeen = 22;
-      hadBeen = StaticId.MapName.GuessFor(this.World.Folder, this.World, false);
+      hadBeen = StaticId.MapName.GuessFor(this.World.Project, this.World, false);
       int re = hadBeen
         + (Map.OverflowX(w, x) * w.Max.X/*does it need to be Max.Y ?*/)
         + Map.OverflowY(w, y)
@@ -256,9 +256,9 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
         if (format == null || !format.IsEnabled) continue;
         this.World.Logger.Write(this.Name + "..." + format.Name);
         // keep order ModifyTargetFolder -> ModifyTargetFile -> Export
-        string f2 = format.ModifyTargetFolder(this, this.World.Folder);
-        string f3 = format.ModifyTargetFile(this, this.World.Folder, f2, Path.Combine(f2, this.Name + format.FileExtendsion));
-        string content = format.Export(this, this.World.Folder, f2, f3, s => this.ExportStaticsReadAsset(myFolder, s));
+        string f2 = format.ModifyTargetFolder(this, this.World.Project);
+        string f3 = format.ModifyTargetFile(this, this.World.Project, f2, Path.Combine(f2, this.Name + format.FileExtendsion));
+        string content = format.Export(this, this.World.Project, f2, f3, s => this.ExportStaticsReadAsset(myFolder, s));
         if (string.IsNullOrEmpty(content)) continue;
         if (!Directory.Exists(f2)) Directory.CreateDirectory(f2);
         if (!string.IsNullOrEmpty(format.StaticFilter)) this.ExportStatics(myFolder, format.StaticFilter, f2);

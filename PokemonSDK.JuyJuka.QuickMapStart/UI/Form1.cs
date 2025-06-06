@@ -83,16 +83,16 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
         string name = Path.GetFileNameWithoutExtension(this.openFileDialog1.FileName);
         if (Directory.Exists(Path.Combine(folder, name)) && DialogResult.Yes == MessageBox.Show("Folder recogniced. We could set it as export folder.", "Folder recogniced.", MessageBoxButtons.YesNo))
         {
-          this.WorldMap.Folder.Folder = this.textBoxFolder.Text = Path.Combine(folder, name);
+          this.WorldMap.Project.Folder = this.textBoxFolder.Text = Path.Combine(folder, name);
         }
         if (true
-          && (string.IsNullOrEmpty(this.WorldMap.Folder.Folder) || this.WorldMap.Folder.Folder == PokemonStudioFolder.Fallback)
+          && (string.IsNullOrEmpty(this.WorldMap.Project.Folder) || this.WorldMap.Project.Folder == PokemonStudioFolder.Fallback)
           && !string.IsNullOrEmpty(this.textBoxEmpty.Text)
           && Directory.Exists(this.textBoxEmpty.Text)
           && DialogResult.Yes == MessageBox.Show("No Folder. We could use a fallback?", "Folder fallbakc.", MessageBoxButtons.YesNo))
         {
-          this.WorldMap.Folder.Folder = this.textBoxFolder.Text = Path.Combine(folder, name);
-          Directory.CreateDirectory(this.WorldMap.Folder.Folder);
+          this.WorldMap.Project.Folder = this.textBoxFolder.Text = Path.Combine(folder, name);
+          Directory.CreateDirectory(this.WorldMap.Project.Folder);
           this.Export(false
           , () => this.WorldMap.Logger.Write("Copying empty...")
           , () => Program.CopyFilesRecursively(this.textBoxEmpty.Text, this.textBoxFolder.Text, this.WorldMap.Logger)
@@ -107,7 +107,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
 
     private void button3_Click(object sender, EventArgs e)
     {
-      if (this.folderBrowserDialog1.ShowDialog() == DialogResult.OK) this.WorldMap.Folder.Folder = this.textBoxFolder.Text = this.folderBrowserDialog1.SelectedPath;
+      if (this.folderBrowserDialog1.ShowDialog() == DialogResult.OK) this.WorldMap.Project.Folder = this.textBoxFolder.Text = this.folderBrowserDialog1.SelectedPath;
     }
 
     private void buttonImport_Click(object sender, EventArgs e)
@@ -211,7 +211,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       if (this.RequiredFailed(sender as Control, this.WorldMap?.Maps?.Count, "Maps")) return;
       if (this.RequiredFailed(this.textBoxEmpty, null)) return;
       string folder = Path.Combine(Path.GetDirectoryName(this.textBoxImage.Text), Path.GetFileNameWithoutExtension(this.textBoxImage.Text));
-      this.WorldMap.Folder.Folder = this.textBoxFolder.Text = folder;
+      this.WorldMap.Project.Folder = this.textBoxFolder.Text = folder;
       string empty = this.textBoxEmpty.Text;
       if (this.RequiredFailed(sender as Control, Directory.Exists(empty) ? decimal.One : decimal.Zero, "Empty Folder on HDD")) return;
       List<System.Action> todos = new List<System.Action>();
@@ -294,8 +294,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
       {
         FileName = "explorer",
-        WorkingDirectory = this.WorldMap.Folder.Folder,
-        Arguments = "\"" + Path.Combine(this.WorldMap.Folder.Folder, ((Control)sender).Text) + "\"",
+        WorkingDirectory = this.WorldMap.Project.Folder,
+        Arguments = "\"" + Path.Combine(this.WorldMap.Project.Folder, ((Control)sender).Text) + "\"",
       });
     }
 
@@ -558,7 +558,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       if (this.RequiredFailed(this.textBoxOneColor, null)) return;
       if (this.RequiredFailed(this.textBoxOneFolder, Directory.Exists(this.textBoxOneFolder.Text) ? 1 : 0, null)) return;
       List<Map> org = new List<Map>(this.WorldMap.Maps);
-      var org2 = this.WorldMap.Folder;
+      var org2 = this.WorldMap.Project;
       Map? x = null;
       IMapExportFormat[] org3 = this.WorldMap.Formats;
       TmxMapExportFormat format = new TmxMapExportFormat();
@@ -571,7 +571,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
         this.WorldMap.DefinitivMapColors.Add((IDefinitivMapColor)this.textBoxOneColor.Tag);
         this.WorldMap.Waiter = null;
         this.WorldMap.Formats = [format];
-        this.WorldMap.Folder = new PokemonStudioFolder() { Folder = this.textBoxOneFolder.Text };
+        this.WorldMap.Project = new PokemonStudioFolder() { Folder = this.textBoxOneFolder.Text };
         this.WorldMap.Maps.Clear();
         this.WorldMap.Maps.Add(x = new Map(this.WorldMap)
         {
@@ -579,8 +579,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
           WorldMapCoordinates = new Point((int)this.numericUpDownOneX.Value, (int)this.numericUpDownOneY.Value)
         });
         this.WorldMap.Expor();
-        string f2 = format.ModifyTargetFolder(x, x.World.Folder);
-        file = format.ModifyTargetFile(x, x.World.Folder, f2, Path.Combine(f2, x.Name + format.FileExtendsion));
+        string f2 = format.ModifyTargetFolder(x, x.World.Project);
+        file = format.ModifyTargetFile(x, x.World.Project, f2, Path.Combine(f2, x.Name + format.FileExtendsion));
         this.numericUpDownOneX.Value += Map._1;
         this.numericUpDownOneY.Value += Map._1;
       }
@@ -591,7 +591,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       finally
       {
         this.WorldMap.Formats = org3;
-        this.WorldMap.Folder = org2;
+        this.WorldMap.Project = org2;
         this.WorldMap.Maps.Clear();
         this.WorldMap.Maps.AddRange(org);
         this.WorldMap.DefinitivMapColors.Clear();

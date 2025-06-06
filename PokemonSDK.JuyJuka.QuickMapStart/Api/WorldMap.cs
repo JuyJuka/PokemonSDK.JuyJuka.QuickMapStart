@@ -47,7 +47,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     public virtual Size Size { get; protected set; } = new Size(40, 30);
     public virtual List<Map> Maps { get; protected set; } = new List<Map>();
     public virtual IMapExportFormat[] Formats { get; set; } = [];
-    public virtual IPokemonStudioFolder Folder { get; set; } = new PokemonStudioFolder();
+    public virtual IPokemonStudioFolder Project { get; set; } = new PokemonStudioFolder();
 
     private IColorEstimation? _ColorEstimation1 = null;
     private IColorEstimation? _ColorEstimation2 = null;
