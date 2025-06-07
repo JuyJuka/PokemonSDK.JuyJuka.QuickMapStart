@@ -9,11 +9,10 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Colors;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Tiled;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.Habitats;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Logging;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Wait;
-
-  using static System.Windows.Forms.DataFormats;
 
   public partial class Form1 : Form, ILogger, IWaiter
   {
@@ -24,6 +23,31 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       this.InitializeComponent();
       this.WorldMap.Logger = this;
       this.WorldMap.Waiter = this;
+      this.textBoxHabitat.Text = this.WorldMap.Assignment?.HabitatData?.Configuration;
+      Assignment? a = this.WorldMap.Assignment as Assignment;
+      if (a != null)
+      {
+        this.numericUpDownR_to_U.Value = a.UncommenPerOneRare;
+        this.numericUpDownU_to_C.Value = a.CommonPerOneUncommon;
+      }
+      else
+      {
+        this.numericUpDownR_to_U.Enabled = false;
+        this.numericUpDownU_to_C.Enabled = false;
+      }
+      foreach (Habitat h in Enum.GetValues<Habitat>())
+      {
+        TabPage p = new TabPage();
+        p.Text = string.Empty + h;
+        p.Tag = h;
+        TextBox txt = new TextBox();
+        txt.Multiline = true;
+        txt.Dock = DockStyle.Fill;
+        txt.WordWrap = false;
+        txt.TextChanged += this.tabControlSpecies_txt_TextChanged;
+        p.Controls.Add(txt);
+        tabControlSpecies.TabPages.Add(p);
+      }
       foreach (TableLayoutPanel grid in new TableLayoutPanel[]{
         this.tableLayoutPanel1,
         this.tableLayoutPanel3,
@@ -50,6 +74,19 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       this.numericUpDownMaxY.Value = this.WorldMap.Max.Y;
       this.numericUpDownSizeHeight.Value = this.WorldMap.Size.Height;
       this.numericUpDownSizeWidht.Value = this.WorldMap.Size.Width;
+    }
+
+    private void tabControlSpecies_txt_TextChanged(object? sender, EventArgs e)
+    {
+      Control s = sender as Control;
+      Map map = s?.Tag as Map;
+      if (s?.Parent?.Parent != null && s.Parent.Parent.Enabled && map != null && s?.Parent?.Tag != null)
+      {
+        Habitat h = (Habitat)s?.Parent?.Tag;
+        if (map.Specis == null) map.Specis = new Dictionary<Habitat, string[]>();
+        if (!map.Specis.ContainsKey(h)) map.Specis.Add(h, new string[] { });
+        map.Specis[h] = System.Linq.Enumerable.Where(s.Text.Split(Environment.NewLine), s => !string.IsNullOrWhiteSpace(s)).ToArray();
+      }
     }
 
     private bool RequiredFailed(Control control, string? name)
@@ -96,8 +133,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
           )
         {
           this.WorldMap.Project.Folder = this.textBoxFolder.Text = Path.Combine(folder, name);
-          string dexFolder = Path.Combine(folder, "Data", "Studio", "dex");
-          string dexFallback = "regional.json";
+          string dexFolder = Path.Combine(folder, name, "Data", "Studio", "dex");
+          string dexFallback = Path.Combine(dexFolder, "regional.json");
           string[] dexes;
           if (true
             && Directory.Exists(dexFolder)
@@ -202,8 +239,24 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
     private void tableLayoutPanelMapsPreview_button_click(object? sender, EventArgs e)
     {
       object? m = (sender as Control)?.Tag;
+      var species = (m as Map)?.Specis;
       if (m != null) TypeDescriptor.AddAttributes(m, new Attribute[] { new ReadOnlyAttribute(true) });
       this.propertyGrid1.SelectedObject = m;
+      this.tabControlSpecies.Enabled = false;
+      if (species != null)
+        foreach (TabPage p in this.tabControlSpecies.TabPages)
+          foreach (Control c in p.Controls)
+          {
+            c.Tag = null;
+            c.Text = string.Empty;
+            foreach (var o in species)
+              if (p.Tag != null && o.Key == ((Habitat)p.Tag))
+              {
+                c.Tag = m;
+                c.Text = string.Empty + string.Join(Environment.NewLine, o.Value);
+              }
+          }
+      this.tabControlSpecies.Enabled = true;
     }
 
     private void tabControl1_SelectedIndexChanged_Bind(PictureBox? pb, Image? img, bool noZoom)
@@ -240,6 +293,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       string folder = Path.Combine(Path.GetDirectoryName(this.textBoxImage.Text), Path.GetFileNameWithoutExtension(this.textBoxImage.Text));
       this.WorldMap.Project.Folder = this.textBoxFolder.Text = folder;
       string empty = this.textBoxEmpty.Text;
+      string myFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly()?.Location) ?? string.Empty;
+      if (!string.IsNullOrEmpty(empty) && !Path.IsPathRooted(empty)) empty = Path.Combine(myFolder, empty);
       if (this.RequiredFailed(sender as Control, Directory.Exists(empty) ? decimal.One : decimal.Zero, "Empty Folder on HDD")) return;
       this.Export(true
         , () => this.WorldMap.Logger.Write("Copying empty...")
@@ -261,6 +316,13 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       new Thread(() =>
       {
         if (todos != null) foreach (var todosItem in todos) if (todosItem != null) todosItem();
+        if (this.WorldMap?.Assignment?.HabitatData != null) this.WorldMap.Assignment.HabitatData.Configuration = this.textBoxHabitat.Text;
+        Assignment? a = this.WorldMap.Assignment as Assignment;
+        if (a != null && this.numericUpDownU_to_C.Enabled)
+        {
+          a.CommonPerOneUncommon = this.numericUpDownU_to_C.Value;
+          a.UncommenPerOneRare = this.numericUpDownR_to_U.Value;
+        }
         if (expor) this.WorldMap.Expor();
         this.Invoke(() =>
         {

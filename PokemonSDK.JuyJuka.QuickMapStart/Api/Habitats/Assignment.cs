@@ -8,7 +8,7 @@
   public class Assignment : IAssignment
   {
     public virtual IDexReader DexReader { get; set; } = new DexReader();
-    public virtual IHabitatDataBase HabitatData { get; set; } = new PokemonEssentialsListHabitatDataBase();
+    public virtual IHabitatDataBase HabitatData { get; set; } = new HabitatDataBase();
     public virtual decimal CommonPerOneUncommon { get; set; } = 0.25m;
     public virtual decimal UncommenPerOneRare { get; set; } = 3.5m;
 
@@ -117,6 +117,26 @@
             common[replace] = tpl;
           }
         }
+
+      #region Logging
+      foreach (var kvp in re)
+      {
+        if (kvp.Key?.World?.Logger == null) continue;
+        foreach (Tuple<string, List<Tuple<string, Habitat>>> list in new Tuple<string, List<Tuple<string, Habitat>>>[] {
+          new Tuple<string, List<Tuple<string, Habitat>>>(nameof(common),common),
+          new Tuple<string, List<Tuple<string, Habitat>>>(nameof(uncommon),uncommon),
+          new Tuple<string, List<Tuple<string, Habitat>>>(nameof(rare),rare),
+        })
+        {
+          kvp.Key.World.Logger.Write(list.Item1);
+          foreach (string s in list.Item2.GroupBy(c => c.Item2).Select(c => ">>" + c.Key + " " + c.Count()))
+          {
+            kvp.Key.World.Logger.Write(s);
+          }
+        }
+        break;
+      }
+      #endregion logging
 
       // common% duplicated into all maps
       foreach (var l in grouping.Values)

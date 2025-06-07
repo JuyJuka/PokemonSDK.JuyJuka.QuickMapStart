@@ -20,7 +20,7 @@
       foreach (Match m in Regex.Matches(File.ReadAllText(dexFile), this.Pattern))
       {
         index++;
-        if (index >= Map._0) yield return m.Value;
+        if (index > Map._0) yield return m.Value;
       }
     }
 

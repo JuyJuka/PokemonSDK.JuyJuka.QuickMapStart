@@ -112,9 +112,10 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
       }
       foreach (var re in this.Assignment.Read(this.Maps, dexFileName))
       {
-        if (re?.Item1?.Specis == null || re.Item2 == null) continue;
+        if (re?.Item1 == null || re.Item2 == null) continue;
         Dictionary<Habitats.Habitat, string[]> s = new Dictionary<Habitat, string[]>();
         foreach (var kvp in re.Item2) if (kvp.Value != null) s.Add(kvp.Key, new List<string>(kvp.Value).ToArray());
+        re.Item1.Specis = s;
       }
     }
 

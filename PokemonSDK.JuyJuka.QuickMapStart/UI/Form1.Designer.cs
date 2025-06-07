@@ -31,6 +31,9 @@
       this.components = new System.ComponentModel.Container();
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
       this.tableLayoutPanel1 = new TableLayoutPanel();
+      this.numericUpDownU_to_C = new NumericUpDown();
+      this.numericUpDownR_to_U = new NumericUpDown();
+      this.label10 = new Label();
       this.buttonHabitat = new Button();
       this.labelHabitat = new Label();
       this.textBoxDex = new TextBox();
@@ -41,6 +44,8 @@
       this.label2 = new Label();
       this.textBoxFolder = new TextBox();
       this.button3 = new Button();
+      this.buttonDex = new Button();
+      this.textBoxHabitat = new TextBox();
       this.button9 = new Button();
       this.textBoxEmpty = new TextBox();
       this.label11 = new Label();
@@ -53,18 +58,16 @@
       this.textBoxListOfNames = new TextBox();
       this.buttonSetImportNames = new Button();
       this.buttonImport = new Button();
-      this.button14 = new Button();
-      this.button13 = new Button();
       this.label4 = new Label();
       this.label15 = new Label();
-      this.label9 = new Label();
-      this.numericUpDownSizeWidht = new NumericUpDown();
+      this.button13 = new Button();
+      this.button14 = new Button();
       this.numericUpDownSizeHeight = new NumericUpDown();
-      this.label6 = new Label();
-      this.numericUpDownMaxX = new NumericUpDown();
       this.numericUpDownMaxY = new NumericUpDown();
-      this.buttonDex = new Button();
-      this.textBoxHabitat = new TextBox();
+      this.numericUpDownSizeWidht = new NumericUpDown();
+      this.numericUpDownMaxX = new NumericUpDown();
+      this.label9 = new Label();
+      this.label6 = new Label();
       this.folderBrowserDialog1 = new FolderBrowserDialog();
       this.openFileDialog1 = new OpenFileDialog();
       this.tabControl1 = new TabControl();
@@ -84,7 +87,9 @@
       this.tabPagePreviewMaps = new TabPage();
       this.splitContainer1 = new SplitContainer();
       this.tableLayoutPanelMapsPreview = new TableLayoutPanel();
+      this.splitContainer2 = new SplitContainer();
       this.propertyGrid1 = new PropertyGrid();
+      this.tabControlSpecies = new TabControl();
       this.toolStrip1 = new ToolStrip();
       this.toolStripButton1 = new ToolStripButton();
       this.toolStripButton2 = new ToolStripButton();
@@ -121,12 +126,13 @@
       this.saveFileDialogExportColors = new SaveFileDialog();
       this.openFileDialogImportColors = new OpenFileDialog();
       this.colorDialog1 = new ColorDialog();
-      this.label10 = new Label();
       this.tableLayoutPanel1.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeWidht).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownU_to_C).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownR_to_U).BeginInit();
       ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeHeight).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxX).BeginInit();
       ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxY).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeWidht).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxX).BeginInit();
       this.tabControl1.SuspendLayout();
       this.tabPage1.SuspendLayout();
       this.tabPageContiguesNames.SuspendLayout();
@@ -138,6 +144,10 @@
       this.splitContainer1.Panel1.SuspendLayout();
       this.splitContainer1.Panel2.SuspendLayout();
       this.splitContainer1.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)this.splitContainer2).BeginInit();
+      this.splitContainer2.Panel1.SuspendLayout();
+      this.splitContainer2.Panel2.SuspendLayout();
+      this.splitContainer2.SuspendLayout();
       this.toolStrip1.SuspendLayout();
       this.tabPageInput.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)this.pictureBoxInput).BeginInit();
@@ -160,6 +170,8 @@
       this.tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.33333F));
       this.tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333359F));
       this.tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 33.3333359F));
+      this.tableLayoutPanel1.Controls.Add(this.numericUpDownU_to_C, 2, 4);
+      this.tableLayoutPanel1.Controls.Add(this.numericUpDownR_to_U, 1, 4);
       this.tableLayoutPanel1.Controls.Add(this.label10, 0, 4);
       this.tableLayoutPanel1.Controls.Add(this.buttonHabitat, 2, 3);
       this.tableLayoutPanel1.Controls.Add(this.labelHabitat, 0, 3);
@@ -216,6 +228,35 @@
       this.tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
       this.tableLayoutPanel1.Size = new Size(1024, 812);
       this.tableLayoutPanel1.TabIndex = 0;
+      // 
+      // numericUpDownU_to_C
+      // 
+      this.numericUpDownU_to_C.DecimalPlaces = 5;
+      this.numericUpDownU_to_C.Increment = new decimal(new int[] { 1, 0, 0, 131072 });
+      this.numericUpDownU_to_C.Location = new Point(685, 163);
+      this.numericUpDownU_to_C.Name = "numericUpDownU_to_C";
+      this.numericUpDownU_to_C.Size = new Size(210, 35);
+      this.numericUpDownU_to_C.TabIndex = 29;
+      this.numericUpDownU_to_C.Value = new decimal(new int[] { 3, 0, 0, 0 });
+      // 
+      // numericUpDownR_to_U
+      // 
+      this.numericUpDownR_to_U.DecimalPlaces = 5;
+      this.numericUpDownR_to_U.Increment = new decimal(new int[] { 1, 0, 0, 131072 });
+      this.numericUpDownR_to_U.Location = new Point(344, 163);
+      this.numericUpDownR_to_U.Name = "numericUpDownR_to_U";
+      this.numericUpDownR_to_U.Size = new Size(210, 35);
+      this.numericUpDownR_to_U.TabIndex = 28;
+      this.numericUpDownR_to_U.Value = new decimal(new int[] { 3, 0, 0, 0 });
+      // 
+      // label10
+      // 
+      this.label10.AutoSize = true;
+      this.label10.Location = new Point(3, 160);
+      this.label10.Name = "label10";
+      this.label10.Size = new Size(327, 40);
+      this.label10.TabIndex = 27;
+      this.label10.Text = "Specis 1 Rare -> ? Uncommon -> ? Common";
       // 
       // buttonHabitat
       // 
@@ -308,6 +349,23 @@
       this.button3.UseVisualStyleBackColor = true;
       this.button3.Click += this.button3_Click;
       // 
+      // buttonDex
+      // 
+      this.buttonDex.Location = new Point(685, 83);
+      this.buttonDex.Name = "buttonDex";
+      this.buttonDex.Size = new Size(131, 34);
+      this.buttonDex.TabIndex = 23;
+      this.buttonDex.Text = "...";
+      this.buttonDex.UseVisualStyleBackColor = true;
+      this.buttonDex.Click += this.buttonDex_Click;
+      // 
+      // textBoxHabitat
+      // 
+      this.textBoxHabitat.Location = new Point(344, 123);
+      this.textBoxHabitat.Name = "textBoxHabitat";
+      this.textBoxHabitat.Size = new Size(250, 35);
+      this.textBoxHabitat.TabIndex = 24;
+      // 
       // button9
       // 
       this.button9.Location = new Point(685, 483);
@@ -324,7 +382,7 @@
       this.textBoxEmpty.Name = "textBoxEmpty";
       this.textBoxEmpty.Size = new Size(175, 35);
       this.textBoxEmpty.TabIndex = 10;
-      this.textBoxEmpty.Text = "C:\\Users\\nicolasb\\Downloads\\PSDK\\T2\\PokemonSDK.JuyJuka.QuickMapStart\\empty";
+      this.textBoxEmpty.Text = ".\\empty";
       // 
       // label11
       // 
@@ -420,26 +478,6 @@
       this.buttonImport.UseVisualStyleBackColor = true;
       this.buttonImport.Click += this.buttonImport_Click;
       // 
-      // button14
-      // 
-      this.button14.Location = new Point(685, 283);
-      this.button14.Name = "button14";
-      this.button14.Size = new Size(131, 34);
-      this.button14.TabIndex = 16;
-      this.button14.Text = "Edit Colors";
-      this.button14.UseVisualStyleBackColor = true;
-      this.button14.Click += this.button14_Click;
-      // 
-      // button13
-      // 
-      this.button13.Location = new Point(344, 283);
-      this.button13.Name = "button13";
-      this.button13.Size = new Size(131, 34);
-      this.button13.TabIndex = 14;
-      this.button13.Text = "Import Colors";
-      this.button13.UseVisualStyleBackColor = true;
-      this.button13.Click += this.button13_Click;
-      // 
       // label4
       // 
       this.label4.AutoSize = true;
@@ -458,21 +496,25 @@
       this.label15.TabIndex = 15;
       this.label15.Text = "Colors";
       // 
-      // label9
+      // button13
       // 
-      this.label9.AutoSize = true;
-      this.label9.Location = new Point(3, 240);
-      this.label9.Name = "label9";
-      this.label9.Size = new Size(199, 30);
-      this.label9.TabIndex = 3;
-      this.label9.Text = "Map Width / Height";
+      this.button13.Location = new Point(344, 283);
+      this.button13.Name = "button13";
+      this.button13.Size = new Size(131, 34);
+      this.button13.TabIndex = 14;
+      this.button13.Text = "Import Colors";
+      this.button13.UseVisualStyleBackColor = true;
+      this.button13.Click += this.button13_Click;
       // 
-      // numericUpDownSizeWidht
+      // button14
       // 
-      this.numericUpDownSizeWidht.Location = new Point(344, 243);
-      this.numericUpDownSizeWidht.Name = "numericUpDownSizeWidht";
-      this.numericUpDownSizeWidht.Size = new Size(210, 35);
-      this.numericUpDownSizeWidht.TabIndex = 7;
+      this.button14.Location = new Point(685, 283);
+      this.button14.Name = "button14";
+      this.button14.Size = new Size(131, 34);
+      this.button14.TabIndex = 16;
+      this.button14.Text = "Edit Colors";
+      this.button14.UseVisualStyleBackColor = true;
+      this.button14.Click += this.button14_Click;
       // 
       // numericUpDownSizeHeight
       // 
@@ -480,24 +522,6 @@
       this.numericUpDownSizeHeight.Name = "numericUpDownSizeHeight";
       this.numericUpDownSizeHeight.Size = new Size(210, 35);
       this.numericUpDownSizeHeight.TabIndex = 8;
-      // 
-      // label6
-      // 
-      this.label6.AutoSize = true;
-      this.label6.Location = new Point(3, 200);
-      this.label6.Name = "label6";
-      this.label6.Size = new Size(212, 30);
-      this.label6.TabIndex = 0;
-      this.label6.Text = "World Width / Height";
-      // 
-      // numericUpDownMaxX
-      // 
-      this.numericUpDownMaxX.Location = new Point(344, 203);
-      this.numericUpDownMaxX.Minimum = new decimal(new int[] { 3, 0, 0, 0 });
-      this.numericUpDownMaxX.Name = "numericUpDownMaxX";
-      this.numericUpDownMaxX.Size = new Size(210, 35);
-      this.numericUpDownMaxX.TabIndex = 5;
-      this.numericUpDownMaxX.Value = new decimal(new int[] { 3, 0, 0, 0 });
       // 
       // numericUpDownMaxY
       // 
@@ -508,23 +532,39 @@
       this.numericUpDownMaxY.TabIndex = 6;
       this.numericUpDownMaxY.Value = new decimal(new int[] { 3, 0, 0, 0 });
       // 
-      // buttonDex
+      // numericUpDownSizeWidht
       // 
-      this.buttonDex.Location = new Point(685, 83);
-      this.buttonDex.Name = "buttonDex";
-      this.buttonDex.Size = new Size(131, 34);
-      this.buttonDex.TabIndex = 23;
-      this.buttonDex.Text = "...";
-      this.buttonDex.UseVisualStyleBackColor = true;
-      this.buttonDex.Click += this.buttonDex_Click;
+      this.numericUpDownSizeWidht.Location = new Point(344, 243);
+      this.numericUpDownSizeWidht.Name = "numericUpDownSizeWidht";
+      this.numericUpDownSizeWidht.Size = new Size(210, 35);
+      this.numericUpDownSizeWidht.TabIndex = 7;
       // 
-      // textBoxHabitat
+      // numericUpDownMaxX
       // 
-      this.textBoxHabitat.Location = new Point(344, 123);
-      this.textBoxHabitat.Name = "textBoxHabitat";
-      this.textBoxHabitat.ReadOnly = true;
-      this.textBoxHabitat.Size = new Size(250, 35);
-      this.textBoxHabitat.TabIndex = 24;
+      this.numericUpDownMaxX.Location = new Point(344, 203);
+      this.numericUpDownMaxX.Minimum = new decimal(new int[] { 3, 0, 0, 0 });
+      this.numericUpDownMaxX.Name = "numericUpDownMaxX";
+      this.numericUpDownMaxX.Size = new Size(210, 35);
+      this.numericUpDownMaxX.TabIndex = 5;
+      this.numericUpDownMaxX.Value = new decimal(new int[] { 3, 0, 0, 0 });
+      // 
+      // label9
+      // 
+      this.label9.AutoSize = true;
+      this.label9.Location = new Point(3, 240);
+      this.label9.Name = "label9";
+      this.label9.Size = new Size(199, 30);
+      this.label9.TabIndex = 3;
+      this.label9.Text = "Map Width / Height";
+      // 
+      // label6
+      // 
+      this.label6.AutoSize = true;
+      this.label6.Location = new Point(3, 200);
+      this.label6.Name = "label6";
+      this.label6.Size = new Size(212, 30);
+      this.label6.TabIndex = 0;
+      this.label6.Text = "World Width / Height";
       // 
       // openFileDialog1
       // 
@@ -693,7 +733,7 @@
       // 
       // splitContainer1.Panel2
       // 
-      this.splitContainer1.Panel2.Controls.Add(this.propertyGrid1);
+      this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
       this.splitContainer1.Panel2.Controls.Add(this.toolStrip1);
       this.splitContainer1.Size = new Size(1016, 766);
       this.splitContainer1.SplitterDistance = 617;
@@ -713,13 +753,40 @@
       this.tableLayoutPanelMapsPreview.Size = new Size(617, 766);
       this.tableLayoutPanelMapsPreview.TabIndex = 2;
       // 
+      // splitContainer2
+      // 
+      this.splitContainer2.Dock = DockStyle.Fill;
+      this.splitContainer2.Location = new Point(0, 40);
+      this.splitContainer2.Name = "splitContainer2";
+      this.splitContainer2.Orientation = Orientation.Horizontal;
+      // 
+      // splitContainer2.Panel1
+      // 
+      this.splitContainer2.Panel1.Controls.Add(this.propertyGrid1);
+      // 
+      // splitContainer2.Panel2
+      // 
+      this.splitContainer2.Panel2.Controls.Add(this.tabControlSpecies);
+      this.splitContainer2.Size = new Size(395, 726);
+      this.splitContainer2.SplitterDistance = 360;
+      this.splitContainer2.TabIndex = 2;
+      // 
       // propertyGrid1
       // 
       this.propertyGrid1.Dock = DockStyle.Fill;
-      this.propertyGrid1.Location = new Point(0, 40);
+      this.propertyGrid1.Location = new Point(0, 0);
       this.propertyGrid1.Name = "propertyGrid1";
-      this.propertyGrid1.Size = new Size(395, 726);
+      this.propertyGrid1.Size = new Size(395, 360);
       this.propertyGrid1.TabIndex = 0;
+      // 
+      // tabControlSpecies
+      // 
+      this.tabControlSpecies.Dock = DockStyle.Fill;
+      this.tabControlSpecies.Location = new Point(0, 0);
+      this.tabControlSpecies.Name = "tabControlSpecies";
+      this.tabControlSpecies.SelectedIndex = 0;
+      this.tabControlSpecies.Size = new Size(395, 362);
+      this.tabControlSpecies.TabIndex = 0;
       // 
       // toolStrip1
       // 
@@ -1056,15 +1123,6 @@
       // 
       this.openFileDialogImportColors.FileName = "openFileDialog2";
       // 
-      // label10
-      // 
-      this.label10.AutoSize = true;
-      this.label10.Location = new Point(3, 160);
-      this.label10.Name = "label10";
-      this.label10.Size = new Size(131, 30);
-      this.label10.TabIndex = 27;
-      this.label10.Text = "Habitat Data";
-      // 
       // Form1
       // 
       this.AutoScaleDimensions = new SizeF(12F, 30F);
@@ -1077,10 +1135,12 @@
       this.WindowState = FormWindowState.Maximized;
       this.tableLayoutPanel1.ResumeLayout(false);
       this.tableLayoutPanel1.PerformLayout();
-      ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeWidht).EndInit();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownU_to_C).EndInit();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownR_to_U).EndInit();
       ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeHeight).EndInit();
-      ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxX).EndInit();
       ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxY).EndInit();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownSizeWidht).EndInit();
+      ((System.ComponentModel.ISupportInitialize)this.numericUpDownMaxX).EndInit();
       this.tabControl1.ResumeLayout(false);
       this.tabPage1.ResumeLayout(false);
       this.tabPageContiguesNames.ResumeLayout(false);
@@ -1095,6 +1155,10 @@
       this.splitContainer1.Panel2.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)this.splitContainer1).EndInit();
       this.splitContainer1.ResumeLayout(false);
+      this.splitContainer2.Panel1.ResumeLayout(false);
+      this.splitContainer2.Panel2.ResumeLayout(false);
+      ((System.ComponentModel.ISupportInitialize)this.splitContainer2).EndInit();
+      this.splitContainer2.ResumeLayout(false);
       this.toolStrip1.ResumeLayout(false);
       this.toolStrip1.PerformLayout();
       this.tabPageInput.ResumeLayout(false);
@@ -1216,5 +1280,9 @@
     private Label labelHabitat;
     private TextBox textBoxHabitat;
     private Label label10;
+    private NumericUpDown numericUpDownU_to_C;
+    private NumericUpDown numericUpDownR_to_U;
+    private SplitContainer splitContainer2;
+    private TabControl tabControlSpecies;
   }
 }
