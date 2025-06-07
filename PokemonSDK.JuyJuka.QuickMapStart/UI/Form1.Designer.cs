@@ -89,7 +89,7 @@
       this.tableLayoutPanelMapsPreview = new TableLayoutPanel();
       this.splitContainer2 = new SplitContainer();
       this.propertyGrid1 = new PropertyGrid();
-      this.tabControlSpecies = new TabControl();
+      this.tableLayoutPanelSpecies = new TableLayoutPanel();
       this.toolStrip1 = new ToolStrip();
       this.toolStripButton1 = new ToolStripButton();
       this.toolStripButton2 = new ToolStripButton();
@@ -766,7 +766,7 @@
       // 
       // splitContainer2.Panel2
       // 
-      this.splitContainer2.Panel2.Controls.Add(this.tabControlSpecies);
+      this.splitContainer2.Panel2.Controls.Add(this.tableLayoutPanelSpecies);
       this.splitContainer2.Size = new Size(395, 726);
       this.splitContainer2.SplitterDistance = 360;
       this.splitContainer2.TabIndex = 2;
@@ -779,14 +779,18 @@
       this.propertyGrid1.Size = new Size(395, 360);
       this.propertyGrid1.TabIndex = 0;
       // 
-      // tabControlSpecies
+      // tableLayoutPanelSpecies
       // 
-      this.tabControlSpecies.Dock = DockStyle.Fill;
-      this.tabControlSpecies.Location = new Point(0, 0);
-      this.tabControlSpecies.Name = "tabControlSpecies";
-      this.tabControlSpecies.SelectedIndex = 0;
-      this.tabControlSpecies.Size = new Size(395, 362);
-      this.tabControlSpecies.TabIndex = 0;
+      this.tableLayoutPanelSpecies.ColumnCount = 1;
+      this.tableLayoutPanelSpecies.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+      this.tableLayoutPanelSpecies.Dock = DockStyle.Fill;
+      this.tableLayoutPanelSpecies.Location = new Point(0, 0);
+      this.tableLayoutPanelSpecies.Name = "tableLayoutPanelSpecies";
+      this.tableLayoutPanelSpecies.RowCount = 1;
+      this.tableLayoutPanelSpecies.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+      this.tableLayoutPanelSpecies.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
+      this.tableLayoutPanelSpecies.Size = new Size(395, 362);
+      this.tableLayoutPanelSpecies.TabIndex = 0;
       // 
       // toolStrip1
       // 
@@ -1283,6 +1287,6 @@
     private NumericUpDown numericUpDownU_to_C;
     private NumericUpDown numericUpDownR_to_U;
     private SplitContainer splitContainer2;
-    private TabControl tabControlSpecies;
+    private TableLayoutPanel tableLayoutPanelSpecies;
   }
 }

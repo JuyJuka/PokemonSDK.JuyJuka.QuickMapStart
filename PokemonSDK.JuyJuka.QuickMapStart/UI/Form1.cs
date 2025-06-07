@@ -35,18 +35,19 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
         this.numericUpDownR_to_U.Enabled = false;
         this.numericUpDownU_to_C.Enabled = false;
       }
-      foreach (Habitat h in Enum.GetValues<Habitat>())
+      int column = Map._0;
+      this.tableLayoutPanelSpecies.ColumnStyles.Clear();
+      this.tableLayoutPanelSpecies.ColumnCount = Map._0;
+      Habitat[] hArr = Enum.GetValues<Habitat>();
+      foreach (Habitat h in hArr)
       {
-        TabPage p = new TabPage();
-        p.Text = string.Empty + h;
-        p.Tag = h;
-        TextBox txt = new TextBox();
-        txt.Multiline = true;
-        txt.Dock = DockStyle.Fill;
-        txt.WordWrap = false;
-        txt.TextChanged += this.tabControlSpecies_txt_TextChanged;
-        p.Controls.Add(txt);
-        tabControlSpecies.TabPages.Add(p);
+        Panel p = new Panel() { Tag = h, Dock = DockStyle.Fill };
+        p.Controls.Add(new TextBox() { Multiline = true, Dock = DockStyle.Fill, WordWrap = false, });
+        p.Controls.Add(new Label() { Text = string.Empty + h, Dock = DockStyle.Top, Height = 40, BorderStyle=BorderStyle.Fixed3D });
+        p.Controls[Map._1].TextChanged += this.tabControlSpecies_txt_TextChanged;
+        this.tableLayoutPanelSpecies.ColumnCount++;
+        this.tableLayoutPanelSpecies.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / hArr.Length));
+        this.tableLayoutPanelSpecies.Controls.Add(p, column++, Map._0);
       }
       foreach (TableLayoutPanel grid in new TableLayoutPanel[]{
         this.tableLayoutPanel1,
@@ -242,11 +243,12 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       var species = (m as Map)?.Specis;
       if (m != null) TypeDescriptor.AddAttributes(m, new Attribute[] { new ReadOnlyAttribute(true) });
       this.propertyGrid1.SelectedObject = m;
-      this.tabControlSpecies.Enabled = false;
+      this.tableLayoutPanelSpecies.Enabled = false;
       if (species != null)
-        foreach (TabPage p in this.tabControlSpecies.TabPages)
+        foreach (Control p in this.tableLayoutPanelSpecies.Controls)
           foreach (Control c in p.Controls)
           {
+            if (c is Label) continue;
             c.Tag = null;
             c.Text = string.Empty;
             foreach (var o in species)
@@ -256,7 +258,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
                 c.Text = string.Empty + string.Join(Environment.NewLine, o.Value);
               }
           }
-      this.tabControlSpecies.Enabled = true;
+      this.tableLayoutPanelSpecies.Enabled = true;
     }
 
     private void tabControl1_SelectedIndexChanged_Bind(PictureBox? pb, Image? img, bool noZoom)
