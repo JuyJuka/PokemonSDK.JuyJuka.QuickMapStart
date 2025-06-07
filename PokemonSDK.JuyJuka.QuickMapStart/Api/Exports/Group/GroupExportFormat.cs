@@ -4,6 +4,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Group
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
 
+  using Habitat = Habitats.Habitat;
+
   public abstract class GroupExport : SingleAssetMapExportFormat
   {
     public static object GuessObject<T>(Map map)
@@ -16,18 +18,24 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Group
       return map.Id + (o == null ? t.Name : o.GetType().Name);
     }
 
-    protected GroupExport() : base("Data", "Studio", "groups", ".json") { this._Style = this.GetType().Name.Replace(typeof(GroupExport).Name, string.Empty); }
-    protected GroupExport(string style) : this() { this._Style = style; }
+    protected GroupExport(Habitat filter, params Habitat[] filters) : base("Data", "Studio", "groups", ".json")
+    {
+      this._Style = this.GetType().Name.Replace(typeof(GroupExport).Name, string.Empty);
+      this._Filter.Add(filter);
+      foreach (Habitat h in filters ?? new Habitat[] { }) this._Filter.Add(h);
+    }
+    protected GroupExport(string style, Habitat filter, params Habitat[] filters) : this(filter, filters) { this._Style = style; }
 
     public virtual EncounterExportFormat EncounterExportFormat { get; set; } = new EncounterExportFormat();
 
     private string _Style;
+    private List<Habitat> _Filter = new List<Habitat>();
 
     public override string ModifyTargetFile(Map map, IPokemonStudioFolder project, string folder, string file)
     {
       object _lid_key = GroupExport.GuessObject(map, null, this);
       int _lid = StaticId.GroupName.GuessFor(project, _lid_key, true);
-      StaticId.GroupName.WriteText(project, _lid_key, true, string.Format("Map {0} - Style: {1}", map.ContigousName, this._Style));
+      StaticId.GroupName.WriteText(project, _lid_key, true, string.Format("{0}-{1}", map.ContigousName, this._Style));
       return Path.Combine(folder, "group_" + _lid + this.FileExtendsion);
     }
 
@@ -55,6 +63,17 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Group
       }
     }
 
+    public virtual IDictionary<Habitat, string[]> FilterSpecies(Map map, IPokemonStudioFolder project, string folder, string file, string asset, string config)
+    {
+      Dictionary<Habitat, string[]> re = new Dictionary<Habitat, string[]>();
+      var s = map?.Specis;
+      if (s != null)
+        foreach (Habitat h in this._Filter)
+          if (s.TryGetValue(h, out string[]? species))
+            re.Add(h, species);
+      return re;
+    }
+
     public override string Export(Map map, IPokemonStudioFolder project, string folder, string file, string asset, string config)
     {
       Func<string, Tuple<string, string>> readAsset = null;
@@ -66,30 +85,39 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Group
       }
       object _lid_key = GroupExport.GuessObject(map, null, this);
       int _lid = StaticId.GroupName.GuessFor(project, _lid_key, true);
+      var org = map.Specis;
       string enc = string.Empty;
-      if (readAsset != null) enc = this.EncounterExportFormat.Export(map, project, folder, file, readAsset);
+      try
+      {
+        map.Specis = this.FilterSpecies(map, project, folder, file, asset, config);
+        if (readAsset != null) enc = this.EncounterExportFormat.Export(map, project, folder, file, readAsset);
+      }
+      finally
+      {
+        map.Specis = org;
+      }
       asset = asset.Replace("{{lid}}", string.Empty + _lid);
       asset = asset.Replace("[ [ \"lid\" ] ]", string.Empty + _lid);
       asset = asset.Replace("{{mid}}", string.Empty + map.Id);
       asset = asset.Replace("[ [ \"mid\" ] ]", string.Empty + map.Id);
       asset = asset.Replace("{{enc}}", enc);
       asset = asset.Replace("[ [ \"enc\" ] ]", enc);
-      asset = asset.Replace("{{systemTag}}", string.Empty + (map.DefinitivColor?.SpecialicedSystemTag ?? Knowen.SystemTagGrass));
-      asset = asset.Replace("[ [ \"systemTag\" ] ]", string.Empty + (map.DefinitivColor?.SpecialicedSystemTag ?? Knowen.SystemTagGrass));
+      asset = asset.Replace("{{systemTag}}", string.Empty + (map.DefinitivColor?.SpecialicedSystemTag ?? "Grass"));
+      asset = asset.Replace("[ [ \"systemTag\" ] ]", string.Empty + (map.DefinitivColor?.SpecialicedSystemTag ?? "Grass"));
       return asset;
     }
   }
 
-  public class Day_Surfing_Ocean_GroupExport : GroupExport { }
-  public class Night_Surfing_Ocean_GroupExport : GroupExport { }
-  public class Day_OldRod_Ocean_GroupExport : GroupExport { }
-  public class Night_OldRod_Ocean_GroupExport : GroupExport { }
-  public class Day_GoodRod_Ocean_GroupExport : GroupExport { }
-  public class Night_GoodRod_Ocean_GroupExport : GroupExport { }
-  public class Day_SuperRod_Ocean_GroupExport : GroupExport { }
-  public class Night_SuperRod_Ocean_GroupExport : GroupExport { }
-  public class Day_Grass_GroupExport : GroupExport { }
-  public class Night_Grass_GroupExport : GroupExport { }
+  public class Day_Surfing_Ocean_GroupExport : GroupExport { public Day_Surfing_Ocean_GroupExport() : base("??-Surf", Habitat.Sea) { } }
+  public class Night_Surfing_Ocean_GroupExport : GroupExport { public Night_Surfing_Ocean_GroupExport() : base("??-Surf", Habitat.Sea) { } }
+  public class Day_OldRod_Ocean_GroupExport : GroupExport { public Day_OldRod_Ocean_GroupExport() : base("??-OldR.",Habitat.WatersEdge) { } }
+  public class Night_OldRod_Ocean_GroupExport : GroupExport { public Night_OldRod_Ocean_GroupExport() : base("??-OldR.", Habitat.WatersEdge) { } }
+  public class Day_GoodRod_Ocean_GroupExport : GroupExport { public Day_GoodRod_Ocean_GroupExport() : base("??-GoodR.", Habitat.WatersEdge) { } }
+  public class Night_GoodRod_Ocean_GroupExport : GroupExport { public Night_GoodRod_Ocean_GroupExport() : base("??-GoodR.",Habitat.WatersEdge) { } }
+  public class Day_SuperRod_Ocean_GroupExport : GroupExport { public Day_SuperRod_Ocean_GroupExport() : base("??-SuperR.", Habitat.WatersEdge) { } }
+  public class Night_SuperRod_Ocean_GroupExport : GroupExport { public Night_SuperRod_Ocean_GroupExport() : base("??-SuperR.", Habitat.WatersEdge) { } }
+  public class Day_Grass_GroupExport : GroupExport { public Day_Grass_GroupExport() : base("??", Habitat.Grassland, Habitat.Forest, Habitat.Mountain, Habitat.RoughTerrain) { } }
+  public class Night_Grass_GroupExport : GroupExport { public Night_Grass_GroupExport() : base("??", Habitat.Cave, Habitat.Rare, Habitat.Urban) { } }
 }
 
 /*

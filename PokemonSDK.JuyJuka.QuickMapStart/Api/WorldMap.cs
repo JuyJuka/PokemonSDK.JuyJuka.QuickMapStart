@@ -26,6 +26,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
           new MapLinksExportFormat(),
           this.BitMapExportFormat,
           new MusicMapExportFormat(),
+          new Day_Grass_GroupExport(),
+          new Night_Grass_GroupExport(),
           new Day_Surfing_Ocean_GroupExport(),
           new Night_Surfing_Ocean_GroupExport(),
           new Day_OldRod_Ocean_GroupExport(),
@@ -34,8 +36,6 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
           new Night_GoodRod_Ocean_GroupExport(),
           new Day_SuperRod_Ocean_GroupExport(),
           new Night_SuperRod_Ocean_GroupExport(),
-          new Day_Grass_GroupExport(),
-          new Night_Grass_GroupExport(),
           new ZoneExportFormat(),
         };
     }
@@ -43,7 +43,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     public virtual List<Tuple<string, string>> ContigousNames { get; protected set; } = new List<Tuple<string, string>>();
     public virtual ILogger Logger { get; set; } = new Logger();
     public virtual BitMapExportFormat BitMapExportFormat { get; set; } = new BitMapExportFormat();
-    public virtual Point Max { get; protected set; } = new Point(3, 3);
+    public virtual Point Max { get; protected set; } = new Point(16, 16);
     public virtual Size Size { get; protected set; } = new Size(40, 30);
     public virtual List<Map> Maps { get; protected set; } = new List<Map>();
     public virtual IMapExportFormat[] Formats { get; set; } = [];

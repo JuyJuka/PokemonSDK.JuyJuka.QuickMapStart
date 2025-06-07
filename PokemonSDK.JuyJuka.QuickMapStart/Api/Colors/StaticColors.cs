@@ -87,7 +87,7 @@
 
       .WithShape<Sandbank4x4Shape>().SpreadRandomly(16, 16, 16, 16).Added()
 
-      .With(c=>c.SpecialicedSystemTag=Knowen.SystemTagSand)
+      .With(c => c.SpecialicedSystemTag = "Sand")
       .AllAroundTheWorld()
       ;
     #endregion Sea
@@ -104,7 +104,7 @@
       .WithShape<CrumbeledMessShape>().SpreadRandomly(6, 3, 0, 0).Added()
       .WithShape<CrumbeledMessShape>().SpreadRandomly(8, 2, 3, 3).Added()
 
-      .With(c => c.SpecialicedSystemTag = Knowen.SystemTagCave)
+      .With(c => c.SpecialicedSystemTag = "Cave")
       .AllAroundTheWorld()
       ;
 
@@ -138,13 +138,13 @@
       .WithShape(new Shape(new string[] { TmxMapExportFormat.Layer1.Item2 }, new object[][,] {new object[,]{
           { 1 + 3259, 1 + 3259 },
           { 1 + 3259, 1 + 3259 },
-      }})).SpreadRandomly(13,7, 3,3).Added()
+      }})).SpreadRandomly(13, 7, 3, 3).Added()
       .WithShape(new Shape(new string[] { TmxMapExportFormat.Layer1.Item2 }, new object[][,] {new object[,]{
           { Knowen.Nothing, Knowen.Nothing },
           { Knowen.Nothing, Knowen.Nothing },
       }})).SpreadRandomly(8, 1, 0, 0).Added()
 
-      .With(c => c.SpecialicedSystemTag = Knowen.SystemTagSand)
+      .With(c => c.SpecialicedSystemTag = "Sand")
       .LimitedTo().Southern(30).Percent()
       ;
 
@@ -161,7 +161,7 @@
       .WithShape(Knowen.Rubble).SpreadRandomly(3, 7, 1, 2).Added()
       .WithShape(Knowen.Bolder).SpreadRandomly(1, 2, 2, 1).Added()
 
-      .With(c => c.SpecialicedSystemTag = Knowen.SystemTagCave)
+      .With(c => c.SpecialicedSystemTag = "Cave")
       .AllAroundTheWorld()
       ;
     #endregion RoughTerrain
