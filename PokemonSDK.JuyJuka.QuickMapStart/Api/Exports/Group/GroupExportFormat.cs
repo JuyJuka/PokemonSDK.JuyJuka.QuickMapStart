@@ -1,4 +1,4 @@
-namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Group
+﻿namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Group
 {
   using PokemonSDK.JuyJuka.QuickMapStart.Api;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
@@ -108,16 +108,16 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Group
     }
   }
 
-  public class Day_Surfing_Ocean_GroupExport : GroupExport { public Day_Surfing_Ocean_GroupExport() : base("??-Surf", Habitat.Sea) { } }
-  public class Night_Surfing_Ocean_GroupExport : GroupExport { public Night_Surfing_Ocean_GroupExport() : base("??-Surf", Habitat.Sea) { } }
-  public class Day_OldRod_Ocean_GroupExport : GroupExport { public Day_OldRod_Ocean_GroupExport() : base("??-OldR.",Habitat.WatersEdge) { } }
-  public class Night_OldRod_Ocean_GroupExport : GroupExport { public Night_OldRod_Ocean_GroupExport() : base("??-OldR.", Habitat.WatersEdge) { } }
-  public class Day_GoodRod_Ocean_GroupExport : GroupExport { public Day_GoodRod_Ocean_GroupExport() : base("??-GoodR.", Habitat.WatersEdge) { } }
-  public class Night_GoodRod_Ocean_GroupExport : GroupExport { public Night_GoodRod_Ocean_GroupExport() : base("??-GoodR.",Habitat.WatersEdge) { } }
-  public class Day_SuperRod_Ocean_GroupExport : GroupExport { public Day_SuperRod_Ocean_GroupExport() : base("??-SuperR.", Habitat.WatersEdge) { } }
-  public class Night_SuperRod_Ocean_GroupExport : GroupExport { public Night_SuperRod_Ocean_GroupExport() : base("??-SuperR.", Habitat.WatersEdge) { } }
-  public class Day_Grass_GroupExport : GroupExport { public Day_Grass_GroupExport() : base("??", Habitat.Grassland, Habitat.Forest, Habitat.Mountain, Habitat.RoughTerrain) { } }
-  public class Night_Grass_GroupExport : GroupExport { public Night_Grass_GroupExport() : base("??", Habitat.Cave, Habitat.Rare, Habitat.Urban) { } }
+  public class Day_Surfing_Ocean_GroupExport : GroupExport { public Day_Surfing_Ocean_GroupExport() : base("🌞-Surf", Habitat.Sea) { } }
+  public class Night_Surfing_Ocean_GroupExport : GroupExport { public Night_Surfing_Ocean_GroupExport() : base("🌜-Surf", Habitat.Sea) { } }
+  public class Day_OldRod_Ocean_GroupExport : GroupExport { public Day_OldRod_Ocean_GroupExport() : base("🌞-OldR.", Habitat.WatersEdge) { } }
+  public class Night_OldRod_Ocean_GroupExport : GroupExport { public Night_OldRod_Ocean_GroupExport() : base("🌜-OldR.", Habitat.WatersEdge) { } }
+  public class Day_GoodRod_Ocean_GroupExport : GroupExport { public Day_GoodRod_Ocean_GroupExport() : base("🌞-GoodR.", Habitat.WatersEdge) { } }
+  public class Night_GoodRod_Ocean_GroupExport : GroupExport { public Night_GoodRod_Ocean_GroupExport() : base("🌜-GoodR.", Habitat.WatersEdge) { } }
+  public class Day_SuperRod_Ocean_GroupExport : GroupExport { public Day_SuperRod_Ocean_GroupExport() : base("🌞-SuperR.", Habitat.WatersEdge) { } }
+  public class Night_SuperRod_Ocean_GroupExport : GroupExport { public Night_SuperRod_Ocean_GroupExport() : base("🌜-SuperR.", Habitat.WatersEdge) { } }
+  public class Day_Grass_GroupExport : GroupExport { public Day_Grass_GroupExport() : base("🌞", Habitat.Grassland, Habitat.Forest, Habitat.Mountain, Habitat.RoughTerrain) { } }
+  public class Night_Grass_GroupExport : GroupExport { public Night_Grass_GroupExport() : base("🌜", Habitat.Cave, Habitat.Rare, Habitat.Urban) { } }
 }
 
 /*
