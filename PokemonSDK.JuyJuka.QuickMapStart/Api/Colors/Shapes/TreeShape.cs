@@ -5,9 +5,9 @@
     public TreeShape() : base(string.Empty
       , new object[,] { }
       , new object[,]{
-        { _, X, X, _ },
-        { _, X, X, _ },
         { _, _, _, _ },
+        { _, X, X, _ },
+        { _, X, X, _ },
       }
       , new object[,] { }
       , new object[,] {

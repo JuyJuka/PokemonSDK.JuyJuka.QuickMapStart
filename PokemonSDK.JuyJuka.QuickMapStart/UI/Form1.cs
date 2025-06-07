@@ -147,7 +147,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
           }
 
         }
-        if (true
+        if (false && true // disabled untill I have more of a usefull fallback project
           && (string.IsNullOrEmpty(this.WorldMap.Project.Folder) || this.WorldMap.Project.Folder == PokemonStudioFolder.Fallback)
           && !string.IsNullOrEmpty(this.textBoxEmpty.Text)
           && Directory.Exists(this.textBoxEmpty.Text)

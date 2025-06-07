@@ -374,6 +374,7 @@
       this.button9.TabIndex = 11;
       this.button9.Text = "...";
       this.button9.UseVisualStyleBackColor = true;
+      this.button9.Visible = false;
       this.button9.Click += this.button9_Click;
       // 
       // textBoxEmpty
@@ -383,6 +384,7 @@
       this.textBoxEmpty.Size = new Size(175, 35);
       this.textBoxEmpty.TabIndex = 10;
       this.textBoxEmpty.Text = ".\\empty";
+      this.textBoxEmpty.Visible = false;
       // 
       // label11
       // 
@@ -392,6 +394,7 @@
       this.label11.Size = new Size(71, 30);
       this.label11.TabIndex = 9;
       this.label11.Text = "Empty";
+      this.label11.Visible = false;
       // 
       // label3
       // 
@@ -401,6 +404,7 @@
       this.label3.Size = new Size(161, 30);
       this.label3.TabIndex = 2;
       this.label3.Text = "Create && Export";
+      this.label3.Visible = false;
       // 
       // button8
       // 
@@ -410,6 +414,7 @@
       this.button8.TabIndex = 12;
       this.button8.Text = "Create && Export";
       this.button8.UseVisualStyleBackColor = true;
+      this.button8.Visible = false;
       this.button8.Click += this.button8_Click;
       // 
       // button7
@@ -768,7 +773,7 @@
       // 
       this.splitContainer2.Panel2.Controls.Add(this.tableLayoutPanelSpecies);
       this.splitContainer2.Size = new Size(395, 726);
-      this.splitContainer2.SplitterDistance = 360;
+      this.splitContainer2.SplitterDistance = 533;
       this.splitContainer2.TabIndex = 2;
       // 
       // propertyGrid1
@@ -776,7 +781,7 @@
       this.propertyGrid1.Dock = DockStyle.Fill;
       this.propertyGrid1.Location = new Point(0, 0);
       this.propertyGrid1.Name = "propertyGrid1";
-      this.propertyGrid1.Size = new Size(395, 360);
+      this.propertyGrid1.Size = new Size(395, 533);
       this.propertyGrid1.TabIndex = 0;
       // 
       // tableLayoutPanelSpecies
@@ -789,7 +794,7 @@
       this.tableLayoutPanelSpecies.RowCount = 1;
       this.tableLayoutPanelSpecies.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
       this.tableLayoutPanelSpecies.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanelSpecies.Size = new Size(395, 362);
+      this.tableLayoutPanelSpecies.Size = new Size(395, 189);
       this.tableLayoutPanelSpecies.TabIndex = 0;
       // 
       // toolStrip1

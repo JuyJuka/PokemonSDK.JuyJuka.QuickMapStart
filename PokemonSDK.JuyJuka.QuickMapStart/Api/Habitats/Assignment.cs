@@ -162,12 +162,12 @@
       //  rare% single map
       int rareIndex = Map._0;
       if (rare.Count > Map._0)
-        while (uncommonIndexMax < uncommon.Count)// make sure that rare is traversed at least once
+        while (rareIndex < uncommon.Count)// make sure that rare is traversed at least once
           foreach (var l in grouping.Values)
             foreach (var map in this.SortMaps(l))
               foreach (Habitat h in Assignment._Habitats)
               {
-                re[map][rare[rareIndex].Item2].Add(rare[rareIndex]);
+                if (rareIndex < rare.Count) re[map][rare[rareIndex].Item2].Add(rare[rareIndex]);
                 rareIndex++;
               }
 
