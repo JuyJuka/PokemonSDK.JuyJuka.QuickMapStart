@@ -5,6 +5,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone
   using PokemonSDK.JuyJuka.QuickMapStart.Api;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.PokemonStudioId;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Group;
 
   public class ZoneExportFormat : SingleAssetMapExportFormat
   {

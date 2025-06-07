@@ -169,6 +169,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     public virtual Point WorldMapCoordinates { get; set; } = new Point();
     public virtual Bitmap? Image { get; set; } = null;
     public virtual IDictionary<Habitats.Habitat, string[]>? Specis { get; set; } = null;
+    public virtual int DifficultyMin { get; set; }
+    public virtual int DifficultyMax { get; set; }
 
     private Dictionary<string, string> _TestOverlapMe = new Dictionary<string, string>();
     public virtual bool TestOverlap(string me, Point[] points)

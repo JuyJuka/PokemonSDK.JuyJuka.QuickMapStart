@@ -1,4 +1,4 @@
-namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone
+namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Group
 {
   using PokemonSDK.JuyJuka.QuickMapStart.Api;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
@@ -19,6 +19,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone
     protected GroupExport() : base("Data", "Studio", "groups", ".json") { this._Style = this.GetType().Name.Replace(typeof(GroupExport).Name, string.Empty); }
     protected GroupExport(string style) : this() { this._Style = style; }
 
+    public virtual EncounterExportFormat EncounterExportFormat { get; set; } = new EncounterExportFormat();
+
     private string _Style;
 
     public override string ModifyTargetFile(Map map, IPokemonStudioFolder project, string folder, string file)
@@ -29,16 +31,49 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone
       return Path.Combine(folder, "group_" + _lid + this.FileExtendsion);
     }
 
+    public override string Export(Map map, IPokemonStudioFolder project, string folder, string file, Func<string, Tuple<string, string>> readAsset)
+    {
+      return base.Export(map, new Cheat() { real = project, readAsset = readAsset }, folder, file, readAsset);
+    }
+
+    private class Cheat : IPokemonStudioFolder
+    {
+      public IPokemonStudioFolder real;
+      public Func<string, Tuple<string, string>> readAsset;
+
+      public string Folder
+      {
+        get
+        {
+          return this.real.Folder;
+        }
+
+        set
+        {
+          this.real.Folder = value;
+        }
+      }
+    }
+
     public override string Export(Map map, IPokemonStudioFolder project, string folder, string file, string asset, string config)
     {
+      Func<string, Tuple<string, string>> readAsset = null;
+      Cheat cheat = project as Cheat;
+      if (cheat != null)
+      {
+        readAsset = cheat.readAsset;
+        project = cheat.real;
+      }
       object _lid_key = GroupExport.GuessObject(map, null, this);
       int _lid = StaticId.GroupName.GuessFor(project, _lid_key, true);
+      string enc = string.Empty;
+      if (readAsset != null) enc = this.EncounterExportFormat.Export(map, project, folder, file, readAsset);
       asset = asset.Replace("{{lid}}", string.Empty + _lid);
       asset = asset.Replace("[ [ \"lid\" ] ]", string.Empty + _lid);
       asset = asset.Replace("{{mid}}", string.Empty + map.Id);
       asset = asset.Replace("[ [ \"mid\" ] ]", string.Empty + map.Id);
-      asset = asset.Replace("{{enc}}", string.Empty /* TODO Encounter*/);
-      asset = asset.Replace("[ [ \"enc\" ] ]", string.Empty /* TODO Encounter*/);
+      asset = asset.Replace("{{enc}}", enc);
+      asset = asset.Replace("[ [ \"enc\" ] ]", enc);
       return asset;
     }
   }

@@ -7,6 +7,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Colors;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.BitMap;
+  using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Group;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.MapLinks;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Music;
   using PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Tiled;
