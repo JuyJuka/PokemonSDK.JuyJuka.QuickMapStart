@@ -39,7 +39,18 @@ Here are the steps I am using currently
 22) if you are familia with PokemonStudio you can now use the maps as you see fit
 22) if you are new to PokemonStudio there should be a file "readme_unfamiliar_with_pokemon_studio" next to this file with more detailed steps to getting a head-start
 
-
+Current goals for futher coding in here
+- add roads between urban maps
+- add shapes on the map depending on the color/pixels on the input-image (like gardens in towns, like ponds in grasslands, etc.)
+- make map-colors, shapes, habitat-assignment (and co.) and ... configurable in addition to hard coded
+- make better documentation
+- make patterns less visible in static map-colors
+- smooth out borders between map colors
+- try to assign species better to map-colors
+- add command-line to PokemonStudio for "import maps" allowing me to replace waiter/pop-up
+- add interior maps (probably not before Pokemon Studio is free of RPG Maker XP)
+- make better use of GitHub features
+- make code cleaner
 
 Greetings
 Juy Juka0
