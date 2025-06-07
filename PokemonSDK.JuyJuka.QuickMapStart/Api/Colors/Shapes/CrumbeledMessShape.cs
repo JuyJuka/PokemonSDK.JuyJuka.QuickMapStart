@@ -3,7 +3,12 @@
   public class CrumbeledMessShape : Shape
   {
     public CrumbeledMessShape() : base(string.Empty
-      , new object[,] { }
+      , new object[,] {
+        { Knowen.SystemTagCave, Knowen.SystemTagCave, },
+        { _, _, },
+        { Knowen.SystemTagCave, Knowen.SystemTagCave, },
+        { Knowen.SystemTagCave, Knowen.SystemTagCave, },
+      }
       , new object[,] {
         { _, _ },
         { X, X },

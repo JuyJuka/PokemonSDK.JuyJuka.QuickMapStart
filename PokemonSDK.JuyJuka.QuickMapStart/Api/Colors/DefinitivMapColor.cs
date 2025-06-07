@@ -16,21 +16,13 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Colors
     public float MaxHue { get; set; } = Map._0;
     public PointF? WorldMapCoordinatsPercentageMin { get; set; } = null;
     public PointF? WorldMapCoordinatsPercentageMax { get; set; } = null;
-    public virtual string ColorRGB
-    {
-      get
-      {
-        return string.Format("R={0:000} G={1:000} B={2:000}", this.Color.R, this.Color.G, this.Color.B);
-      }
-    }
+    public virtual object SpecialicedSystemTag { get; set; }
+    public virtual string ColorRGB { get { return string.Format("R={0:000} G={1:000} B={2:000}", this.Color.R, this.Color.G, this.Color.B); } }
 
     public override string ToString()
     {
       return this.Name ?? base.ToString();
     }
-
-    public virtual Habitats.Habitat[] Habitats { get; set; } = [];
-    public virtual IDictionary<Habitats.Habitat, IEnumerable<string>>? Inhabitants { get; set; } = null;
 
     public DefinitivMapColor(string name, Color color, float minHue, float maxHue
       , object? default11 = null

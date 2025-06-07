@@ -84,6 +84,10 @@
       .WithMapNamePanel(Knowen.PanelSea)
       .WithBorder(Knowen.BorderSea)
       .WithMusic(Knowen.MusicGrass)
+
+      .WithShape<Sandbank4x4Shape>().SpreadRandomly(16, 16, 16, 16).Added()
+
+      .With(c=>c.SpecialicedSystemTag=Knowen.SystemTagSand)
       .AllAroundTheWorld()
       ;
     #endregion Sea
@@ -96,6 +100,11 @@
       .WithBorder(Knowen.BorderMountain.Item1.Item1, Knowen.BorderMountain.Item1.Item2)
       .WithBorder(Knowen.BorderMountain.Item2.Item1, Knowen.BorderMountain.Item2.Item2)
       .WithBorder(Knowen.BorderMountain.Item3.Item1, Knowen.BorderMountain.Item3.Item2)
+
+      .WithShape<CrumbeledMessShape>().SpreadRandomly(6, 3, 0, 0).Added()
+      .WithShape<CrumbeledMessShape>().SpreadRandomly(8, 2, 3, 3).Added()
+
+      .With(c => c.SpecialicedSystemTag = Knowen.SystemTagCave)
       .AllAroundTheWorld()
       ;
 
@@ -110,6 +119,7 @@
       .WithShape<SnowPatch3x3Shape>().SpreadRandomly(8, 4, 0, 0).Added()
       .WithShape<SnowPatch2x3Shape>().SpreadRandomly(5, 9, 10, 3).Added()
       .WithShape<SnowPatch2x2Shape>().SpreadRandomly(9, 7, 5, 9).Added()
+
       .LimitedTo().Northern(30).Percent()
       ;
     #endregion Mountain
@@ -134,6 +144,7 @@
           { Knowen.Nothing, Knowen.Nothing },
       }})).SpreadRandomly(8, 1, 0, 0).Added()
 
+      .With(c => c.SpecialicedSystemTag = Knowen.SystemTagSand)
       .LimitedTo().Southern(30).Percent()
       ;
 
@@ -149,8 +160,8 @@
       .WithShape<CrumbeledMessShape>().SpreadRandomly(13, 7, 3, 3).Added()
       .WithShape(Knowen.Rubble).SpreadRandomly(3, 7, 1, 2).Added()
       .WithShape(Knowen.Bolder).SpreadRandomly(1, 2, 2, 1).Added()
-      .WithShape(Knowen.Rubble).SpreadRandomly(4, 7, 3, 3).Added()
 
+      .With(c => c.SpecialicedSystemTag = Knowen.SystemTagCave)
       .AllAroundTheWorld()
       ;
     #endregion RoughTerrain

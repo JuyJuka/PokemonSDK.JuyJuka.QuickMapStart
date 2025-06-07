@@ -27,7 +27,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Group
     {
       object _lid_key = GroupExport.GuessObject(map, null, this);
       int _lid = StaticId.GroupName.GuessFor(project, _lid_key, true);
-      StaticId.GroupName.WriteText(project, _lid_key, true, string.Format("Map {0} - Style: {1}", map.Id, this._Style));
+      StaticId.GroupName.WriteText(project, _lid_key, true, string.Format("Map {0} - Style: {1}", map.ContigousName, this._Style));
       return Path.Combine(folder, "group_" + _lid + this.FileExtendsion);
     }
 
@@ -74,6 +74,8 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Group
       asset = asset.Replace("[ [ \"mid\" ] ]", string.Empty + map.Id);
       asset = asset.Replace("{{enc}}", enc);
       asset = asset.Replace("[ [ \"enc\" ] ]", enc);
+      asset = asset.Replace("{{systemTag}}", string.Empty + (map.DefinitivColor?.SpecialicedSystemTag ?? Knowen.SystemTagGrass));
+      asset = asset.Replace("[ [ \"systemTag\" ] ]", string.Empty + (map.DefinitivColor?.SpecialicedSystemTag ?? Knowen.SystemTagGrass));
       return asset;
     }
   }
@@ -88,8 +90,6 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Group
   public class Night_SuperRod_Ocean_GroupExport : GroupExport { }
   public class Day_Grass_GroupExport : GroupExport { }
   public class Night_Grass_GroupExport : GroupExport { }
-  public class Day_Sand_GroupExport : GroupExport { }
-  public class Night_Sand_GroupExport : GroupExport { }
 }
 
 /*

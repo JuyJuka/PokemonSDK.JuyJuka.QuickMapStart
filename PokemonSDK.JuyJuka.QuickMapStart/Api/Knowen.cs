@@ -19,6 +19,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
     public static readonly object SystemTagSea = 4257 + 21;
     public static readonly object SystemTagGrass = 4257 + 5;
     public static readonly object SystemTagSand = 4257 + 14;
+    public static readonly object SystemTagCave = 4257 + 7;
     public static readonly object SystemTagClimb = 4257 + 62;
 
 

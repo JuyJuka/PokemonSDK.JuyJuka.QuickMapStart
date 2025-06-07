@@ -36,8 +36,6 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
           new Night_SuperRod_Ocean_GroupExport(),
           new Day_Grass_GroupExport(),
           new Night_Grass_GroupExport(),
-          new Day_Sand_GroupExport(),
-          new Night_Sand_GroupExport(),
           new ZoneExportFormat(),
         };
     }

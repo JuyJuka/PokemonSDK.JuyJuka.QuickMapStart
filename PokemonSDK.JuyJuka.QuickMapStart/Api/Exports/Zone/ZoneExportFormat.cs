@@ -40,8 +40,6 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api.Exports.Zone
       asset = asset.Replace("{{g-7}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Night_SuperRod_Ocean_GroupExport>(map), true));
       asset = asset.Replace("{{g-8}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Day_Grass_GroupExport>(map), true));
       asset = asset.Replace("{{g-9}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Night_Grass_GroupExport>(map), true));
-      asset = asset.Replace("{{g-a}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Day_Sand_GroupExport>(map), true));
-      asset = asset.Replace("{{g-b}}", string.Empty + StaticId.GroupName.GuessFor(project, GroupExport.GuessObject<Night_Sand_GroupExport>(map), true));
       return asset;
     }
   }
