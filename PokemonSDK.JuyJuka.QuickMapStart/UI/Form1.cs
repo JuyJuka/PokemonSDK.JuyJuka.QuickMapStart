@@ -43,7 +43,7 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
       {
         Panel p = new Panel() { Tag = h, Dock = DockStyle.Fill };
         p.Controls.Add(new TextBox() { Multiline = true, Dock = DockStyle.Fill, WordWrap = false, });
-        p.Controls.Add(new Label() { Text = string.Empty + h, Dock = DockStyle.Top, Height = 40, BorderStyle=BorderStyle.Fixed3D });
+        p.Controls.Add(new Label() { Text = string.Empty + h, Dock = DockStyle.Top, Height = 40, BorderStyle = BorderStyle.Fixed3D });
         p.Controls[Map._1].TextChanged += this.tabControlSpecies_txt_TextChanged;
         this.tableLayoutPanelSpecies.ColumnCount++;
         this.tableLayoutPanelSpecies.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100 / hArr.Length));
@@ -667,6 +667,59 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.UI
     private void button10_Click(object sender, EventArgs e)
     {
       if (this.openFileDialog1.ShowDialog() == DialogResult.OK) this.textBoxHabitat.Text = this.openFileDialog1.FileName;
+    }
+
+    private void toolStripButtonExportPreview_Click(object sender, EventArgs e)
+    {
+      if (this.textBoxOneColor.Tag == null) this.button17_Click(sender, e);
+      if (string.IsNullOrEmpty(this.textBoxOneFolder.Text)) this.textBoxOneFolder.Text = Environment.CurrentDirectory;
+      if (this.RequiredFailed(this.textBoxOneColor, null)) return;
+      if (this.RequiredFailed(this.textBoxOneFolder, Directory.Exists(this.textBoxOneFolder.Text) ? 1 : 0, null)) return;
+      var org2 = this.WorldMap.Project;
+      Map map = this.propertyGrid1.SelectedObject as Map;
+      List<IMapExportFormat> enabled = new List<IMapExportFormat>();
+      List<IMapExportFormat> disabled = new List<IMapExportFormat>();
+      TmxMapExportFormat format = new TmxMapExportFormat();
+      string file = null;
+      var org4 = this.WorldMap.Waiter;
+      try
+      {
+        this.WorldMap.Waiter = null;
+        foreach (var form in this.WorldMap.Formats)
+        {
+          if (form == null) continue;
+          (form.IsEnabled ? enabled : disabled).Add(form);
+          form.IsEnabled = false;
+          if (form.GetType().IsAssignableFrom(format.GetType())) form.IsEnabled = true;
+        }
+        this.WorldMap.Project = new PokemonStudioFolder() { Folder = this.textBoxOneFolder.Text };
+        this.WorldMap.Expor(f => object.Equals(f, map));
+        string f2 = format.ModifyTargetFolder(map, map.World.Project);
+        file = format.ModifyTargetFile(map, map.World.Project, f2, Path.Combine(f2, map.Name + format.FileExtendsion));
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(string.Empty + ex, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+      }
+      finally
+      {
+        enabled.ForEach(x => x.IsEnabled = true);
+        disabled.ForEach(x => x.IsEnabled = false);
+        this.WorldMap.Project = org2;
+      }
+      try
+      {
+        if (file != null) System.Diagnostics.Process.Start("explorer", file);
+      }
+      catch (Exception ex)
+      {
+        MessageBox.Show(string.Empty + ex, this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+      }
+    }
+
+    private void toolStripButton1_Click(object sender, EventArgs e)
+    {
+
     }
   }
 }

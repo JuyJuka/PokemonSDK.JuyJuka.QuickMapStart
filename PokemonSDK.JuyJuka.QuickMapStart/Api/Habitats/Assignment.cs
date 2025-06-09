@@ -72,8 +72,7 @@
 
     private IEnumerable<Map> SortMaps(IEnumerable<Map> maps)
     {
-      // more dangerous maps further down
-      return maps;
+      return (maps ?? []).OrderBy(map => map?.DifficultyMin ?? Map._0);
     }
 
     private void ReadWorld(

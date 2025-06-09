@@ -93,6 +93,8 @@
       this.toolStrip1 = new ToolStrip();
       this.toolStripButton1 = new ToolStripButton();
       this.toolStripButton2 = new ToolStripButton();
+      this.toolStripSeparator3 = new ToolStripSeparator();
+      this.toolStripButtonExportPreview = new ToolStripButton();
       this.tabPageInput = new TabPage();
       this.pictureBoxInput = new PictureBox();
       this.tabPage4 = new TabPage();
@@ -741,7 +743,7 @@
       this.splitContainer1.Panel2.Controls.Add(this.splitContainer2);
       this.splitContainer1.Panel2.Controls.Add(this.toolStrip1);
       this.splitContainer1.Size = new Size(1016, 766);
-      this.splitContainer1.SplitterDistance = 617;
+      this.splitContainer1.SplitterDistance = 568;
       this.splitContainer1.TabIndex = 3;
       // 
       // tableLayoutPanelMapsPreview
@@ -755,7 +757,7 @@
       this.tableLayoutPanelMapsPreview.RowCount = 2;
       this.tableLayoutPanelMapsPreview.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
       this.tableLayoutPanelMapsPreview.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-      this.tableLayoutPanelMapsPreview.Size = new Size(617, 766);
+      this.tableLayoutPanelMapsPreview.Size = new Size(568, 766);
       this.tableLayoutPanelMapsPreview.TabIndex = 2;
       // 
       // splitContainer2
@@ -772,7 +774,7 @@
       // splitContainer2.Panel2
       // 
       this.splitContainer2.Panel2.Controls.Add(this.tableLayoutPanelSpecies);
-      this.splitContainer2.Size = new Size(395, 726);
+      this.splitContainer2.Size = new Size(444, 726);
       this.splitContainer2.SplitterDistance = 533;
       this.splitContainer2.TabIndex = 2;
       // 
@@ -781,7 +783,7 @@
       this.propertyGrid1.Dock = DockStyle.Fill;
       this.propertyGrid1.Location = new Point(0, 0);
       this.propertyGrid1.Name = "propertyGrid1";
-      this.propertyGrid1.Size = new Size(395, 533);
+      this.propertyGrid1.Size = new Size(444, 533);
       this.propertyGrid1.TabIndex = 0;
       // 
       // tableLayoutPanelSpecies
@@ -794,16 +796,16 @@
       this.tableLayoutPanelSpecies.RowCount = 1;
       this.tableLayoutPanelSpecies.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
       this.tableLayoutPanelSpecies.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
-      this.tableLayoutPanelSpecies.Size = new Size(395, 189);
+      this.tableLayoutPanelSpecies.Size = new Size(444, 189);
       this.tableLayoutPanelSpecies.TabIndex = 0;
       // 
       // toolStrip1
       // 
       this.toolStrip1.ImageScalingSize = new Size(28, 28);
-      this.toolStrip1.Items.AddRange(new ToolStripItem[] { this.toolStripButton1, this.toolStripButton2 });
+      this.toolStrip1.Items.AddRange(new ToolStripItem[] { this.toolStripButton1, this.toolStripButton2, this.toolStripSeparator3, this.toolStripButtonExportPreview });
       this.toolStrip1.Location = new Point(0, 0);
       this.toolStrip1.Name = "toolStrip1";
-      this.toolStrip1.Size = new Size(395, 40);
+      this.toolStrip1.Size = new Size(444, 40);
       this.toolStrip1.TabIndex = 1;
       this.toolStrip1.Text = "toolStrip1";
       // 
@@ -816,6 +818,7 @@
       this.toolStripButton1.Size = new Size(150, 34);
       this.toolStripButton1.Text = "Previous Color";
       this.toolStripButton1.Visible = false;
+      this.toolStripButton1.Click += this.toolStripButton1_Click;
       // 
       // toolStripButton2
       // 
@@ -826,6 +829,21 @@
       this.toolStripButton2.Size = new Size(116, 34);
       this.toolStripButton2.Text = "Next Color";
       this.toolStripButton2.Click += this.toolStripButton2_Click;
+      // 
+      // toolStripSeparator3
+      // 
+      this.toolStripSeparator3.Name = "toolStripSeparator3";
+      this.toolStripSeparator3.Size = new Size(6, 40);
+      // 
+      // toolStripButtonExportPreview
+      // 
+      this.toolStripButtonExportPreview.DisplayStyle = ToolStripItemDisplayStyle.Text;
+      this.toolStripButtonExportPreview.Image = (Image)resources.GetObject("toolStripButtonExportPreview.Image");
+      this.toolStripButtonExportPreview.ImageTransparentColor = Color.Magenta;
+      this.toolStripButtonExportPreview.Name = "toolStripButtonExportPreview";
+      this.toolStripButtonExportPreview.Size = new Size(153, 34);
+      this.toolStripButtonExportPreview.Text = "Preview Export";
+      this.toolStripButtonExportPreview.Click += this.toolStripButtonExportPreview_Click;
       // 
       // tabPageInput
       // 
@@ -1293,5 +1311,7 @@
     private NumericUpDown numericUpDownR_to_U;
     private SplitContainer splitContainer2;
     private TableLayoutPanel tableLayoutPanelSpecies;
+    private ToolStripSeparator toolStripSeparator3;
+    private ToolStripButton toolStripButtonExportPreview;
   }
 }

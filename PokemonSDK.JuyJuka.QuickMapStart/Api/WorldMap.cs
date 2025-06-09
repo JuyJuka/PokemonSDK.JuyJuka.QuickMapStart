@@ -120,16 +120,22 @@ namespace PokemonSDK.JuyJuka.QuickMapStart.Api
 
     public virtual void Expor()
     {
+      this.Expor(null);
+    }
+
+    public virtual void Expor(Predicate<Map>? filter)
+    {
       List<IMapExportFormat> all = new List<IMapExportFormat>(this.Formats);
+      if (filter == null) filter = f => true;
       this.Formats = all.FindAll(x => !x.IsPostPokemonStudioImport).ToArray();
-      foreach (Map map in this.Maps)
+      foreach (Map map in this.Maps.FindAll(filter))
       {
         map.World = this;
         map.Export();
       }
       this.Formats = all.FindAll(x => x.IsPostPokemonStudioImport).ToArray();
       if (this.Waiter != null) this.Waiter.Wait(Wait.WaitFor.PokemonStudioMapImport);
-      foreach (Map map in this.Maps)
+      foreach (Map map in this.Maps.FindAll(filter))
       {
         map.World = this;
         map.Export();
